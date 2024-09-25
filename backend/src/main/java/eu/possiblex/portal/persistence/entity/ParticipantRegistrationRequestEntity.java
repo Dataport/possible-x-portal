@@ -30,14 +30,14 @@ public class ParticipantRegistrationRequestEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "registration_number_id", referencedColumnName = "id")
     @NotNull
-    private RegistrationNumberEntity registrationNumber;
+    private RegistrationNumberEntity legalRegistrationNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "legal_address_id", referencedColumnName = "id")
     @NotNull
     private VcardEntity legalAddress;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "headquarter_address_id", referencedColumnName = "id")
     @NotNull
     private VcardEntity headquarterAddress;
