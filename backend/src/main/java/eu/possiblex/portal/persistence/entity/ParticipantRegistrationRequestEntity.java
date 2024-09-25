@@ -1,19 +1,44 @@
 package eu.possiblex.portal.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Data
 @Entity
 @Table(name = "participant_registration_request")
 public class ParticipantRegistrationRequestEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "registration_payload", columnDefinition = "json")
-    private String registrationPayload;
+    @CreationTimestamp
+    private Instant createdAt;
 
+    @UpdateTimestamp
+    private Instant updatedAt;
+
+    @NotNull
+    private String name;
+
+    private String description;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "registration_number_id", referencedColumnName = "id")
+    @NotNull
+    private RegistrationNumberEntity registrationNumber;
+
+    @OneToOne
+    @JoinColumn(name = "legal_address_id", referencedColumnName = "id")
+    @NotNull
+    private VcardEntity legalAddress;
+
+    @OneToOne
+    @JoinColumn(name = "headquarter_address_id", referencedColumnName = "id")
+    @NotNull
+    private VcardEntity headquarterAddress;
 }
