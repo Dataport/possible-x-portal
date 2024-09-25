@@ -21,7 +21,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     @Override
     public void registerParticipant(PossibleParticipantBE be) {
 
-        log.info("Registering participant: {}", be);
+        log.info("Processing participant registration: {}", be);
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(be);
     }

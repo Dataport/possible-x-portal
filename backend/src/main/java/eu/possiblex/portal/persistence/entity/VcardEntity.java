@@ -1,6 +1,7 @@
 package eu.possiblex.portal.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -11,8 +12,10 @@ public class VcardEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String countryCode;
 
+    @NotNull
     private String countrySubdivisionCode;
 
     private String streetAddress;
