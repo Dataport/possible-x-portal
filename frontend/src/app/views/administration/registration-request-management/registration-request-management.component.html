@@ -1,1 +1,39 @@
-<p>registration-request-management works!</p>
+<div class="max-h-screen overflow-y-auto p-4">
+  <h2 class="font-bold">Registration Requests</h2><br/>
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+    <tr>
+      <th scope="col" class="px-6 py-3 text-left font-medium">
+        Organization Name
+      </th>
+    </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+    <tr *ngFor="let registration of registrationRequests; let i = index">
+      <td class="px-6 py-4 whitespace-nowrap bg-gray-50">
+        <c-accordion>
+          <c-accordion-item [visible]="false" #accordionItem="cAccordionItem">
+            <ng-template cTemplateId="accordionHeaderTemplate">
+              <button (click)="accordionItem.toggleItem()" cAccordionButton class="bg-white flex justify-between w-full">
+                <span class="font-bold">{{ registration.name }}</span>
+              </button>
+            </ng-template>
+            <ng-template cTemplateId="accordionBodyTemplate">
+              <div class="accordion-body">
+                <p><span class="font-bold">Description:</span> {{ registration.description }}</p>
+                <br/>
+                <p><span class="font-bold">Address:</span></p>
+                <ul>
+                  <li><span class="font-bold">Street:</span> {{ registration.address.street }}</li>
+                  <li><span class="font-bold">City:</span> {{ registration.address.city }}</li>
+                  <li><span class="font-bold">Zip:</span> {{ registration.address.zip }}</li>
+                </ul>
+              </div>
+            </ng-template>
+          </c-accordion-item>
+        </c-accordion>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
