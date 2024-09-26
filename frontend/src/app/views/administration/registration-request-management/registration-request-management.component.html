@@ -20,14 +20,39 @@
             </ng-template>
             <ng-template cTemplateId="accordionBodyTemplate">
               <div class="accordion-body">
-                <p><span class="font-bold">Description:</span> {{ registration.description }}</p>
+                <p><span class="font-bold">Organization Name:</span> {{ registration.name }}</p>
                 <br/>
-                <p><span class="font-bold">Address:</span></p>
-                <ul>
-                  <li><span class="font-bold">Street:</span> {{ registration.address.street }}</li>
-                  <li><span class="font-bold">City:</span> {{ registration.address.city }}</li>
-                  <li><span class="font-bold">Zip:</span> {{ registration.address.zip }}</li>
+                <p><span class="font-bold">Organization Description:</span> {{ registration.description }}</p>
+                <br/>
+                <p><span class="font-bold">Legal Registration Number:</span></p>
+                <ul class="pl-2">
+                  <li><span class="font-bold">EORI:</span> {{ registration.legalRegistrationNumber.eori || "-" }}</li>
+                  <li><span class="font-bold">vatID:</span> {{ registration.legalRegistrationNumber.vatID || "-" }}</li>
+                  <li><span class="font-bold">leiCode:</span> {{ registration.legalRegistrationNumber.leiCode || "-" }}</li>
                 </ul>
+                <br/>
+                <div class="flex space-x-8">
+                  <div>
+                    <p><span class="font-bold">Legal Address:</span></p>
+                    <ul class="pl-2">
+                      <li><span class="font-bold">Country Code:</span> {{ registration.legalAddress.countryCode }}</li>
+                      <li><span class="font-bold">Postal Code:</span> {{ registration.legalAddress.postalCode }}</li>
+                      <li><span class="font-bold">City:</span> {{ registration.legalAddress.locality }}</li>
+                      <li><span class="font-bold">Street:</span> {{ registration.legalAddress.streetAddress }}</li>
+                      <li><span class="font-bold">Country Subdivision Code:</span> {{ registration.legalAddress.countrySubdivisionCode }}</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p><span class="font-bold">Headquarter Address:</span></p>
+                    <ul class="pl-2">
+                      <li><span class="font-bold">Country Code:</span> {{ registration.headquarterAddress.countryCode }}</li>
+                      <li><span class="font-bold">Postal Code:</span> {{ registration.headquarterAddress.postalCode }}</li>
+                      <li><span class="font-bold">City:</span> {{ registration.headquarterAddress.locality }}</li>
+                      <li><span class="font-bold">Street:</span> {{ registration.headquarterAddress.streetAddress }}</li>
+                      <li><span class="font-bold">Country Subdivision Code:</span> {{ registration.headquarterAddress.countrySubdivisionCode }}</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </ng-template>
           </c-accordion-item>
