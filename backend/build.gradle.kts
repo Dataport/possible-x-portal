@@ -45,6 +45,7 @@ dependencies {
   annotationProcessor(libs.therApiScribe)
   testImplementation(libs.springBootStarterTest)
   testImplementation(libs.reactorTest)
+  testImplementation(libs.h2)
   testRuntimeOnly(libs.jUnit)
 }
 
