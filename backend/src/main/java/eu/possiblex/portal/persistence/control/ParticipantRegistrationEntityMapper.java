@@ -20,5 +20,5 @@ public interface ParticipantRegistrationEntityMapper {
         GxLegalRegistrationNumberCredentialSubject registrationNumberCs);
 
     @Mapping(target = "id", ignore = true)
-    ParticipantRegistrationRequestEntity possibleParticipantBEToEntity(PossibleParticipantBE participantCs);
+    ParticipantRegistrationRequestEntity possibleParticipantBEToEntity(PossibleParticipantBE participantBE);
 }
