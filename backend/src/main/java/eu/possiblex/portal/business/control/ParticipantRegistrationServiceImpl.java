@@ -18,6 +18,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         this.participantRegistrationRequestDAO = participantRegistrationRequestDAO;
     }
 
+    /**
+     * Given a registration request BE, process and store it for later use.
+     *
+     * @param be request BE
+     */
     @Override
     public void registerParticipant(PossibleParticipantBE be) {
 
