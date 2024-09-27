@@ -15,6 +15,10 @@ public interface ParticipantRegistrationRestApi {
     @PostMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
     void registerParticipant(@RequestBody RegistrationRequestTO request);
 
+    /**
+     * Get all registration requests
+     * @return list of registration requests
+     */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
     List<RegistrationRequestListTO> getAllRegistrationRequests();
 }

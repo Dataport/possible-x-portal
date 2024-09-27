@@ -9,5 +9,10 @@ public interface ParticipantRegistrationService {
 
     void registerParticipant(PossibleParticipantBE be);
 
+    /**
+     * Get all registration requests
+     *
+     * @return list of registration requests
+     */
     List<RegistrationRequestListTO> getAllParticipantRegistrationRequests();
 }

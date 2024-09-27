@@ -40,6 +40,7 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void getAllParticipantRegistrationRequests() {
+        // TODO add proper test
         List<RegistrationRequestListTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
         assertNotNull(list);
     }
