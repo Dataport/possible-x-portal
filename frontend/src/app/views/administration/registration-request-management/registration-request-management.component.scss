@@ -1,4 +1,45 @@
-.custom-page-container {
-  @apply flex flex-col bg-brand-700;
-  min-height: calc(100vh - 5rem - 26rem);
+.accordion-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto auto;
+  gap: 5px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.accordion-button {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto auto;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.request-name {
+  font-weight: bold;
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center;
+}
+
+.action-buttons-container {
+  display: flex;
+  gap: 10px;
+}
+
+.caret {
+  justify-self: end;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.custom-button {
+  @apply bg-white text-black border-2 border-black p-2;
+
+  &:hover {
+    @apply bg-brand-50;
+  }
 }

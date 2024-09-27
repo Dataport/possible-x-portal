@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ApiService} from "../../../services/mgmt/api/api.service";
 import {IRegistrationRequestListTO} from "../../../services/mgmt/api/backend";
 
@@ -18,5 +18,22 @@ export class RegistrationRequestManagementComponent implements OnInit{
 
   ngOnInit(): void {
     this.getRegistrationRequests();
+  }
+
+  protected isRegistrationRequestNew(request: IRegistrationRequestListTO): boolean {
+    return request.status === 'NEW';
+  }
+
+  protected isRegistrationRequestAccepted(request: IRegistrationRequestListTO): boolean {
+    return request.status === 'ACCEPTED';
+  }
+
+  protected isRegistrationRequestRejected(request: IRegistrationRequestListTO): boolean {
+    return request.status === 'REJECTED';
+  }
+
+  test(event: Event): void {
+    event.stopPropagation();
+    console.log("test");
   }
 }

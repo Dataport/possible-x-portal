@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { RegistrationRequestManagementComponent } from './registration-request-management/registration-request-management.component';
 import {AdministrationRoutingModule} from "./administration-routing.module";
 import {
   AccordionButtonDirective,
   AccordionComponent,
-  AccordionItemComponent,
+  AccordionItemComponent, ButtonDirective,
   TemplateIdDirective
 } from "@coreui/angular";
 
@@ -20,7 +20,9 @@ import {
     AccordionComponent,
     AccordionItemComponent,
     AccordionButtonDirective,
-    TemplateIdDirective
+    TemplateIdDirective,
+    NgOptimizedImage,
+    ButtonDirective
   ]
 })
 export class AdministrationModule { }
