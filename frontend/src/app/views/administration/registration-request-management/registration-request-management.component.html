@@ -14,7 +14,7 @@
         <c-accordion>
           <c-accordion-item [visible]="false" #accordionItem="cAccordionItem">
             <ng-template cTemplateId="accordionHeaderTemplate">
-              <button (click)="accordionItem.toggleItem()" cAccordionButton class="bg-white flex justify-between w-full">
+              <button (click)="accordionItem.toggleItem()" [collapsed]="!accordionItem.visible" cAccordionButton class="bg-white flex justify-between w-full">
                 <span class="font-bold">{{ registration.name }}</span>
               </button>
             </ng-template>

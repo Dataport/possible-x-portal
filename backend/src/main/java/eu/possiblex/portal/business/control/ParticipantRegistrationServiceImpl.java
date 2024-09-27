@@ -36,7 +36,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     @Override
     public List<RegistrationRequestListTO> getAllParticipantRegistrationRequests() {
 
-        log.info("Processing participant registration requests retrieval");
+        log.info("Processing retrieval of all participant registration requests");
 
         return participantRegistrationRequestDAO.getAllParticipantRegistrationRequests().stream().map(
             participantRegistrationServiceMapper::possibleParticipantBEToRegistrationRequestListTO).toList();
