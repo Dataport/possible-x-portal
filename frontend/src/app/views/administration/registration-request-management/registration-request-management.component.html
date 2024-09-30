@@ -16,20 +16,20 @@
 
           <div class="icon-text-container">
             <ng-container *ngIf="isRegistrationRequestNew(request)">
-              <span>
+              <span class="new-text">
                 <img class="icon" ngSrc="assets/images/icons/new.svg" alt="New Icon" height="20" width="20"/>
                 New
               </span>
             </ng-container>
             <ng-container *ngIf="isRegistrationRequestRejected(request)">
-              <span>
+              <span class="rejected-text">
                 <img class="icon" ngSrc="../../../../assets/images/icons/reject.svg" alt="Rejected Icon" height="20"
                      width="20"/>
                 Rejected
               </span>
             </ng-container>
             <ng-container *ngIf="isRegistrationRequestAccepted(request)">
-              <span>
+              <span class="accepted-text">
                 <img class="icon" ngSrc="../../../../assets/images/icons/accept.svg" alt="Accepted Icon" height="20"
                      width="20"/>
                 Accepted
