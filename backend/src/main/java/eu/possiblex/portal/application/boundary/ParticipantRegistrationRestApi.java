@@ -3,10 +3,7 @@ package eu.possiblex.portal.application.boundary;
 import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestTO;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +18,14 @@ public interface ParticipantRegistrationRestApi {
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
     List<RegistrationRequestListTO> getAllRegistrationRequests();
+
+    @PostMapping(value = "/request/{id}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
+    void acceptRegistrationRequest(@PathVariable String id);
+
+    @PostMapping(value = "/request/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
+    void rejectRegistrationRequest(@PathVariable String id);
+
+    @DeleteMapping(value = "/request/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    void deleteRegistrationRequest(@PathVariable String id);
+
 }

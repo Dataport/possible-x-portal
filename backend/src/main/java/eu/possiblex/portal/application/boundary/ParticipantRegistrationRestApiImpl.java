@@ -8,6 +8,7 @@ import eu.possiblex.portal.business.entity.PossibleParticipantBE;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,5 +48,25 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
 
         return participantRegistrationService.getAllParticipantRegistrationRequests();
 
+    }
+
+    @Override
+    public void acceptRegistrationRequest(@PathVariable String id) {
+
+        log.info("Received request to accept participant: {}", id);
+
+    }
+
+    @Override
+    public void rejectRegistrationRequest(@PathVariable String id) {
+
+        log.info("Received request to reject participant: {}", id);
+
+    }
+
+    @Override
+    public void deleteRegistrationRequest(@PathVariable String id) {
+
+        log.info("Received request to delete participant: {}", id);
     }
 }
