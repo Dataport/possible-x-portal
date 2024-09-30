@@ -1,12 +1,14 @@
 package eu.possiblex.portal.persistence.dao;
 
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
@@ -25,13 +27,21 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void saveParticipantRegistrationRequest(PossibleParticipantBE request) {
+    public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request) {
 
-        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.possibleParticipantBEToEntity(
+        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsToEntity(
             request);
 
         log.info("Saving participant registration request: {}", entity);
 
         participantRegistrationRequestRepository.save(entity);
+    }
+
+    @Transactional
+    public List<PxExtendedLegalParticipantCredentialSubject> getAllParticipantRegistrationRequests() {
+
+        log.info("Getting all participant registration requests");
+        return participantRegistrationRequestRepository.findAll().stream()
+            .map(participantRegistrationEntityMapper::entityToPxExtendedLegalParticipantCs).toList();
     }
 }

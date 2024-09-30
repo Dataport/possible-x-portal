@@ -1,13 +1,24 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
+import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+
+import java.util.List;
 
 public interface ParticipantRegistrationService {
+  
+    /**
+     * Given a registration request, process and store it for later use.
+     *
+     * @param cs registration request
+     */
+    void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs);
 
     /**
-     * Given a registration request BE, process and store it for later use.
+     * Get all registration requests
      *
-     * @param be request BE
+     * @return list of registration requests
      */
-    void registerParticipant(PossibleParticipantBE be);
+    List<RegistrationRequestListTO> getAllParticipantRegistrationRequests();
+  
 }

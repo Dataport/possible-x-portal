@@ -2,11 +2,43 @@
 /* eslint-disable */
 
 export interface IParticipantRegistrationRestApi {
+    allRegistrationRequests: IRegistrationRequestListTO[];
 }
 
 export interface IParticipantShapeRestApi {
     gxLegalParticipantShape: string;
     gxLegalRegistrationNumberShape: string;
+}
+
+export interface IAddressTO {
+    countryCode: string;
+    countrySubdivisionCode: string;
+    streetAddress: string;
+    locality: string;
+    postalCode: string;
+}
+
+export interface IAddressTOBuilder {
+}
+
+export interface IRegistrationNumberTO {
+    eori: string;
+    vatID: string;
+    leiCode: string;
+}
+
+export interface IRegistrationNumberTOBuilder {
+}
+
+export interface IRegistrationRequestListTO {
+    legalRegistrationNumber: IRegistrationNumberTO;
+    legalAddress: IAddressTO;
+    headquarterAddress: IAddressTO;
+    name: string;
+    description: string;
+}
+
+export interface IRegistrationRequestListTOBuilder {
 }
 
 export interface IRegistrationRequestTO {
@@ -102,6 +134,7 @@ export interface IValueInstantiator {
 
 export interface IJavaType extends IResolvedType, ISerializable, IType {
     javaLangObject: boolean;
+    recordType: boolean;
     typeHandler: any;
     valueHandler: any;
     enumImplType: boolean;
@@ -109,9 +142,8 @@ export interface IJavaType extends IResolvedType, ISerializable, IType {
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
-    recordType: boolean;
-    superClass: IJavaType;
     keyType: IJavaType;
+    superClass: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
     contentType: IJavaType;
@@ -144,8 +176,8 @@ export interface IObjectIdReader extends ISerializable {
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
-    delegatee: IJsonSerializer<any>;
     unwrappingSerializer: boolean;
+    delegatee: IJsonSerializer<any>;
 }
 
 export interface ISerializable {
@@ -178,6 +210,8 @@ export interface ITypeBindings extends ISerializable {
 }
 
 export interface IResolvedType {
+    enumType: boolean;
+    arrayType: boolean;
     containerType: boolean;
     concrete: boolean;
     collectionLikeType: boolean;
@@ -187,11 +221,9 @@ export interface IResolvedType {
      * @deprecated
      */
     parameterSource: IClass<any>;
-    enumType: boolean;
-    arrayType: boolean;
-    rawClass: IClass<any>;
-    keyType: IResolvedType;
     throwable: boolean;
+    keyType: IResolvedType;
+    rawClass: IClass<any>;
     interface: boolean;
     primitive: boolean;
     final: boolean;
@@ -218,6 +250,7 @@ export interface IObjectIdResolver {
 }
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
+    ignorable: boolean;
     valueDeserializer: IJsonDeserializer<any>;
     creatorIndex: number;
     objectIdInfo: IObjectIdInfo;
@@ -227,7 +260,6 @@ export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISeria
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
-    ignorable: boolean;
 }
 
 export interface IStdDeserializer<T> extends IJsonDeserializer<T>, ISerializable, IGettable {
@@ -293,8 +325,8 @@ export interface IObjectIdInfo {
 
 export interface ITypeDeserializer {
     typeIdResolver: ITypeIdResolver;
-    typeInclusion: IAs;
     defaultImpl: IClass<any>;
+    typeInclusion: IAs;
     propertyName: string;
 }
 
@@ -369,6 +401,14 @@ export interface HttpClient {
 export class RestApplicationClient {
 
     constructor(protected httpClient: HttpClient) {
+    }
+
+    /**
+     * HTTP GET /registration/request
+     * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getAllRegistrationRequests
+     */
+    getAllRegistrationRequests(): RestResponse<IRegistrationRequestListTO[]> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request` });
     }
 
     /**
