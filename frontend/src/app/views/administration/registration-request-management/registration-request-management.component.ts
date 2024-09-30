@@ -32,18 +32,21 @@ export class RegistrationRequestManagementComponent implements OnInit{
     return request.status === 'REJECTED';
   }
 
-  acceptRequest(event: Event): void {
+  async acceptRequest(event: Event, request: IRegistrationRequestListTO): Promise<void> {
     event.stopPropagation();
+    await this.apiService.acceptRegistrationRequest(request.name);
     console.log("accept");
   }
 
-  deleteRequest(event: Event): void {
+  async deleteRequest(event: Event, request: IRegistrationRequestListTO): Promise<void> {
     event.stopPropagation();
+    await this.apiService.deleteRegistrationRequest(request.name)
     console.log("delete");
   }
 
-  rejectRequest(event: Event): void {
+  async rejectRequest(event: Event, request: IRegistrationRequestListTO): Promise<void> {
     event.stopPropagation();
+    await this.apiService.rejectRegistrationRequest(request.name);
     console.log("reject");
   }
 }
