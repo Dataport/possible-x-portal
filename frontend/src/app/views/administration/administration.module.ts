@@ -8,6 +8,7 @@ import {
   AccordionItemComponent, ButtonDirective,
   TemplateIdDirective
 } from "@coreui/angular";
+import {CommonViewsModule} from "../common-views/common-views.module";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {
     AccordionButtonDirective,
     TemplateIdDirective,
     NgOptimizedImage,
-    ButtonDirective
+    ButtonDirective,
+    CommonViewsModule
   ]
 })
 export class AdministrationModule { }
