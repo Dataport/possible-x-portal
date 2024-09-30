@@ -1,4 +1,4 @@
-package eu.possiblex.portal.business.entity;
+package eu.possiblex.portal.business.entity.credentials.px;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
