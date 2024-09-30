@@ -32,8 +32,18 @@ export class RegistrationRequestManagementComponent implements OnInit{
     return request.status === 'REJECTED';
   }
 
-  test(event: Event): void {
+  acceptRequest(event: Event): void {
     event.stopPropagation();
-    console.log("test");
+    console.log("accept");
+  }
+
+  deleteRequest(event: Event): void {
+    event.stopPropagation();
+    console.log("delete");
+  }
+
+  rejectRequest(event: Event): void {
+    event.stopPropagation();
+    console.log("reject");
   }
 }
