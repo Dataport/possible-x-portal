@@ -29,7 +29,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     @Transactional
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request) {
 
-        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.possibleParticipantBEToEntity(
+        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsToEntity(
             request);
 
         log.info("Saving participant registration request: {}", entity);

@@ -46,12 +46,12 @@ class ParticipantRegistrationServiceMapperTest {
     private ParticipantRegistrationServiceMapper participantRegistrationServiceMapper;
 
     @Test
-    void possibleParticipantBEToRegistrationRequestListTO() {
+    void possibleParticipantCsToRegistrationRequestListTO() {
         // given
         GxLegalParticipantCredentialSubject gxLegalParticipantCredentialSubject = getGxLegalParticipantCredentialSubjectExample();
 
         // when
-        PxExtendedLegalParticipantCredentialSubject possibleParticipantBE = PxExtendedLegalParticipantCredentialSubject.builder()
+        PxExtendedLegalParticipantCredentialSubject possibleParticipantCs = PxExtendedLegalParticipantCredentialSubject.builder()
             .legalRegistrationNumber(getGxLegalRegistrationNumberCredentialSubjectExample())
             .legalAddress(gxLegalParticipantCredentialSubject.getLegalAddress())
             .headquarterAddress(gxLegalParticipantCredentialSubject.getHeadquarterAddress())
@@ -61,7 +61,7 @@ class ParticipantRegistrationServiceMapperTest {
 
         // then
         RegistrationRequestListTO listTO = participantRegistrationServiceMapper.pxExtendedLegalParticipantCsToRegistrationRequestListTO(
-            possibleParticipantBE);
+            possibleParticipantCs);
 
         assertNotNull(listTO);
 

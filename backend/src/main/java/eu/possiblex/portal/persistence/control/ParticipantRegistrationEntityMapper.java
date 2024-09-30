@@ -20,8 +20,8 @@ public interface ParticipantRegistrationEntityMapper {
         GxLegalRegistrationNumberCredentialSubject registrationNumberCs);
 
     @Mapping(target = "id", ignore = true)
-    ParticipantRegistrationRequestEntity possibleParticipantBEToEntity(
-        PxExtendedLegalParticipantCredentialSubject participantBE);
+    ParticipantRegistrationRequestEntity pxExtendedLegalParticipantCsToEntity(
+        PxExtendedLegalParticipantCredentialSubject cs);
 
     GxVcard entityToGxVcard(VcardEntity entity);
 

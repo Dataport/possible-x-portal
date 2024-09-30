@@ -51,30 +51,30 @@ class ParticipantCredentialMapperTest {
         GxLegalRegistrationNumberCredentialSubject registrationNumber = getGxLegalRegistrationNumberCredentialSubjectExample();
 
         // when
-        PxExtendedLegalParticipantCredentialSubject participantBE = participantCredentialMapper.credentialSubjectsToExtendedLegalParticipantCs(
+        PxExtendedLegalParticipantCredentialSubject participantCs = participantCredentialMapper.credentialSubjectsToExtendedLegalParticipantCs(
             participant, registrationNumber);
 
         // then
-        assertEquals(participantName, participantBE.getName());
-        assertEquals(participantDescription, participantBE.getDescription());
+        assertEquals(participantName, participantCs.getName());
+        assertEquals(participantDescription, participantCs.getDescription());
 
-        assertEquals(participantAddrCountryCode, participantBE.getHeadquarterAddress().getCountryCode());
+        assertEquals(participantAddrCountryCode, participantCs.getHeadquarterAddress().getCountryCode());
         assertEquals(participantAddrCountrySubdivisionCode,
-            participantBE.getHeadquarterAddress().getCountrySubdivisionCode());
-        assertEquals(participantAddrCountryStreetAddress, participantBE.getHeadquarterAddress().getStreetAddress());
-        assertEquals(participantAddrCountryLocality, participantBE.getHeadquarterAddress().getLocality());
-        assertEquals(participantAddrPostalCode, participantBE.getHeadquarterAddress().getPostalCode());
+            participantCs.getHeadquarterAddress().getCountrySubdivisionCode());
+        assertEquals(participantAddrCountryStreetAddress, participantCs.getHeadquarterAddress().getStreetAddress());
+        assertEquals(participantAddrCountryLocality, participantCs.getHeadquarterAddress().getLocality());
+        assertEquals(participantAddrPostalCode, participantCs.getHeadquarterAddress().getPostalCode());
 
-        assertEquals(participantAddrCountryCode, participantBE.getLegalAddress().getCountryCode());
+        assertEquals(participantAddrCountryCode, participantCs.getLegalAddress().getCountryCode());
         assertEquals(participantAddrCountrySubdivisionCode,
-            participantBE.getLegalAddress().getCountrySubdivisionCode());
-        assertEquals(participantAddrCountryStreetAddress, participantBE.getLegalAddress().getStreetAddress());
-        assertEquals(participantAddrCountryLocality, participantBE.getLegalAddress().getLocality());
-        assertEquals(participantAddrPostalCode, participantBE.getLegalAddress().getPostalCode());
+            participantCs.getLegalAddress().getCountrySubdivisionCode());
+        assertEquals(participantAddrCountryStreetAddress, participantCs.getLegalAddress().getStreetAddress());
+        assertEquals(participantAddrCountryLocality, participantCs.getLegalAddress().getLocality());
+        assertEquals(participantAddrPostalCode, participantCs.getLegalAddress().getPostalCode());
 
-        assertEquals(participantRegNumEori, participantBE.getLegalRegistrationNumber().getEori());
-        assertEquals(participantRegNumVatID, participantBE.getLegalRegistrationNumber().getVatID());
-        assertEquals(participantRegNumLeiCode, participantBE.getLegalRegistrationNumber().getLeiCode());
+        assertEquals(participantRegNumEori, participantCs.getLegalRegistrationNumber().getEori());
+        assertEquals(participantRegNumVatID, participantCs.getLegalRegistrationNumber().getVatID());
+        assertEquals(participantRegNumLeiCode, participantCs.getLegalRegistrationNumber().getLeiCode());
 
     }
 
