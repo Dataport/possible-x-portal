@@ -44,14 +44,14 @@ class ParticipantCredentialMapperTest {
     private ParticipantCredentialMapper participantCredentialMapper;
 
     @Test
-    void mapCredentialSubjectsToBE() {
+    void mapCredentialSubjectsToExtendedLegalParticipantCs() {
 
         // given
         GxLegalParticipantCredentialSubject participant = getGxLegalParticipantCredentialSubjectExample();
         GxLegalRegistrationNumberCredentialSubject registrationNumber = getGxLegalRegistrationNumberCredentialSubjectExample();
 
         // when
-        PxExtendedLegalParticipantCredentialSubject participantBE = participantCredentialMapper.credentialSubjectsToBE(
+        PxExtendedLegalParticipantCredentialSubject participantBE = participantCredentialMapper.credentialSubjectsToExtendedLegalParticipantCs(
             participant, registrationNumber);
 
         // then

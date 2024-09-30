@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ParticipantRegistrationService {
 
-    void registerParticipant(PxExtendedLegalParticipantCredentialSubject be);
+    void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs);
 
     /**
      * Get all registration requests

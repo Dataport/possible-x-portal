@@ -26,11 +26,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     }
 
     @Override
-    public void registerParticipant(PxExtendedLegalParticipantCredentialSubject be) {
+    public void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs) {
 
-        log.info("Processing participant registration: {}", be);
+        log.info("Processing participant registration: {}", cs);
 
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(be);
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs);
     }
 
     @Override

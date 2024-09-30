@@ -11,7 +11,7 @@ public interface ParticipantCredentialMapper {
 
     @Mapping(target = "legalRegistrationNumber", source = "registrationNumberCs")
     @Mapping(target = "id", ignore = true)
-    PxExtendedLegalParticipantCredentialSubject credentialSubjectsToBE(
+    PxExtendedLegalParticipantCredentialSubject credentialSubjectsToExtendedLegalParticipantCs(
         GxLegalParticipantCredentialSubject participantCs,
         GxLegalRegistrationNumberCredentialSubject registrationNumberCs);
 }

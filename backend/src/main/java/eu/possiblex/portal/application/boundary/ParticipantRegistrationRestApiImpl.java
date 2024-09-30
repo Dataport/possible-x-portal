@@ -34,7 +34,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
 
         log.info("Received participant registration request: {}", request);
 
-        PxExtendedLegalParticipantCredentialSubject be = participantCredentialMapper.credentialSubjectsToBE(
+        PxExtendedLegalParticipantCredentialSubject be = participantCredentialMapper.credentialSubjectsToExtendedLegalParticipantCs(
             request.getParticipantCs(), request.getRegistrationNumberCs());
 
         participantRegistrationService.registerParticipant(be);
