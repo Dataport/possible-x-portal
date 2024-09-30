@@ -9,4 +9,10 @@ public interface ParticipantRegistrationRequestDAO {
     void saveParticipantRegistrationRequest(PossibleParticipantBE request);
 
     List<PossibleParticipantBE> getAllParticipantRegistrationRequests();
+
+    void acceptRegistrationRequest(String id);
+
+    void rejectRegistrationRequest(String id);
+
+    void deleteRegistrationRequest(String id);
 }

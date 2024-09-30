@@ -2,6 +2,7 @@ package eu.possiblex.portal.persistence.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -22,9 +23,11 @@ public class ParticipantRegistrationRequestEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @Column(unique = true)
     @NotNull
     private String name;
 
+    @Size(max = 1023)
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -41,4 +44,7 @@ public class ParticipantRegistrationRequestEntity {
     @JoinColumn(name = "headquarter_address_id", referencedColumnName = "id")
     @NotNull
     private VcardEntity headquarterAddress;
+
+    @NotNull
+    private String status;
 }

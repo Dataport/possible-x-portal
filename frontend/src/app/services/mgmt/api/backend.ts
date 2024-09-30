@@ -6,8 +6,8 @@ export interface IParticipantRegistrationRestApi {
 }
 
 export interface IParticipantShapeRestApi {
-    gxLegalParticipantShape: string;
     gxLegalRegistrationNumberShape: string;
+    gxLegalParticipantShape: string;
 }
 
 export interface IAddressTO {
@@ -125,26 +125,26 @@ export interface IClass<T> extends ISerializable, IGenericDeclaration, IType, IA
 }
 
 export interface IValueInstantiator {
+    valueClass: IClass<any>;
     arrayDelegateCreator: IAnnotatedWithParams;
     delegateCreator: IAnnotatedWithParams;
-    withArgsCreator: IAnnotatedWithParams;
     valueTypeDesc: string;
     defaultCreator: IAnnotatedWithParams;
-    valueClass: IClass<any>;
+    withArgsCreator: IAnnotatedWithParams;
 }
 
 export interface IJavaType extends IResolvedType, ISerializable, IType {
+    superClass: IJavaType;
+    keyType: IJavaType;
     javaLangObject: boolean;
-    typeHandler: any;
-    valueHandler: any;
     enumImplType: boolean;
     recordType: boolean;
     referencedType: IJavaType;
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
-    superClass: IJavaType;
-    keyType: IJavaType;
+    typeHandler: any;
+    valueHandler: any;
     interfaces: IJavaType[];
     genericSignature: string;
     contentType: IJavaType;
@@ -152,10 +152,6 @@ export interface IJavaType extends IResolvedType, ISerializable, IType {
 }
 
 export interface IJsonDeserializer<T> extends INullValueProvider {
-    emptyAccessPattern: IAccessPattern;
-    delegatee: IJsonDeserializer<any>;
-    knownPropertyNames: any[];
-    objectIdReader: IObjectIdReader;
     /**
      * @deprecated
      */
@@ -164,6 +160,10 @@ export interface IJsonDeserializer<T> extends INullValueProvider {
      * @deprecated
      */
     nullValue: T;
+    emptyAccessPattern: IAccessPattern;
+    delegatee: IJsonDeserializer<any>;
+    knownPropertyNames: any[];
+    objectIdReader: IObjectIdReader;
     cachable: boolean;
 }
 
@@ -177,8 +177,8 @@ export interface IObjectIdReader extends ISerializable {
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
-    unwrappingSerializer: boolean;
     delegatee: IJsonSerializer<any>;
+    unwrappingSerializer: boolean;
 }
 
 export interface ISerializable {
@@ -212,7 +212,12 @@ export interface ITypeBindings extends ISerializable {
 
 export interface IResolvedType {
     containerType: boolean;
+    throwable: boolean;
+    rawClass: IClass<any>;
+    keyType: IResolvedType;
     concrete: boolean;
+    arrayType: boolean;
+    enumType: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
     referencedType: IResolvedType;
@@ -220,11 +225,6 @@ export interface IResolvedType {
      * @deprecated
      */
     parameterSource: IClass<any>;
-    enumType: boolean;
-    arrayType: boolean;
-    rawClass: IClass<any>;
-    keyType: IResolvedType;
-    throwable: boolean;
     interface: boolean;
     primitive: boolean;
     final: boolean;
@@ -251,16 +251,16 @@ export interface IObjectIdResolver {
 }
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
-    objectIdInfo: IObjectIdInfo;
+    ignorable: boolean;
+    valueDeserializer: IJsonDeserializer<any>;
     managedReferenceName: string;
+    objectIdInfo: IObjectIdInfo;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
-    valueDeserializer: IJsonDeserializer<any>;
     creatorIndex: number;
-    ignorable: boolean;
 }
 
 export interface IStdDeserializer<T> extends IJsonDeserializer<T>, ISerializable, IGettable {
@@ -295,9 +295,6 @@ export interface IOfField<F> extends ITypeDescriptor {
 export interface ITypeResolutionContext {
 }
 
-export interface IAnnotationMap extends IAnnotations {
-}
-
 export interface IMember {
     name: string;
     modifiers: number;
@@ -305,13 +302,16 @@ export interface IMember {
     declaringClass: IClass<any>;
 }
 
+export interface IAnnotationMap extends IAnnotations {
+}
+
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
-    allAnnotations: IAnnotationMap;
     member: IMember;
+    allAnnotations: IAnnotationMap;
     declaringClass: IClass<any>;
     fullName: string;
 }
@@ -332,10 +332,10 @@ export interface ITypeDeserializer {
 }
 
 export interface IPropertyMetadata extends ISerializable {
-    mergeInfo: IMergeInfo;
-    valueNulls: INulls;
-    contentNulls: INulls;
     required: boolean;
+    valueNulls: INulls;
+    mergeInfo: IMergeInfo;
+    contentNulls: INulls;
     defaultValue: string;
     index: number;
     description: string;
@@ -381,8 +381,8 @@ export interface IMergeInfo {
 }
 
 export interface IBeanProperty extends INamed {
-    wrapperName: IPropertyName;
     required: boolean;
+    wrapperName: IPropertyName;
     member: IAnnotatedMember;
     type: IJavaType;
     virtual: boolean;
@@ -418,6 +418,30 @@ export class RestApplicationClient {
      */
     registerParticipant(request: IRegistrationRequestTO): RestResponse<void> {
         return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request`, data: request });
+    }
+
+    /**
+     * HTTP DELETE /registration/request/{id}
+     * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.deleteRegistrationRequest
+     */
+    deleteRegistrationRequest(id: string): RestResponse<void> {
+        return this.httpClient.request({ method: "DELETE", url: uriEncoding`registration/request/${id}` });
+    }
+
+    /**
+     * HTTP POST /registration/request/{id}/accept
+     * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.acceptRegistrationRequest
+     */
+    acceptRegistrationRequest(id: string): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/accept` });
+    }
+
+    /**
+     * HTTP POST /registration/request/{id}/reject
+     * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.rejectRegistrationRequest
+     */
+    rejectRegistrationRequest(id: string): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/reject` });
     }
 
     /**

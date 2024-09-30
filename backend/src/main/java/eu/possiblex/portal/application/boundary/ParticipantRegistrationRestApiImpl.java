@@ -54,19 +54,20 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     public void acceptRegistrationRequest(@PathVariable String id) {
 
         log.info("Received request to accept participant: {}", id);
-
+        participantRegistrationService.acceptRegistrationRequest(id);
     }
 
     @Override
     public void rejectRegistrationRequest(@PathVariable String id) {
 
         log.info("Received request to reject participant: {}", id);
-
+        participantRegistrationService.rejectRegistrationRequest(id);
     }
 
     @Override
     public void deleteRegistrationRequest(@PathVariable String id) {
 
         log.info("Received request to delete participant: {}", id);
+        participantRegistrationService.deleteRegistrationRequest(id);
     }
 }

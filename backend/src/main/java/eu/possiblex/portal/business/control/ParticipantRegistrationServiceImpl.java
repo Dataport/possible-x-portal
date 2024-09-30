@@ -41,4 +41,28 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         return participantRegistrationRequestDAO.getAllParticipantRegistrationRequests().stream().map(
             participantRegistrationServiceMapper::possibleParticipantBEToRegistrationRequestListTO).toList();
     }
+
+    @Override
+    public void acceptRegistrationRequest(String id) {
+
+        log.info("Processing acceptance of participant: {}", id);
+
+        participantRegistrationRequestDAO.acceptRegistrationRequest(id);
+    }
+
+    @Override
+    public void rejectRegistrationRequest(String id) {
+
+        log.info("Processing rejection of participant: {}", id);
+
+        participantRegistrationRequestDAO.rejectRegistrationRequest(id);
+    }
+
+    @Override
+    public void deleteRegistrationRequest(String id) {
+
+        log.info("Processing deletion of participant: {}", id);
+
+        participantRegistrationRequestDAO.deleteRegistrationRequest(id);
+    }
 }

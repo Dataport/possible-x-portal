@@ -44,4 +44,42 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         return participantRegistrationRequestRepository.findAll().stream().map(
             participantRegistrationEntityMapper::entityToPossibleParticipantBE).toList();
     }
+
+    @Transactional
+    public void acceptRegistrationRequest(String id) {
+        log.info("Accepting participant registration request: {}", id);
+        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
+        if (entity != null) {
+            entity.setStatus("Accepted");
+            participantRegistrationRequestRepository.save(entity);
+        } else {
+            log.error("(Accept) Participant not found: {}", id);
+            throw new RuntimeException("Participant not found: " + id);
+        }
+    }
+
+    @Transactional
+    public void rejectRegistrationRequest(String id) {
+        log.info("Rejecting participant registration request: {}", id);
+        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
+        if (entity != null) {
+            entity.setStatus("Rejected");
+            participantRegistrationRequestRepository.save(entity);
+        } else {
+            log.error("(Reject) Participant not found: {}", id);
+            throw new RuntimeException("Participant not found: " + id);
+        }
+    }
+
+    @Transactional
+    public void deleteRegistrationRequest(String id) {
+        log.info("Deleting participant registration request: {}", id);
+        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
+        if (entity != null) {
+            participantRegistrationRequestRepository.delete(entity);
+        } else {
+            log.error("(Delete) Participant not found: {}", id);
+            throw new RuntimeException("Participant not found: " + id);
+        }
+    }
 }

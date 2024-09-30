@@ -15,4 +15,10 @@ public interface ParticipantRegistrationService {
      * @return list of registration requests
      */
     List<RegistrationRequestListTO> getAllParticipantRegistrationRequests();
+
+    void acceptRegistrationRequest(String id);
+
+    void rejectRegistrationRequest(String id);
+
+    void deleteRegistrationRequest(String id);
 }
