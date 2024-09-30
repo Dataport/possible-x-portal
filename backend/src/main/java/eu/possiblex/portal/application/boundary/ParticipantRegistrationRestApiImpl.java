@@ -4,7 +4,7 @@ import eu.possiblex.portal.application.control.ParticipantCredentialMapper;
 import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.business.entity.PxExtendedLegalparticipantCredentialSubject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,8 +34,8 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
 
         log.info("Received participant registration request: {}", request);
 
-        PossibleParticipantBE be = participantCredentialMapper.credentialSubjectsToBE(request.getParticipantCs(),
-            request.getRegistrationNumberCs());
+        PxExtendedLegalparticipantCredentialSubject be = participantCredentialMapper.credentialSubjectsToBE(
+            request.getParticipantCs(), request.getRegistrationNumberCs());
 
         participantRegistrationService.registerParticipant(be);
     }

@@ -1,6 +1,6 @@
 package eu.possiblex.portal.persistence.dao;
 
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.business.entity.PxExtendedLegalparticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void saveParticipantRegistrationRequest(PossibleParticipantBE request) {
+    public void saveParticipantRegistrationRequest(PxExtendedLegalparticipantCredentialSubject request) {
 
         ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.possibleParticipantBEToEntity(
             request);
@@ -38,10 +38,10 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public List<PossibleParticipantBE> getAllParticipantRegistrationRequests() {
+    public List<PxExtendedLegalparticipantCredentialSubject> getAllParticipantRegistrationRequests() {
 
         log.info("Getting all participant registration requests");
-        return participantRegistrationRequestRepository.findAll().stream().map(
-            participantRegistrationEntityMapper::entityToPossibleParticipantBE).toList();
+        return participantRegistrationRequestRepository.findAll().stream()
+            .map(participantRegistrationEntityMapper::entityToPxExtendedLegalParticipantCs).toList();
     }
 }
