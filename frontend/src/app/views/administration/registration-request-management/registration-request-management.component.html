@@ -100,3 +100,21 @@
     </c-accordion-item>
   </c-accordion>
 </div>
+
+<div class="flex justify-center mt-3">
+  <app-status-message
+    #requestListStatusMessage
+    [errorMessage]="'Loading registration requests failed.'"
+    [infoMessage]="'Loading registration requests ongoing.'"
+    [successMessage]="'Loading registration requests successful.'">
+  </app-status-message>
+</div>
+
+<div class="flex justify-center mt-3">
+  <app-status-message
+    #operationStatusMessage
+    [errorMessage]="'Operation failed.'"
+    [infoMessage]="'Operation ongoing.'"
+    [successMessage]="'Operation successful.'">
+  </app-status-message>
+</div>
