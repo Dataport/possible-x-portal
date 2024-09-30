@@ -1,6 +1,6 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
 import eu.possiblex.portal.business.entity.PossibleParticipantBE;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
@@ -41,7 +41,7 @@ class ParticipantRegistrationServiceTest {
     @Test
     void getAllParticipantRegistrationRequests() {
         // TODO add proper test
-        List<RegistrationRequestListTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
+        List<RegistrationRequestItemTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
         assertNotNull(list);
     }
 

@@ -1,6 +1,6 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
 import eu.possiblex.portal.business.entity.PossibleParticipantBE;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class ParticipantRegistrationServiceMock implements ParticipantRegistrati
     }
 
     @Override
-    public List<RegistrationRequestListTO> getAllParticipantRegistrationRequests() {
+    public List<RegistrationRequestItemTO> getAllParticipantRegistrationRequests() {
 
         return List.of();
     }

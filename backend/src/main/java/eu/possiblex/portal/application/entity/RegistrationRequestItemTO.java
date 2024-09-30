@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationRequestListTO {
+public class RegistrationRequestItemTO {
     private RegistrationNumberTO legalRegistrationNumber;
 
     private AddressTO legalAddress;

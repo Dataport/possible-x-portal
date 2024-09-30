@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegistrationRequestManagementComponent } from './registration-request-management.component';
 import {ApiService} from "../../../services/mgmt/api/api.service";
-import {IRegistrationRequestListTO} from "../../../services/mgmt/api/backend";
+import {IRegistrationRequestItemTO} from "../../../services/mgmt/api/backend";
 
 describe('RegistrationRequestManagementComponent', () => {
   let component: RegistrationRequestManagementComponent;
@@ -28,7 +28,7 @@ describe('RegistrationRequestManagementComponent', () => {
   });
 
   it('should call getAllRegistrationRequests on apiService when getAllRegistrationRequests is called', async () => {
-    const emptyList: IRegistrationRequestListTO[] = [];
+    const emptyList: IRegistrationRequestItemTO[] = [];
     apiService.getAllRegistrationRequests.and.returnValue(Promise.resolve(emptyList));
 
     component.getRegistrationRequests();

@@ -2,12 +2,12 @@
 /* eslint-disable */
 
 export interface IParticipantRegistrationRestApi {
-    allRegistrationRequests: IRegistrationRequestListTO[];
+    allRegistrationRequests: IRegistrationRequestItemTO[];
 }
 
 export interface IParticipantShapeRestApi {
-    gxLegalRegistrationNumberShape: string;
     gxLegalParticipantShape: string;
+    gxLegalRegistrationNumberShape: string;
 }
 
 export interface IAddressTO {
@@ -30,7 +30,7 @@ export interface IRegistrationNumberTO {
 export interface IRegistrationNumberTOBuilder {
 }
 
-export interface IRegistrationRequestListTO {
+export interface IRegistrationRequestItemTO {
     legalRegistrationNumber: IRegistrationNumberTO;
     legalAddress: IAddressTO;
     headquarterAddress: IAddressTO;
@@ -39,7 +39,7 @@ export interface IRegistrationRequestListTO {
     status: string;
 }
 
-export interface IRegistrationRequestListTOBuilder {
+export interface IRegistrationRequestItemTOBuilder {
 }
 
 export interface IRegistrationRequestTO {
@@ -128,23 +128,23 @@ export interface IValueInstantiator {
     valueClass: IClass<any>;
     arrayDelegateCreator: IAnnotatedWithParams;
     delegateCreator: IAnnotatedWithParams;
+    withArgsCreator: IAnnotatedWithParams;
     valueTypeDesc: string;
     defaultCreator: IAnnotatedWithParams;
-    withArgsCreator: IAnnotatedWithParams;
 }
 
 export interface IJavaType extends IResolvedType, ISerializable, IType {
-    superClass: IJavaType;
-    keyType: IJavaType;
-    javaLangObject: boolean;
-    enumImplType: boolean;
-    recordType: boolean;
-    referencedType: IJavaType;
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
     typeHandler: any;
     valueHandler: any;
+    enumImplType: boolean;
+    recordType: boolean;
+    referencedType: IJavaType;
+    javaLangObject: boolean;
+    superClass: IJavaType;
+    keyType: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
     contentType: IJavaType;
@@ -177,8 +177,8 @@ export interface IObjectIdReader extends ISerializable {
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
-    delegatee: IJsonSerializer<any>;
     unwrappingSerializer: boolean;
+    delegatee: IJsonSerializer<any>;
 }
 
 export interface ISerializable {
@@ -211,13 +211,7 @@ export interface ITypeBindings extends ISerializable {
 }
 
 export interface IResolvedType {
-    containerType: boolean;
-    throwable: boolean;
-    rawClass: IClass<any>;
-    keyType: IResolvedType;
     concrete: boolean;
-    arrayType: boolean;
-    enumType: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
     referencedType: IResolvedType;
@@ -225,6 +219,12 @@ export interface IResolvedType {
      * @deprecated
      */
     parameterSource: IClass<any>;
+    containerType: boolean;
+    enumType: boolean;
+    arrayType: boolean;
+    rawClass: IClass<any>;
+    throwable: boolean;
+    keyType: IResolvedType;
     interface: boolean;
     primitive: boolean;
     final: boolean;
@@ -251,16 +251,16 @@ export interface IObjectIdResolver {
 }
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
-    ignorable: boolean;
-    valueDeserializer: IJsonDeserializer<any>;
     managedReferenceName: string;
     objectIdInfo: IObjectIdInfo;
+    creatorIndex: number;
+    valueDeserializer: IJsonDeserializer<any>;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
-    creatorIndex: number;
+    ignorable: boolean;
 }
 
 export interface IStdDeserializer<T> extends IJsonDeserializer<T>, ISerializable, IGettable {
@@ -292,6 +292,9 @@ export interface IOfField<F> extends ITypeDescriptor {
     primitive: boolean;
 }
 
+export interface IAnnotationMap extends IAnnotations {
+}
+
 export interface ITypeResolutionContext {
 }
 
@@ -302,40 +305,37 @@ export interface IMember {
     declaringClass: IClass<any>;
 }
 
-export interface IAnnotationMap extends IAnnotations {
-}
-
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
+    allAnnotations: IAnnotationMap;
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
     member: IMember;
-    allAnnotations: IAnnotationMap;
     declaringClass: IClass<any>;
     fullName: string;
 }
 
 export interface IObjectIdInfo {
-    alwaysAsId: boolean;
     generatorType: IClass<IObjectIdGenerator<any>>;
     resolverType: IClass<IObjectIdResolver>;
+    alwaysAsId: boolean;
     scope: IClass<any>;
     propertyName: IPropertyName;
 }
 
 export interface ITypeDeserializer {
+    defaultImpl: IClass<any>;
     typeInclusion: IAs;
     typeIdResolver: ITypeIdResolver;
-    defaultImpl: IClass<any>;
     propertyName: string;
 }
 
 export interface IPropertyMetadata extends ISerializable {
-    required: boolean;
-    valueNulls: INulls;
     mergeInfo: IMergeInfo;
+    valueNulls: INulls;
     contentNulls: INulls;
+    required: boolean;
     defaultValue: string;
     index: number;
     description: string;
@@ -371,8 +371,8 @@ export interface IAnnotated {
 }
 
 export interface ITypeIdResolver {
-    mechanism: IId;
     descForKnownTypeIds: string;
+    mechanism: IId;
 }
 
 export interface IMergeInfo {
@@ -381,8 +381,8 @@ export interface IMergeInfo {
 }
 
 export interface IBeanProperty extends INamed {
-    required: boolean;
     wrapperName: IPropertyName;
+    required: boolean;
     member: IAnnotatedMember;
     type: IJavaType;
     virtual: boolean;
@@ -408,7 +408,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getAllRegistrationRequests
      */
-    getAllRegistrationRequests(): RestResponse<IRegistrationRequestListTO[]> {
+    getAllRegistrationRequests(): RestResponse<IRegistrationRequestItemTO[]> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request` });
     }
 

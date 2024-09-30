@@ -1,7 +1,7 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantCredentialMapper;
-import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.entity.PossibleParticipantBE;
@@ -37,12 +37,11 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
 
         PossibleParticipantBE be = participantCredentialMapper.credentialSubjectsToBE(request.getParticipantCs(),
             request.getRegistrationNumberCs());
-
         participantRegistrationService.registerParticipant(be);
     }
 
     @Override
-    public List<RegistrationRequestListTO> getAllRegistrationRequests() {
+    public List<RegistrationRequestItemTO> getAllRegistrationRequests() {
 
         log.info("Received request to get all participant registration requests");
 

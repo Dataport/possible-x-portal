@@ -50,7 +50,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         log.info("Accepting participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
-            entity.setStatus("Accepted");
+            entity.setStatus("ACCEPTED");
             participantRegistrationRequestRepository.save(entity);
         } else {
             log.error("(Accept) Participant not found: {}", id);
@@ -63,7 +63,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         log.info("Rejecting participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
-            entity.setStatus("Rejected");
+            entity.setStatus("REJECTED");
             participantRegistrationRequestRepository.save(entity);
         } else {
             log.error("(Reject) Participant not found: {}", id);

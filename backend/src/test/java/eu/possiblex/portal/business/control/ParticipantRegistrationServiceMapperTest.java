@@ -1,6 +1,6 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
@@ -59,7 +59,7 @@ class ParticipantRegistrationServiceMapperTest {
             .name(gxLegalParticipantCredentialSubject.getName()).build();
 
         // then
-        RegistrationRequestListTO listTO = participantRegistrationServiceMapper.possibleParticipantBEToRegistrationRequestListTO(possibleParticipantBE);
+        RegistrationRequestItemTO listTO = participantRegistrationServiceMapper.possibleParticipantBEToRegistrationRequestListTO(possibleParticipantBE);
 
         assertNotNull(listTO);
 

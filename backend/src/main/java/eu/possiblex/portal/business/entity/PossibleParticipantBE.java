@@ -56,4 +56,6 @@ public class PossibleParticipantBE {
 
         return CONTEXT;
     }
+
+    private String status;
 }
