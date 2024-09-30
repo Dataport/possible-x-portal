@@ -15,7 +15,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PxExtendedLegalparticipantCredentialSubject {
+public class PxExtendedLegalParticipantCredentialSubject {
 
     @Getter(AccessLevel.NONE)
     public static final List<String> TYPE = List.of(GxLegalParticipantCredentialSubject.TYPE,
@@ -47,7 +47,7 @@ public class PxExtendedLegalparticipantCredentialSubject {
     @JsonProperty("gx:description")
     private String description;
 
-    @JsonProperty("type")
+    @JsonProperty("@type")
     public List<String> getType() {
 
         return TYPE;

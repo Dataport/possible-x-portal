@@ -5,7 +5,7 @@ import eu.possiblex.portal.application.entity.RegistrationNumberTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
-import eu.possiblex.portal.business.entity.PxExtendedLegalparticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.PxExtendedLegalParticipantCredentialSubject;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -17,5 +17,5 @@ public interface ParticipantRegistrationServiceMapper {
         GxLegalRegistrationNumberCredentialSubject legalRegistrationNumber);
 
     RegistrationRequestListTO pxExtendedLegalParticipantCsToRegistrationRequestListTO(
-        PxExtendedLegalparticipantCredentialSubject pxExtendedLegalparticipantCredentialSubject);
+        PxExtendedLegalParticipantCredentialSubject pxExtendedLegalparticipantCredentialSubject);
 }

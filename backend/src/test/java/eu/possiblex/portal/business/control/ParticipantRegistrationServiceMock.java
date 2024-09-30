@@ -1,13 +1,13 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
-import eu.possiblex.portal.business.entity.PxExtendedLegalparticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.PxExtendedLegalParticipantCredentialSubject;
 
 import java.util.List;
 
 public class ParticipantRegistrationServiceMock implements ParticipantRegistrationService {
     @Override
-    public void registerParticipant(PxExtendedLegalparticipantCredentialSubject be) {
+    public void registerParticipant(PxExtendedLegalParticipantCredentialSubject be) {
         // request worked
     }
 

@@ -1,7 +1,7 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestListTO;
-import eu.possiblex.portal.business.entity.PxExtendedLegalparticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestRepository;
@@ -35,7 +35,7 @@ class ParticipantRegistrationServiceTest {
     void registerParticipant() {
         // TODO add proper test
         participantRegistrationService.registerParticipant(
-            PxExtendedLegalparticipantCredentialSubject.builder().build());
+            PxExtendedLegalParticipantCredentialSubject.builder().build());
         assertTrue(true);
     }
 
