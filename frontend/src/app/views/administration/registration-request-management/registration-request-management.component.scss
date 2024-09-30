@@ -1,14 +1,13 @@
 .accordion-header {
   display: grid;
-  grid-template-columns: 2fr 1fr auto auto;
+  grid-template-columns: 2fr 1fr 1fr auto;
   gap: 5px;
-  font-weight: bold;
   margin-bottom: 10px;
 }
 
 .accordion-button {
   display: grid;
-  grid-template-columns: 2fr 1fr auto auto;
+  grid-template-columns: 2fr 1fr 1fr auto;
   align-items: center;
   gap: 5px;
   width: 100%;
@@ -26,10 +25,6 @@
 .action-buttons-container {
   display: flex;
   gap: 10px;
-}
-
-.caret {
-  justify-self: end;
 }
 
 .icon {
