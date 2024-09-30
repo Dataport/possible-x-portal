@@ -40,13 +40,16 @@
 }
 
 .accepted-text {
+  font-weight: bold;
   color: #166A39;
 }
 
 .rejected-text {
+  font-weight: bold;
   color: #B91C1C;
 }
 
 .new-text {
+  font-weight: bold;
   @apply text-brand-700;
 }
