@@ -18,18 +18,34 @@ public interface ParticipantRegistrationRestApi {
     void registerParticipant(@RequestBody RegistrationRequestTO request);
 
     /**
-     * Get all registration requests
+     * GET request for retrieving all registration requests.
+     *
      * @return list of registration requests
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
     List<RegistrationRequestWithStatusTO> getAllRegistrationRequests();
 
+    /**
+     * POST request for accepting a registration request.
+     *
+     * @param id registration request id
+     */
     @PostMapping(value = "/request/{id}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
     void acceptRegistrationRequest(@PathVariable String id);
 
+    /**
+     * POST request for rejecting a registration request.
+     *
+     * @param id registration request id
+     */
     @PostMapping(value = "/request/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
     void rejectRegistrationRequest(@PathVariable String id);
 
+    /**
+     * DELETE request for deleting a registration request.
+     *
+     * @param id registration request id
+     */
     @DeleteMapping(value = "/request/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     void deleteRegistrationRequest(@PathVariable String id);
 

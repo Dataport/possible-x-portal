@@ -4,6 +4,7 @@ import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -51,17 +52,16 @@ class ParticipantRegistrationServiceMapperTest {
         GxLegalParticipantCredentialSubject gxLegalParticipantCredentialSubject = getGxLegalParticipantCredentialSubjectExample();
 
         // when
-        PxExtendedLegalParticipantCredentialSubject possibleParticipantCs = PxExtendedLegalParticipantCredentialSubject.builder()
+        ParticipantRegistrationRequestBE possibleParticipant = ParticipantRegistrationRequestBE.builder()
             .legalRegistrationNumber(getGxLegalRegistrationNumberCredentialSubjectExample())
             .legalAddress(gxLegalParticipantCredentialSubject.getLegalAddress())
             .headquarterAddress(gxLegalParticipantCredentialSubject.getHeadquarterAddress())
-            .id(gxLegalParticipantCredentialSubject.getId())
             .description(gxLegalParticipantCredentialSubject.getDescription())
             .name(gxLegalParticipantCredentialSubject.getName()).build();
 
         // then
 
-        RegistrationRequestWithStatusTO listTO = participantRegistrationServiceMapper.pxExtendedLegalParticipantCsToRegistrationRequestItemTO(possibleParticipantCs);
+        RegistrationRequestWithStatusTO listTO = participantRegistrationServiceMapper.participantRegistrationRequestBEToRegistrationRequestWithStatusTO(possibleParticipant);
 
 
         assertNotNull(listTO);

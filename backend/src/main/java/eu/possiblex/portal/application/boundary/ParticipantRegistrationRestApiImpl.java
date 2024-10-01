@@ -45,6 +45,11 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
         participantRegistrationService.registerParticipant(be);
     }
 
+    /**
+     * Get all registration requests.
+     *
+     * @return list of registration requests
+     */
     @Override
     public List<RegistrationRequestWithStatusTO> getAllRegistrationRequests() {
 
@@ -54,6 +59,11 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
 
     }
 
+    /**
+     * Accept a registration request.
+     *
+     * @param id registration request id
+     */
     @Override
     public void acceptRegistrationRequest(@PathVariable String id) {
 
@@ -61,6 +71,11 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
         participantRegistrationService.acceptRegistrationRequest(id);
     }
 
+    /**
+     * Reject a registration request.
+     *
+     * @param id registration request id
+     */
     @Override
     public void rejectRegistrationRequest(@PathVariable String id) {
 
@@ -68,6 +83,11 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
         participantRegistrationService.rejectRegistrationRequest(id);
     }
 
+    /**
+     * Delete a registration request.
+     *
+     * @param id registration request id
+     */
     @Override
     public void deleteRegistrationRequest(@PathVariable String id) {
 

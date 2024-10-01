@@ -26,7 +26,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     }
 
     /**
-     * Given a registration request BE, process and store it for later use.
+     * Given a registration request, process and store it for later use.
      *
      * @param cs request
      */
@@ -38,6 +38,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs);
     }
 
+    /**
+     * Get all registration requests.
+     *
+     * @return list of registration requests
+     */
     @Override
     public List<RegistrationRequestWithStatusTO> getAllParticipantRegistrationRequests() {
 
@@ -48,6 +53,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
             .toList();
     }
 
+    /**
+     * Given a registration request id, accept the registration request.
+     *
+     * @param id registration request id
+     */
     @Override
     public void acceptRegistrationRequest(String id) {
 
@@ -56,6 +66,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         participantRegistrationRequestDAO.acceptRegistrationRequest(id);
     }
 
+    /**
+     * Given a registration request id, reject the registration request.
+     *
+     * @param id registration request id
+     */
     @Override
     public void rejectRegistrationRequest(String id) {
 
@@ -64,6 +79,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         participantRegistrationRequestDAO.rejectRegistrationRequest(id);
     }
 
+    /**
+     * Given a registration request id, delete the registration request.
+     *
+     * @param id registration request id
+     */
     @Override
     public void deleteRegistrationRequest(String id) {
 
