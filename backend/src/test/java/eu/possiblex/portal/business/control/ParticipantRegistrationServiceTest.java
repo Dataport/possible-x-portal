@@ -5,6 +5,7 @@ import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
+import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestRepository;
 import org.junit.jupiter.api.Test;
@@ -28,20 +29,49 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = { ParticipantRegistrationServiceTest.TestConfig.class,
     ParticipantRegistrationServiceImpl.class, ParticipantRegistrationRequestDAOImpl.class })
 class ParticipantRegistrationServiceTest {
-
-    // TODO add test with in-memory database
     @MockBean
-    private ParticipantRegistrationRequestRepository participantRegistrationRequestRepository;
+    private ParticipantRegistrationRequestDAO participantRegistrationRequestDao;
 
     @Autowired
     private ParticipantRegistrationService participantRegistrationService;
 
-    @Autowired
-    private ParticipantRegistrationEntityMapper participantRegistrationEntityMapper;
-
     @Test
     void registerParticipant() {
+        PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        participantRegistrationService.registerParticipant(participant);
+        verify(participantRegistrationRequestDao).saveParticipantRegistrationRequest(any());
+    }
 
+    @Test
+    void getAllParticipantRegistrationRequests() {
+        PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+
+        when(participantRegistrationRequestDao.getAllParticipantRegistrationRequests()).thenReturn(List.of(participant));
+        List<RegistrationRequestItemTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
+        assertEquals(1, list.size());
+
+        verify(participantRegistrationRequestDao).getAllParticipantRegistrationRequests();
+    }
+
+    @Test
+    void acceptRegistrationRequest() {
+        participantRegistrationService.acceptRegistrationRequest("validId");
+        verify(participantRegistrationRequestDao).acceptRegistrationRequest("validId");
+    }
+
+    @Test
+    void rejectRegistrationRequest() {
+        participantRegistrationService.rejectRegistrationRequest("validId");
+        verify(participantRegistrationRequestDao).rejectRegistrationRequest("validId");
+    }
+
+    @Test
+    void deleteRegistrationRequest() {
+        participantRegistrationService.deleteRegistrationRequest("validId");
+        verify(participantRegistrationRequestDao).deleteRegistrationRequest("validId");
+    }
+
+    private PxExtendedLegalParticipantCredentialSubject getParticipant() {
         GxVcard vcard = new GxVcard();
         vcard.setCountryCode("validCountryCode");
         vcard.setCountrySubdivisionCode("validSubdivisionCode");
@@ -49,27 +79,12 @@ class ParticipantRegistrationServiceTest {
         vcard.setLocality("validLocality");
         vcard.setPostalCode("validPostalCode");
 
-        PxExtendedLegalParticipantCredentialSubject participant = PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
+        return PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
                 .legalRegistrationNumber(new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
                 .headquarterAddress(vcard)
                 .name("validName")
                 .description("validDescription")
                 .build();
-        participantRegistrationService.registerParticipant(participant);
-        RegistrationRequestItemTO registeredParticipant = participantRegistrationService.getAllParticipantRegistrationRequests().get(0);
-        assertEquals("validName", registeredParticipant.getName());
-        assertEquals("validDescription", registeredParticipant.getDescription());
-        assertEquals("NEW", registeredParticipant.getStatus());
-    }
-
-    @Test
-    void getAllParticipantRegistrationRequests() {
-        when(participantRegistrationRequestRepository.findAll()).thenReturn(Collections.emptyList());
-
-        List<RegistrationRequestItemTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
-        assertTrue(list.isEmpty());
-
-        verify(participantRegistrationRequestRepository).findAll();
     }
 
     // Test-specific configuration to provide mocks
