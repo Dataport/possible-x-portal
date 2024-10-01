@@ -34,7 +34,6 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     public void registerParticipant(@RequestBody RegistrationRequestTO request) {
 
         log.info("Received participant registration request: {}", request);
-
         PossibleParticipantBE be = participantCredentialMapper.credentialSubjectsToBE(request.getParticipantCs(),
             request.getRegistrationNumberCs());
         participantRegistrationService.registerParticipant(be);

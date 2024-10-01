@@ -29,7 +29,6 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     public void registerParticipant(PossibleParticipantBE be) {
 
         log.info("Processing participant registration: {}", be);
-        be.setStatus("NEW");
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(be);
     }
 

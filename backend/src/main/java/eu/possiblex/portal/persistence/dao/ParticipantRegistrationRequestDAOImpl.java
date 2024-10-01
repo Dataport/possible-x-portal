@@ -3,6 +3,7 @@ package eu.possiblex.portal.persistence.dao;
 import eu.possiblex.portal.business.entity.PossibleParticipantBE;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
+import eu.possiblex.portal.persistence.entity.RequestStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,7 +32,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
 
         ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.possibleParticipantBEToEntity(
             request);
-
+        entity.setStatus(RequestStatus.NEW);
         log.info("Saving participant registration request: {}", entity);
 
         participantRegistrationRequestRepository.save(entity);
@@ -50,7 +51,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         log.info("Accepting participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
-            entity.setStatus("ACCEPTED");
+            entity.setStatus(RequestStatus.ACCEPTED);
             participantRegistrationRequestRepository.save(entity);
         } else {
             log.error("(Accept) Participant not found: {}", id);
@@ -63,7 +64,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         log.info("Rejecting participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
-            entity.setStatus("REJECTED");
+            entity.setStatus(RequestStatus.REJECTED);
             participantRegistrationRequestRepository.save(entity);
         } else {
             log.error("(Reject) Participant not found: {}", id);

@@ -16,4 +16,19 @@ public class ParticipantRegistrationServiceMock implements ParticipantRegistrati
 
         return List.of();
     }
+
+    @Override
+    public void acceptRegistrationRequest(String id) {
+        // request worked
+    }
+
+    @Override
+    public void rejectRegistrationRequest(String id) {
+        // request worked
+    }
+
+    @Override
+    public void deleteRegistrationRequest(String id) {
+        // request worked
+    }
 }

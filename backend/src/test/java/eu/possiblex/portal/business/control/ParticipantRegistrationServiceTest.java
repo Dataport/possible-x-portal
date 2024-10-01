@@ -1,10 +1,14 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
+import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
+import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
+import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.PossibleParticipantBE;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestRepository;
+import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +18,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ContextConfiguration(classes = { ParticipantRegistrationServiceTest.TestConfig.class,
@@ -31,18 +38,39 @@ class ParticipantRegistrationServiceTest {
     @Autowired
     private ParticipantRegistrationService participantRegistrationService;
 
+    @Autowired
+    private ParticipantRegistrationEntityMapper participantRegistrationEntityMapper;
+
     @Test
     void registerParticipant() {
-        // TODO add proper test
-        participantRegistrationService.registerParticipant(PossibleParticipantBE.builder().build());
-        assertTrue(true);
+        GxVcard vcard = new GxVcard();
+        vcard.setCountryCode("validCountryCode");
+        vcard.setCountrySubdivisionCode("validSubdivisionCode");
+        vcard.setStreetAddress("validStreetAddress");
+        vcard.setLocality("validLocality");
+        vcard.setPostalCode("validPostalCode");
+
+        PossibleParticipantBE participant = PossibleParticipantBE.builder().id("validId")
+                .legalRegistrationNumber(new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
+                .headquarterAddress(vcard)
+                .name("validName")
+                .description("validDescription")
+                .build();
+        participantRegistrationService.registerParticipant(participant);
+        RegistrationRequestItemTO registeredParticipant = participantRegistrationService.getAllParticipantRegistrationRequests().get(0);
+        assertEquals("validName", registeredParticipant.getName());
+        assertEquals("validDescription", registeredParticipant.getDescription());
+        assertEquals("NEW", registeredParticipant.getStatus());
     }
 
     @Test
     void getAllParticipantRegistrationRequests() {
-        // TODO add proper test
+        when(participantRegistrationRequestRepository.findAll()).thenReturn(Collections.emptyList());
+
         List<RegistrationRequestItemTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
-        assertNotNull(list);
+        assertTrue(list.isEmpty());
+
+        verify(participantRegistrationRequestRepository).findAll();
     }
 
     // Test-specific configuration to provide mocks

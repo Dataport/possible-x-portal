@@ -48,5 +48,5 @@ public class ParticipantRegistrationRequestEntity {
     private VcardEntity headquarterAddress;
 
     @NotNull
-    private String status;
+    private RequestStatus status;
 }
