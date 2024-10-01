@@ -2,13 +2,11 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
-import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestRepository;
-import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +41,7 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void registerParticipant() {
+
         GxVcard vcard = new GxVcard();
         vcard.setCountryCode("validCountryCode");
         vcard.setCountrySubdivisionCode("validSubdivisionCode");
@@ -50,7 +49,7 @@ class ParticipantRegistrationServiceTest {
         vcard.setLocality("validLocality");
         vcard.setPostalCode("validPostalCode");
 
-        PossibleParticipantBE participant = PossibleParticipantBE.builder().id("validId")
+        PxExtendedLegalParticipantCredentialSubject participant = PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
                 .legalRegistrationNumber(new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
                 .headquarterAddress(vcard)
                 .name("validName")
@@ -81,6 +80,7 @@ class ParticipantRegistrationServiceTest {
 
             return Mappers.getMapper(ParticipantRegistrationEntityMapper.class);
         }
+
         @Bean
         public ParticipantRegistrationServiceMapper participantRegistrationServiceMapper() {
 

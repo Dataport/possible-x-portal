@@ -1,6 +1,6 @@
 package eu.possiblex.portal.persistence.dao;
 
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import eu.possiblex.portal.persistence.entity.RequestStatus;
@@ -28,9 +28,9 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void saveParticipantRegistrationRequest(PossibleParticipantBE request) {
+    public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request) {
 
-        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.possibleParticipantBEToEntity(
+        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsToEntity(
             request);
         entity.setStatus(RequestStatus.NEW);
         log.info("Saving participant registration request: {}", entity);
@@ -39,11 +39,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public List<PossibleParticipantBE> getAllParticipantRegistrationRequests() {
+    public List<PxExtendedLegalParticipantCredentialSubject> getAllParticipantRegistrationRequests() {
 
         log.info("Getting all participant registration requests");
-        return participantRegistrationRequestRepository.findAll().stream().map(
-            participantRegistrationEntityMapper::entityToPossibleParticipantBE).toList();
+        return participantRegistrationRequestRepository.findAll().stream()
+            .map(participantRegistrationEntityMapper::entityToPxExtendedLegalParticipantCs).toList();
     }
 
     @Transactional

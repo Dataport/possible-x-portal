@@ -1,7 +1,7 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
-import eu.possiblex.portal.business.entity.PossibleParticipantBE;
+import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,17 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         this.participantRegistrationServiceMapper = participantRegistrationServiceMapper;
     }
 
+    /**
+     * Given a registration request BE, process and store it for later use.
+     *
+     * @param be request BE
+     */
     @Override
-    public void registerParticipant(PossibleParticipantBE be) {
+    public void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs) {
 
-        log.info("Processing participant registration: {}", be);
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(be);
+        log.info("Processing participant registration: {}", cs);
+
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs);
     }
 
     @Override
@@ -37,8 +43,9 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
         log.info("Processing retrieval of all participant registration requests");
 
-        return participantRegistrationRequestDAO.getAllParticipantRegistrationRequests().stream().map(
-            participantRegistrationServiceMapper::possibleParticipantBEToRegistrationRequestListTO).toList();
+        return participantRegistrationRequestDAO.getAllParticipantRegistrationRequests().stream()
+            .map(participantRegistrationServiceMapper::pxExtendedLegalParticipantCsToRegistrationRequestItemTO)
+            .toList();
     }
 
     @Override
