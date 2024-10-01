@@ -1,6 +1,6 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
@@ -61,7 +61,7 @@ class ParticipantRegistrationServiceMapperTest {
 
         // then
 
-        RegistrationRequestItemTO listTO = participantRegistrationServiceMapper.pxExtendedLegalParticipantCsToRegistrationRequestItemTO(possibleParticipantCs);
+        RegistrationRequestWithStatusTO listTO = participantRegistrationServiceMapper.pxExtendedLegalParticipantCsToRegistrationRequestItemTO(possibleParticipantCs);
 
 
         assertNotNull(listTO);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationRequestItemTO {
+public class RegistrationRequestWithStatusTO {
     private RegistrationNumberTO legalRegistrationNumber;
 
     private AddressTO legalAddress;

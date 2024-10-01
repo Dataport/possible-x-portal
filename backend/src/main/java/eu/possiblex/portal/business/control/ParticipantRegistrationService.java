@@ -1,7 +1,7 @@
 package eu.possiblex.portal.business.control;
 
 
-import eu.possiblex.portal.application.entity.RegistrationRequestItemTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 
 
@@ -21,7 +21,7 @@ public interface ParticipantRegistrationService {
      *
      * @return list of registration requests
      */
-    List<RegistrationRequestItemTO> getAllParticipantRegistrationRequests();
+    List<RegistrationRequestWithStatusTO> getAllParticipantRegistrationRequests();
 
     void acceptRegistrationRequest(String id);
 
