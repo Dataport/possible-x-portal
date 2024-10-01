@@ -74,9 +74,9 @@
               <p><span class="font-bold">Legal Address:</span></p>
               <ul class="pl-2">
                 <li><span class="font-bold">Country Code:</span> {{ request.legalAddress.countryCode }}</li>
-                <li><span class="font-bold">Postal Code:</span> {{ request.legalAddress.postalCode }}</li>
-                <li><span class="font-bold">City:</span> {{ request.legalAddress.locality }}</li>
-                <li><span class="font-bold">Street:</span> {{ request.legalAddress.streetAddress }}</li>
+                <li><span class="font-bold">Postal Code:</span> {{ request.legalAddress.postalCode || "-" }}</li>
+                <li><span class="font-bold">City:</span> {{ request.legalAddress.locality || "-" }}</li>
+                <li><span class="font-bold">Street:</span> {{ request.legalAddress.streetAddress || "-" }}</li>
                 <li><span
                   class="font-bold">Country Subdivision Code:</span> {{ request.legalAddress.countrySubdivisionCode }}
                 </li>
@@ -86,9 +86,9 @@
               <p><span class="font-bold">Headquarter Address:</span></p>
               <ul class="pl-2">
                 <li><span class="font-bold">Country Code:</span> {{ request.headquarterAddress.countryCode }}</li>
-                <li><span class="font-bold">Postal Code:</span> {{ request.headquarterAddress.postalCode }}</li>
-                <li><span class="font-bold">City:</span> {{ request.headquarterAddress.locality }}</li>
-                <li><span class="font-bold">Street:</span> {{ request.headquarterAddress.streetAddress }}</li>
+                <li><span class="font-bold">Postal Code:</span> {{ request.headquarterAddress.postalCode || "-" }}</li>
+                <li><span class="font-bold">City:</span> {{ request.headquarterAddress.locality || "-" }}</li>
+                <li><span class="font-bold">Street:</span> {{ request.headquarterAddress.streetAddress || "-" }}</li>
                 <li><span
                   class="font-bold">Country Subdivision Code:</span> {{ request.headquarterAddress.countrySubdivisionCode }}
                 </li>
