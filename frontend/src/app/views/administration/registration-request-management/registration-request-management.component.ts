@@ -22,6 +22,10 @@ export class RegistrationRequestManagementComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.handleGetRegistrationRequests();
+  }
+
+  private handleGetRegistrationRequests() {
     this.getRegistrationRequests().catch((e: HttpErrorResponse) => {
       this.requestListStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
@@ -48,6 +52,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     this.apiService.acceptRegistrationRequest(request.name).then(() => {
       console.log("Accept request");
       this.operationStatusMessage.showSuccessMessage("Request accepted successfully");
+      this.handleGetRegistrationRequests();
     }).catch((e: HttpErrorResponse) => {
       this.operationStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
@@ -62,6 +67,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     this.apiService.deleteRegistrationRequest(request.name).then(() => {
       console.log("Delete request");
       this.operationStatusMessage.showSuccessMessage("Request deleted successfully");
+      this.handleGetRegistrationRequests();
     }).catch((e: HttpErrorResponse) => {
       this.operationStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
@@ -76,6 +82,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     this.apiService.rejectRegistrationRequest(request.name).then(() => {
       console.log("Reject request");
       this.operationStatusMessage.showSuccessMessage("Request rejected successfully");
+      this.handleGetRegistrationRequests();
     }).catch((e: HttpErrorResponse) => {
       this.operationStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
