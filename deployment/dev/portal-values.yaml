@@ -1,0 +1,36 @@
+image:
+  pullPolicy: Always
+  tag: "latest-develop"
+
+imagePullSecrets:
+  - name: github-registry-auth
+
+ingress:
+  enabled: true
+  hosts:
+    - host: portal.dev.possible-x.de
+      paths:
+        - path: /
+          portNumber: 80
+          pathType: Prefix
+  tls:
+    - secretName: dev-portal-tls
+      hosts:
+        - portal.dev.possible-x.de
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8080
+
+application:
+  variables:
+    - name: portal-variables
+      data:
+        SPRING_PROFILES_ACTIVE: dev
+        FH_CATALOG_URL: https://possible.fokus.fraunhofer.de/api/hub/repo
+        EDC_MGMTBASEURL: https://provider.edc.dev.possible-x.de/management
+        EDC_PROTOCOLBASEURL: https://provider.edc.dev.possible-x.de/protocol
+        SDCREATIONWIZARDAPI_BASEURL: https://sd-creation-wizard.dev.possible-x.de
+  secrets:
+    - portal-secrets
