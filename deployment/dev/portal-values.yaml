@@ -21,16 +21,22 @@ ingress:
 service:
   type: NodePort
   port: 80
-  targetPort: 8080
+  targetPort: 8088
 
 application:
   variables:
-    - name: portal-variables
-      data:
-        SPRING_PROFILES_ACTIVE: dev
-        FH_CATALOG_URL: https://possible.fokus.fraunhofer.de/api/hub/repo
-        EDC_MGMTBASEURL: https://provider.edc.dev.possible-x.de/management
-        EDC_PROTOCOLBASEURL: https://provider.edc.dev.possible-x.de/protocol
-        SDCREATIONWIZARDAPI_BASEURL: https://sd-creation-wizard.dev.possible-x.de
-  secrets:
-    - portal-secrets
+    database:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://possible-x-portal-postgres.edc-dev/portal
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_DATABASE: portal
+    portal-variables:
+      SPRING_PROFILES_ACTIVE: dev
+      SDCREATIONWIZARDAPI_BASEURL: https://sd-creation-wizard.dev.possible-x.de
+  secrets: 
+    database: portal-database-secret
+  db:
+    image:
+      repository: postgres
+      pullPolicy: IfNotPresent
+      tag: "16"
+fullnameOverride: possible-x-portal
