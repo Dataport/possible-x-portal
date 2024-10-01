@@ -1,7 +1,7 @@
 package eu.possiblex.portal.business.control;
 
 
-import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 
 
@@ -14,7 +14,7 @@ public class ParticipantRegistrationServiceMock implements ParticipantRegistrati
     }
 
     @Override
-    public List<RegistrationRequestWithStatusTO> getAllParticipantRegistrationRequests() {
+    public List<RegistrationRequestEntryTO> getAllParticipantRegistrationRequests() {
 
         return List.of();
     }

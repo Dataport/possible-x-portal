@@ -1,7 +1,7 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantCredentialMapper;
-import eu.possiblex.portal.application.entity.RegistrationRequestTO;
+import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.control.ParticipantRegistrationServiceMock;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ class ParticipantRegistrationRestApiTest {
     @Test
     void registerParticipant() throws Exception {
 
-        RegistrationRequestTO to = new RegistrationRequestTO();
+        CreateRegistrationRequestTO to = new CreateRegistrationRequestTO();
         reset(participantRegistrationService);
         this.mockMvc.perform(post("/registration/request").content(RestApiHelper.asJsonString(to))
             .contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());

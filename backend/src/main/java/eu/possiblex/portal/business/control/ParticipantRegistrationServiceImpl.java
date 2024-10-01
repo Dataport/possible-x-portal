@@ -1,6 +1,6 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public List<RegistrationRequestWithStatusTO> getAllParticipantRegistrationRequests() {
+    public List<RegistrationRequestEntryTO> getAllParticipantRegistrationRequests() {
 
         log.info("Processing retrieval of all participant registration requests");
 

@@ -2,7 +2,7 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.AddressTO;
 import eu.possiblex.portal.application.entity.RegistrationNumberTO;
-import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
@@ -16,7 +16,7 @@ public interface ParticipantRegistrationServiceMapper {
     RegistrationNumberTO legalRegistrationNumberToRegistrationNumberTO(
         GxLegalRegistrationNumberCredentialSubject legalRegistrationNumber);
 
-    RegistrationRequestWithStatusTO participantRegistrationRequestBEToRegistrationRequestWithStatusTO(
+    RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestWithStatusTO(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
 
 }

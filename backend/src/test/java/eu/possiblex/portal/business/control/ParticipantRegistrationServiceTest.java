@@ -1,6 +1,6 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
@@ -8,7 +8,6 @@ import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalPartici
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
-import jakarta.servlet.http.Part;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,7 @@ class ParticipantRegistrationServiceTest {
         ParticipantRegistrationRequestBE participant = getParticipant();
 
         when(participantRegistrationRequestDao.getAllParticipantRegistrationRequests()).thenReturn(List.of(participant));
-        List<RegistrationRequestWithStatusTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
+        List<RegistrationRequestEntryTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
         assertEquals(1, list.size());
 
         verify(participantRegistrationRequestDao).getAllParticipantRegistrationRequests();

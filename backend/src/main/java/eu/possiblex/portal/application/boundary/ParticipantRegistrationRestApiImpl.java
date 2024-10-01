@@ -1,8 +1,8 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantCredentialMapper;
-import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
-import eu.possiblex.portal.application.entity.RegistrationRequestTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @param request participant registration request
      */
     @Override
-    public void registerParticipant(@RequestBody RegistrationRequestTO request) {
+    public void registerParticipant(@RequestBody CreateRegistrationRequestTO request) {
 
         log.info("Received participant registration request: {}", request);
         PxExtendedLegalParticipantCredentialSubject be = participantCredentialMapper.credentialSubjectsToExtendedLegalParticipantCs(
@@ -51,7 +51,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public List<RegistrationRequestWithStatusTO> getAllRegistrationRequests() {
+    public List<RegistrationRequestEntryTO> getAllRegistrationRequests() {
 
         log.info("Received request to get all participant registration requests");
 
