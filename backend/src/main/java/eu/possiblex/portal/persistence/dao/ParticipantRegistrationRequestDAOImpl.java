@@ -39,7 +39,6 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         participantRegistrationRequestRepository.save(entity);
     }
 
-    @Transactional
     public List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests() {
 
         log.info("Getting all participant registration requests");
