@@ -50,7 +50,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     this.operationStatusMessage.hideAllMessages();
 
     this.apiService.acceptRegistrationRequest(request.name).then(() => {
-      console.log("Accept request");
+      console.log("Accept request for: " + request.name);
       this.operationStatusMessage.showSuccessMessage("Request accepted successfully");
       this.handleGetRegistrationRequests();
     }).catch((e: HttpErrorResponse) => {
@@ -65,7 +65,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     this.operationStatusMessage.hideAllMessages();
 
     this.apiService.deleteRegistrationRequest(request.name).then(() => {
-      console.log("Delete request");
+      console.log("Delete request for: " + request.name);
       this.operationStatusMessage.showSuccessMessage("Request deleted successfully");
       this.handleGetRegistrationRequests();
     }).catch((e: HttpErrorResponse) => {
@@ -80,7 +80,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     this.operationStatusMessage.hideAllMessages();
 
     this.apiService.rejectRegistrationRequest(request.name).then(() => {
-      console.log("Reject request");
+      console.log("Reject request for: " + request.name);
       this.operationStatusMessage.showSuccessMessage("Request rejected successfully");
       this.handleGetRegistrationRequests();
     }).catch((e: HttpErrorResponse) => {
