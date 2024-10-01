@@ -16,7 +16,7 @@ public interface ParticipantRegistrationServiceMapper {
     RegistrationNumberTO legalRegistrationNumberToRegistrationNumberTO(
         GxLegalRegistrationNumberCredentialSubject legalRegistrationNumber);
 
-    RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestWithStatusTO(
+    RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestEntryTO(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
 
 }

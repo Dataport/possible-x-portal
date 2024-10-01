@@ -49,7 +49,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         log.info("Processing retrieval of all participant registration requests");
 
         return participantRegistrationRequestDAO.getAllParticipantRegistrationRequests().stream()
-            .map(participantRegistrationServiceMapper::participantRegistrationRequestBEToRegistrationRequestWithStatusTO)
+            .map(participantRegistrationServiceMapper::participantRegistrationRequestBEToRegistrationRequestEntryTO)
             .toList();
     }
 

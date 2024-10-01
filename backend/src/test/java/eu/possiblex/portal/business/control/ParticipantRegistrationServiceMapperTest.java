@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ContextConfiguration(classes = { ParticipantRegistrationServiceMapperTest.TestConfig.class,
     ParticipantRegistrationServiceMapper.class })
 class ParticipantRegistrationServiceMapperTest {
-    private final String participantId = "1234";
 
     private final String participantName = "SomeOrga Inc.";
 
@@ -50,7 +49,7 @@ class ParticipantRegistrationServiceMapperTest {
         ParticipantRegistrationRequestBE possibleParticipant = getParticipantRegistrationRequestExample();
 
         // when
-        RegistrationRequestEntryTO to = participantRegistrationServiceMapper.participantRegistrationRequestBEToRegistrationRequestWithStatusTO(possibleParticipant);
+        RegistrationRequestEntryTO to = participantRegistrationServiceMapper.participantRegistrationRequestBEToRegistrationRequestEntryTO(possibleParticipant);
 
         // then
         assertNotNull(to);
