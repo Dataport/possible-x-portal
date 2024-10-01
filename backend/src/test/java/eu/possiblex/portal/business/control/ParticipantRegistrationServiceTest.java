@@ -3,10 +3,12 @@ package eu.possiblex.portal.business.control;
 import eu.possiblex.portal.application.entity.RegistrationRequestWithStatusTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
+import jakarta.servlet.http.Part;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +37,14 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void registerParticipant() {
-        PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
         participantRegistrationService.registerParticipant(participant);
         verify(participantRegistrationRequestDao).saveParticipantRegistrationRequest(any());
     }
 
     @Test
     void getAllParticipantRegistrationRequests() {
-        PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        ParticipantRegistrationRequestBE participant = getParticipant();
 
         when(participantRegistrationRequestDao.getAllParticipantRegistrationRequests()).thenReturn(List.of(participant));
         List<RegistrationRequestWithStatusTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
@@ -69,7 +71,7 @@ class ParticipantRegistrationServiceTest {
         verify(participantRegistrationRequestDao).deleteRegistrationRequest("validId");
     }
 
-    private PxExtendedLegalParticipantCredentialSubject getParticipant() {
+    private PxExtendedLegalParticipantCredentialSubject getParticipantCs() {
         GxVcard vcard = new GxVcard();
         vcard.setCountryCode("validCountryCode");
         vcard.setCountrySubdivisionCode("validSubdivisionCode");
@@ -83,6 +85,22 @@ class ParticipantRegistrationServiceTest {
                 .name("validName")
                 .description("validDescription")
                 .build();
+    }
+
+    private ParticipantRegistrationRequestBE getParticipant() {
+        GxVcard vcard = new GxVcard();
+        vcard.setCountryCode("validCountryCode");
+        vcard.setCountrySubdivisionCode("validSubdivisionCode");
+        vcard.setStreetAddress("validStreetAddress");
+        vcard.setLocality("validLocality");
+        vcard.setPostalCode("validPostalCode");
+
+        return ParticipantRegistrationRequestBE.builder()
+            .legalRegistrationNumber(new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
+            .headquarterAddress(vcard)
+            .name("validName")
+            .description("validDescription")
+            .build();
     }
 
     // Test-specific configuration to provide mocks

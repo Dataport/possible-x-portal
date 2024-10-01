@@ -1,6 +1,7 @@
 package eu.possiblex.portal.persistence.dao;
 
 
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 
 
@@ -9,14 +10,14 @@ import java.util.List;
 public class ParticipantRegistrationRequestDAOMock implements ParticipantRegistrationRequestDAO {
 
     @Override
-    public List<PxExtendedLegalParticipantCredentialSubject> getAllParticipantRegistrationRequests() {
+    public List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests() {
 
         return List.of();
     }
 
     @Override
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request) {
-
+        // request worked
     }
 
     @Override

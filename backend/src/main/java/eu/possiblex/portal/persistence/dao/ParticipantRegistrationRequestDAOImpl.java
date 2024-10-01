@@ -1,5 +1,6 @@
 package eu.possiblex.portal.persistence.dao;
 
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
@@ -39,11 +40,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public List<PxExtendedLegalParticipantCredentialSubject> getAllParticipantRegistrationRequests() {
+    public List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests() {
 
         log.info("Getting all participant registration requests");
         return participantRegistrationRequestRepository.findAll().stream()
-            .map(participantRegistrationEntityMapper::entityToPxExtendedLegalParticipantCs).toList();
+            .map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe).toList();
     }
 
     @Transactional

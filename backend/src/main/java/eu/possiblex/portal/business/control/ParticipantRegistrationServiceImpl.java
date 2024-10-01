@@ -28,7 +28,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     /**
      * Given a registration request BE, process and store it for later use.
      *
-     * @param be request BE
+     * @param cs request
      */
     @Override
     public void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs) {
@@ -44,7 +44,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         log.info("Processing retrieval of all participant registration requests");
 
         return participantRegistrationRequestDAO.getAllParticipantRegistrationRequests().stream()
-            .map(participantRegistrationServiceMapper::pxExtendedLegalParticipantCsToRegistrationRequestItemTO)
+            .map(participantRegistrationServiceMapper::participantRegistrationRequestBEToRegistrationRequestWithStatusTO)
             .toList();
     }
 
