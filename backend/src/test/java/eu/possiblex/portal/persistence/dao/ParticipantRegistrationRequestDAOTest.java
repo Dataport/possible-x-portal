@@ -3,7 +3,6 @@ package eu.possiblex.portal.persistence.dao;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ class ParticipantRegistrationRequestDAOTest {
 
     @Autowired
     private ParticipantRegistrationRequestDAO participantRegistrationRequestDAO;
-
-    @Autowired
-    private ParticipantRegistrationEntityMapper participantRegistrationEntityMapper;
 
     @Test
     void saveParticipantRegistrationRequest() {
