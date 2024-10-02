@@ -20,5 +20,5 @@ public class ParticipantRegistrationRequestBE {
 
     private String description;
 
-    private String status;
+    private RequestStatus status;
 }

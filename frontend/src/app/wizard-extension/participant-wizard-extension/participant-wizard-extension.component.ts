@@ -8,7 +8,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {
   IGxLegalParticipantCredentialSubject, IGxLegalRegistrationNumberCredentialSubject,
   IPojoCredentialSubject,
-  IRegistrationRequestTO
+  ICreateRegistrationRequestTO
 } from "../../services/mgmt/api/backend";
 
 @Component({
@@ -69,7 +69,7 @@ export class ParticipantWizardExtensionComponent {
     let gxParticipantJson: IGxLegalParticipantCredentialSubject = this.gxParticipantWizard.generateJsonCs();
     let gxRegistrationNumberJson: IGxLegalRegistrationNumberCredentialSubject = this.gxRegistrationNumberWizard.generateJsonCs();
 
-    let registerParticipantTo: IRegistrationRequestTO = {
+    let registerParticipantTo: ICreateRegistrationRequestTO = {
       participantCs: gxParticipantJson,
       registrationNumberCs: gxRegistrationNumberJson
     }

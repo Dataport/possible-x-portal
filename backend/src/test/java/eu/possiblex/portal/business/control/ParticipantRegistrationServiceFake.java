@@ -7,7 +7,7 @@ import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalPartici
 
 import java.util.List;
 
-public class ParticipantRegistrationServiceMock implements ParticipantRegistrationService {
+public class ParticipantRegistrationServiceFake implements ParticipantRegistrationService {
     @Override
     public void registerParticipant(PxExtendedLegalParticipantCredentialSubject be) {
         // request worked

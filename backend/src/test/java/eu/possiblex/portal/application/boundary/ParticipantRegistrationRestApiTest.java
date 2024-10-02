@@ -3,7 +3,7 @@ package eu.possiblex.portal.application.boundary;
 import eu.possiblex.portal.application.control.ParticipantCredentialMapper;
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
-import eu.possiblex.portal.business.control.ParticipantRegistrationServiceMock;
+import eu.possiblex.portal.business.control.ParticipantRegistrationServiceFake;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
@@ -85,7 +85,7 @@ class ParticipantRegistrationRestApiTest {
         @Bean
         public ParticipantRegistrationService participantRegistrationService() {
 
-            return Mockito.spy(new ParticipantRegistrationServiceMock());
+            return Mockito.spy(new ParticipantRegistrationServiceFake());
         }
 
         @Bean

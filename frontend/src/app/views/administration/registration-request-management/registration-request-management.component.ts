@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiService} from "../../../services/mgmt/api/api.service";
-import {IRegistrationRequestWithStatusTO} from "../../../services/mgmt/api/backend";
+import {IRegistrationRequestEntryTO, IRequestStatus} from "../../../services/mgmt/api/backend";
 import {StatusMessageComponent} from "../../common-views/status-message/status-message.component";
 import {HttpErrorResponse} from "@angular/common/http";
 
@@ -13,7 +13,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
 
   @ViewChild("operationStatusMessage") public operationStatusMessage!: StatusMessageComponent;
   @ViewChild("requestListStatusMessage") public requestListStatusMessage!: StatusMessageComponent;
-  registrationRequests: IRegistrationRequestWithStatusTO[] = [];
+  registrationRequests: IRegistrationRequestEntryTO[] = [];
 
   constructor(private apiService: ApiService) {}
 
@@ -33,19 +33,19 @@ export class RegistrationRequestManagementComponent implements OnInit{
     });
   }
 
-  protected isRegistrationRequestNew(request: IRegistrationRequestWithStatusTO): boolean {
-    return request.status === 'NEW';
+  protected isRegistrationRequestNew(request: IRegistrationRequestEntryTO): boolean {
+    return request.status === IRequestStatus.NEW;
   }
 
-  protected isRegistrationRequestAccepted(request: IRegistrationRequestWithStatusTO): boolean {
-    return request.status === 'ACCEPTED';
+  protected isRegistrationRequestAccepted(request: IRegistrationRequestEntryTO): boolean {
+    return request.status === IRequestStatus.ACCEPTED;
   }
 
-  protected isRegistrationRequestRejected(request: IRegistrationRequestWithStatusTO): boolean {
-    return request.status === 'REJECTED';
+  protected isRegistrationRequestRejected(request: IRegistrationRequestEntryTO): boolean {
+    return request.status === IRequestStatus.REJECTED;
   }
 
-  async acceptRequest(event: Event, request: IRegistrationRequestWithStatusTO): Promise<void> {
+  async acceptRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
     this.operationStatusMessage.hideAllMessages();
 
@@ -60,7 +60,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     });
   }
 
-  async deleteRequest(event: Event, request: IRegistrationRequestWithStatusTO): Promise<void> {
+  async deleteRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
     this.operationStatusMessage.hideAllMessages();
 
@@ -75,7 +75,7 @@ export class RegistrationRequestManagementComponent implements OnInit{
     });
   }
 
-  async rejectRequest(event: Event, request: IRegistrationRequestWithStatusTO): Promise<void> {
+  async rejectRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
     this.operationStatusMessage.hideAllMessages();
 

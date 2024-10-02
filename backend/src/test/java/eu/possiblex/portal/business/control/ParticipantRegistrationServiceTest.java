@@ -6,8 +6,8 @@ import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLega
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
-import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOImpl;
+import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOFake;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,10 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ContextConfiguration(classes = { ParticipantRegistrationServiceTest.TestConfig.class,
-    ParticipantRegistrationServiceImpl.class, ParticipantRegistrationRequestDAOImpl.class })
+    ParticipantRegistrationServiceImpl.class})
 class ParticipantRegistrationServiceTest {
     @MockBean
-    private ParticipantRegistrationRequestDAO participantRegistrationRequestDao;
+    private ParticipantRegistrationRequestDAOFake participantRegistrationRequestDao;
 
     @Autowired
     private ParticipantRegistrationService participantRegistrationService;

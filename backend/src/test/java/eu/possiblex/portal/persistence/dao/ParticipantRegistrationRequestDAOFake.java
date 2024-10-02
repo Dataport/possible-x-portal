@@ -7,7 +7,7 @@ import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalPartici
 
 import java.util.List;
 
-public class ParticipantRegistrationRequestDAOMock implements ParticipantRegistrationRequestDAO {
+public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistrationRequestDAO {
 
     @Override
     public List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests() {

@@ -20,5 +20,5 @@ public class RegistrationRequestEntryTO {
 
     private String description;
 
-    private String status;
+    private RequestStatus status;
 }
