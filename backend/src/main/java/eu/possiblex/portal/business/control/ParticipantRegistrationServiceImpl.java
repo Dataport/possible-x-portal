@@ -64,6 +64,12 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         log.info("Processing acceptance of participant: {}", id);
 
         participantRegistrationRequestDAO.acceptRegistrationRequest(id);
+        completeRegistrationRequest(id);
+    }
+
+    @Override
+    public void completeRegistrationRequest(String id) {
+        participantRegistrationRequestDAO.completeRegistrationRequest(id);
     }
 
     /**
@@ -88,7 +94,6 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     public void deleteRegistrationRequest(String id) {
 
         log.info("Processing deletion of participant: {}", id);
-
         participantRegistrationRequestDAO.deleteRegistrationRequest(id);
     }
 }
