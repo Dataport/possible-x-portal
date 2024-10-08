@@ -27,7 +27,7 @@ class ParticipantRegistrationRequestDAOTest {
     void saveParticipantRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
-        ParticipantMetadataBE metadata = ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         verify(participantRegistrationRequestRepository).save(any());
@@ -44,7 +44,7 @@ class ParticipantRegistrationRequestDAOTest {
     void acceptRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
-        ParticipantMetadataBE metadata = ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.acceptRegistrationRequest("validName");
@@ -55,7 +55,7 @@ class ParticipantRegistrationRequestDAOTest {
     void completeRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
-        ParticipantMetadataBE metadata = ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.acceptRegistrationRequest("validName");
@@ -67,7 +67,7 @@ class ParticipantRegistrationRequestDAOTest {
     void rejectAndDeleteRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
-        ParticipantMetadataBE metadata = ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.rejectRegistrationRequest("validName");
@@ -75,6 +75,11 @@ class ParticipantRegistrationRequestDAOTest {
         verify(participantRegistrationRequestRepository, times(2)).save(any());
 
         verify(participantRegistrationRequestRepository).delete(any());
+    }
+
+    private ParticipantMetadataBE getParticipantMetadata() {
+
+        return ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
     }
 
     private PxExtendedLegalParticipantCredentialSubject getParticipant() {
