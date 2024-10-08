@@ -78,7 +78,8 @@ export class ParticipantWizardExtensionComponent {
 
     let registerParticipantTo: ICreateRegistrationRequestTO = {
       participantCs: gxParticipantJson,
-      registrationNumberCs: gxRegistrationNumberJson
+      registrationNumberCs: gxRegistrationNumberJson,
+      emailAddress: this.emailAddress
     }
 
     console.log(registerParticipantTo);

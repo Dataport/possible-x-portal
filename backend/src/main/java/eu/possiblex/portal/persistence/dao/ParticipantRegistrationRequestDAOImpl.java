@@ -1,5 +1,6 @@
 package eu.possiblex.portal.persistence.dao;
 
+import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
@@ -29,10 +30,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request) {
+    public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject participant, ParticipantMetadataBE metadata) {
 
         ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsToEntity(
-            request);
+            participant);
+        entity.setEmailAddress(metadata.getEmailAddress());
         entity.setStatus(RequestStatus.NEW);
         log.info("Saving participant registration request: {}", entity);
 

@@ -46,6 +46,7 @@ export interface IRegistrationRequestEntryTO {
     name: string;
     description: string;
     status: IRequestStatus;
+    emailAddress: string;
 }
 
 export interface IRegistrationRequestEntryTOBuilder {
