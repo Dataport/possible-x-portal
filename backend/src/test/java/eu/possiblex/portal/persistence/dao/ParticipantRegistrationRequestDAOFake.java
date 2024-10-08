@@ -3,7 +3,7 @@ package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-
+import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 
 import java.util.List;
 
@@ -36,7 +36,8 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
-    public void completeRegistrationRequest(String id) {
+    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate) {
+        // request worked
 
     }
 }

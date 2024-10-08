@@ -6,7 +6,10 @@ import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
+import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ParticipantRegistrationServiceMapper {
@@ -16,7 +19,11 @@ public interface ParticipantRegistrationServiceMapper {
     RegistrationNumberTO legalRegistrationNumberToRegistrationNumberTO(
         GxLegalRegistrationNumberCredentialSubject legalRegistrationNumber);
 
+    @Mapping(target = "omejdnConnectorCertificate", source = "omejdnConnectorCertificate")
     RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestEntryTO(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
+
+    OmejdnConnectorCertificateEntity omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(
+        OmejdnConnectorCertificateBE omjednConnectorCertificateBE);
 
 }

@@ -2,7 +2,8 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateDto;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
+import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
@@ -75,10 +76,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
     @Override
     public void completeRegistrationRequest(String id) {
-        OmejdnConnectorCertificateDto certificate = requestDapsCertificate(id);
+        OmejdnConnectorCertificateEntity certificate =
+            participantRegistrationServiceMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(requestDapsCertificate(id));
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
       
-        participantRegistrationRequestDAO.completeRegistrationRequest(id);
+        participantRegistrationRequestDAO.completeRegistrationRequest(id, certificate);
     }
 
     /**
@@ -106,7 +108,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         participantRegistrationRequestDAO.deleteRegistrationRequest(id);
     }
 
-    private OmejdnConnectorCertificateDto requestDapsCertificate(String clientName){
+    private OmejdnConnectorCertificateBE requestDapsCertificate(String clientName){
         return omejdnConnectorApiClient.addConnector(
             new OmejdnConnectorCertificateRequest(clientName));
     }

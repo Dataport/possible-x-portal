@@ -1,5 +1,6 @@
 package eu.possiblex.portal.application.entity;
 
+import eu.possiblex.portal.application.entity.daps.OmejdnConnectorCertificateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,4 +22,6 @@ public class RegistrationRequestEntryTO {
     private String description;
 
     private RequestStatus status;
+
+    private OmejdnConnectorCertificateDto omejdnConnectorCertificate;
 }

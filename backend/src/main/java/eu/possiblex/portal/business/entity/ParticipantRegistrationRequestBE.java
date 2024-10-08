@@ -2,6 +2,7 @@ package eu.possiblex.portal.business.entity;
 
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import lombok.*;
 
 @Data
@@ -21,4 +22,6 @@ public class ParticipantRegistrationRequestBE {
     private String description;
 
     private RequestStatus status;
+
+    private OmejdnConnectorCertificateBE omejdnConnectorCertificate;
 }

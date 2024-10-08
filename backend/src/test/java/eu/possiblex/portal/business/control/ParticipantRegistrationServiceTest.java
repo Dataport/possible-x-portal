@@ -8,8 +8,10 @@ import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalPartici
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOFake;
+import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,10 +61,18 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void acceptRegistrationRequest() {
-        participantRegistrationService.acceptRegistrationRequest("validId");
-        verify(participantRegistrationRequestDao).acceptRegistrationRequest("validId");
-        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest("validId"));
-        verify(participantRegistrationRequestDao).completeRegistrationRequest("validId");
+        PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
+        participantRegistrationService.registerParticipant(participant);
+
+        ArgumentCaptor<OmejdnConnectorCertificateEntity> certificateCaptor = ArgumentCaptor.forClass(OmejdnConnectorCertificateEntity.class);
+        participantRegistrationService.acceptRegistrationRequest(participant.getId());
+        verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getId());
+        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getId()));
+        verify(participantRegistrationRequestDao).completeRegistrationRequest(any(String.class), certificateCaptor.capture());
+        assertEquals(participant.getId(), certificateCaptor.getValue().getClientName());
+        assertNotNull(certificateCaptor.getValue().getKeystore());
+        assertNotNull(certificateCaptor.getValue().getClientId());
+        assertNotNull(certificateCaptor.getValue().getPassword());
     }
 
     @Test
@@ -74,12 +85,6 @@ class ParticipantRegistrationServiceTest {
     void deleteRegistrationRequest() {
         participantRegistrationService.deleteRegistrationRequest("validId");
         verify(participantRegistrationRequestDao).deleteRegistrationRequest("validId");
-    }
-
-    @Test
-    void completeRegistrationRequest() {
-        participantRegistrationService.completeRegistrationRequest("validId");
-        verify(participantRegistrationRequestDao).completeRegistrationRequest("validId");
     }
 
     private PxExtendedLegalParticipantCredentialSubject getParticipantCs() {

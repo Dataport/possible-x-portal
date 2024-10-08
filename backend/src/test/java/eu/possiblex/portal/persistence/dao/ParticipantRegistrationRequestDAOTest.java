@@ -3,12 +3,15 @@ package eu.possiblex.portal.persistence.dao;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -53,9 +56,10 @@ class ParticipantRegistrationRequestDAOTest {
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
-        participantRegistrationRequestDAO.acceptRegistrationRequest("validName");
-        participantRegistrationRequestDAO.completeRegistrationRequest("validName");
+        participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
+        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName(), new OmejdnConnectorCertificateEntity());
         verify(participantRegistrationRequestRepository, times(3)).save(any());
+        assertNotNull(participantRegistrationRequestRepository.findByName("validName").getOmejdnConnectorCertificate());
     }
 
     @Test
@@ -69,6 +73,7 @@ class ParticipantRegistrationRequestDAOTest {
         verify(participantRegistrationRequestRepository, times(2)).save(any());
 
         verify(participantRegistrationRequestRepository).delete(any());
+        assertTrue(participantRegistrationRequestRepository.findAll().isEmpty());
     }
 
     private PxExtendedLegalParticipantCredentialSubject getParticipant() {

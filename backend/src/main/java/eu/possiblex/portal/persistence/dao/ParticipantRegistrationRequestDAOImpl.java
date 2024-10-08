@@ -5,6 +5,7 @@ import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalPartici
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import eu.possiblex.portal.persistence.entity.RequestStatus;
+import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -100,11 +101,13 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void completeRegistrationRequest(String id) {
+    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate) {
         log.info("Completing participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
             entity.setStatus(RequestStatus.COMPLETED);
+            entity.setOmejdnConnectorCertificate(certificate);
+            log.info("Storing the OmejdnConnectorCertificate: {}", certificate);
             participantRegistrationRequestRepository.save(entity);
         } else {
             log.error("(Complete) Participant not found: {}", id);
