@@ -1,9 +1,8 @@
 package eu.possiblex.portal.persistence.dao;
 
-
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-
+import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 
 import java.util.List;
 
@@ -37,6 +36,11 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
 
     @Override
     public void completeRegistrationRequest(String id) {
+        // request worked
+    }
 
+    @Override
+    public void storeRegistrationRequestDid(String id, ParticipantDidBE to) {
+        // request worked
     }
 }

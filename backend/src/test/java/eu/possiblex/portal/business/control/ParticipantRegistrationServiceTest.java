@@ -6,6 +6,7 @@ import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLega
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
+import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOFake;
 import org.junit.jupiter.api.Test;
@@ -20,26 +21,30 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ContextConfiguration(classes = { ParticipantRegistrationServiceTest.TestConfig.class,
-    ParticipantRegistrationServiceImpl.class})
+    ParticipantRegistrationServiceImpl.class })
 class ParticipantRegistrationServiceTest {
     @MockBean
     private ParticipantRegistrationRequestDAOFake participantRegistrationRequestDao;
 
     @Autowired
-    private OmejdnConnectorApiClientFake omejdnConnectorApiClient;
+    private OmejdnConnectorApiClient omejdnConnectorApiClient;
+
+    @Autowired
+    private DidWebServiceApiClient didWebServiceApiClient;
 
     @Autowired
     private ParticipantRegistrationService participantRegistrationService;
 
     @Test
     void registerParticipant() {
+
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
         participantRegistrationService.registerParticipant(participant);
         verify(participantRegistrationRequestDao).saveParticipantRegistrationRequest(any());
@@ -47,9 +52,11 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void getAllParticipantRegistrationRequests() {
+
         ParticipantRegistrationRequestBE participant = getParticipant();
 
-        when(participantRegistrationRequestDao.getAllParticipantRegistrationRequests()).thenReturn(List.of(participant));
+        when(participantRegistrationRequestDao.getAllParticipantRegistrationRequests()).thenReturn(
+            List.of(participant));
         List<RegistrationRequestEntryTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
         assertEquals(1, list.size());
 
@@ -58,24 +65,29 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void acceptRegistrationRequest() {
+
         participantRegistrationService.acceptRegistrationRequest("validId");
         verify(participantRegistrationRequestDao).acceptRegistrationRequest("validId");
         verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest("validId"));
+        verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE("validId"));
     }
 
     @Test
     void rejectRegistrationRequest() {
+
         participantRegistrationService.rejectRegistrationRequest("validId");
         verify(participantRegistrationRequestDao).rejectRegistrationRequest("validId");
     }
 
     @Test
     void deleteRegistrationRequest() {
+
         participantRegistrationService.deleteRegistrationRequest("validId");
         verify(participantRegistrationRequestDao).deleteRegistrationRequest("validId");
     }
 
     private PxExtendedLegalParticipantCredentialSubject getParticipantCs() {
+
         GxVcard vcard = new GxVcard();
         vcard.setCountryCode("validCountryCode");
         vcard.setCountrySubdivisionCode("validSubdivisionCode");
@@ -83,15 +95,13 @@ class ParticipantRegistrationServiceTest {
         vcard.setLocality("validLocality");
         vcard.setPostalCode("validPostalCode");
 
-        return PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
-                .legalRegistrationNumber(new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
-                .headquarterAddress(vcard)
-                .name("validName")
-                .description("validDescription")
-                .build();
+        return PxExtendedLegalParticipantCredentialSubject.builder().id("validId").legalRegistrationNumber(
+                new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
+            .headquarterAddress(vcard).name("validName").description("validDescription").build();
     }
 
     private ParticipantRegistrationRequestBE getParticipant() {
+
         GxVcard vcard = new GxVcard();
         vcard.setCountryCode("validCountryCode");
         vcard.setCountrySubdivisionCode("validSubdivisionCode");
@@ -99,12 +109,9 @@ class ParticipantRegistrationServiceTest {
         vcard.setLocality("validLocality");
         vcard.setPostalCode("validPostalCode");
 
-        return ParticipantRegistrationRequestBE.builder()
-            .legalRegistrationNumber(new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
-            .headquarterAddress(vcard)
-            .name("validName")
-            .description("validDescription")
-            .build();
+        return ParticipantRegistrationRequestBE.builder().legalRegistrationNumber(
+                new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
+            .headquarterAddress(vcard).name("validName").description("validDescription").build();
     }
 
     // Test-specific configuration to provide mocks
@@ -123,9 +130,15 @@ class ParticipantRegistrationServiceTest {
         }
 
         @Bean
-        public OmejdnConnectorApiClientFake dapsConnectorApiClient() {
+        public OmejdnConnectorApiClient dapsConnectorApiClient() {
 
             return Mockito.spy(new OmejdnConnectorApiClientFake());
+        }
+
+        @Bean
+        public DidWebServiceApiClient didWebServiceApiClient() {
+
+            return Mockito.spy(new DidWebServiceApiClientFake());
         }
     }
 }
