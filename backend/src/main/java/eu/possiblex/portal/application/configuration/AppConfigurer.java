@@ -1,5 +1,6 @@
 package eu.possiblex.portal.application.configuration;
 
+import eu.possiblex.portal.business.control.DidWebServiceApiClient;
 import eu.possiblex.portal.business.control.OmejdnConnectorApiClient;
 import eu.possiblex.portal.business.control.SdCreationWizardApiClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,9 @@ public class AppConfigurer {
     @Value("${daps-server.base-url}")
     private String dapsServerBaseUri;
 
+    @Value("${did-web-service.base-url}")
+    private String didWebServiceBaseUri;
+
     @Bean
     public SdCreationWizardApiClient sdCreationWizardApiClient() {
 
@@ -36,13 +40,19 @@ public class AppConfigurer {
 
     @Bean
     public OmejdnConnectorApiClient dapsConnectorApiClient() {
-        WebClient webClient = WebClient.builder()
-            .baseUrl(dapsServerBaseUri + "/api/v1/connectors")
-            .build();
-        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory
-            .builder()
-            .exchangeAdapter(WebClientAdapter.create(webClient))
-            .build();
+
+        WebClient webClient = WebClient.builder().baseUrl(dapsServerBaseUri + "/api/v1/connectors").build();
+        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder()
+            .exchangeAdapter(WebClientAdapter.create(webClient)).build();
         return httpServiceProxyFactory.createClient(OmejdnConnectorApiClient.class);
+    }
+
+    @Bean
+    public DidWebServiceApiClient didWebServiceApiClient() {
+
+        WebClient webClient = WebClient.builder().baseUrl(didWebServiceBaseUri).build();
+        HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder()
+            .exchangeAdapter(WebClientAdapter.create(webClient)).build();
+        return httpServiceProxyFactory.createClient(DidWebServiceApiClient.class);
     }
 }
