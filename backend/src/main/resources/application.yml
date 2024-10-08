@@ -28,4 +28,5 @@ daps-server:
   base-url: http://localhost:4567
 
 did-web-service:
-  base-url: http://localhost:4443
+  base-url: https://localhost:4443
+  ignore-ssl: true

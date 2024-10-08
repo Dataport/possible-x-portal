@@ -4,8 +4,8 @@ import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateDto;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
-import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestTo;
-import eu.possiblex.portal.business.entity.did.ParticipantDidTo;
+import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
+import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,7 +83,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     public void completeRegistrationRequest(String id) {
 
         OmejdnConnectorCertificateDto certificate = requestDapsCertificate(id);
-        ParticipantDidTo didWeb = generateDidWeb(id);
+        ParticipantDidBE didWeb = generateDidWeb(id);
+
+        participantRegistrationRequestDAO.storeRegistrationRequestDid(id, didWeb);
+
+        // TODO store DAPS
 
         participantRegistrationRequestDAO.completeRegistrationRequest(id);
     }
@@ -118,9 +122,9 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         return omejdnConnectorApiClient.addConnector(new OmejdnConnectorCertificateRequest(clientName));
     }
 
-    private ParticipantDidTo generateDidWeb(String id) {
+    private ParticipantDidBE generateDidWeb(String id) {
 
-        ParticipantDidCreateRequestTo createRequestTo = new ParticipantDidCreateRequestTo();
+        ParticipantDidCreateRequestBE createRequestTo = new ParticipantDidCreateRequestBE();
         createRequestTo.setSubject(id);
         return didWebServiceApiClient.generateDidWeb(createRequestTo);
     }
