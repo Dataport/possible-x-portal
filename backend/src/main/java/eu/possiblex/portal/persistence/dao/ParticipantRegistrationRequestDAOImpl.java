@@ -32,10 +32,8 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     @Transactional
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject participant, ParticipantMetadataBE metadata) {
 
-        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsToEntity(
-            participant);
-        entity.setEmailAddress(metadata.getEmailAddress());
-        entity.setStatus(RequestStatus.NEW);
+        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsAndMetadataToNewEntity(
+            participant, metadata);
         log.info("Saving participant registration request: {}", entity);
 
         participantRegistrationRequestRepository.save(entity);
