@@ -70,6 +70,7 @@ class ParticipantRegistrationServiceTest {
         verify(participantRegistrationRequestDao).acceptRegistrationRequest("validId");
         verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest("validId"));
         verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE("validId"));
+        verify(participantRegistrationRequestDao).completeRegistrationRequest("validId");
     }
 
     @Test
