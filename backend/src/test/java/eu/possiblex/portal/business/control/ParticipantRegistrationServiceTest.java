@@ -68,7 +68,7 @@ class ParticipantRegistrationServiceTest {
         participantRegistrationService.acceptRegistrationRequest(participant.getId());
         verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getId());
         verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getId()));
-        verify(participantRegistrationRequestDao).completeRegistrationRequest(any(String.class), certificateCaptor.capture());
+        verify(participantRegistrationRequestDao).completeRegistrationRequest(any(String.class), certificateCaptor.capture(), any(String.class));
         assertEquals(participant.getId(), certificateCaptor.getValue().getClientName());
         assertNotNull(certificateCaptor.getValue().getKeystore());
         assertNotNull(certificateCaptor.getValue().getClientId());

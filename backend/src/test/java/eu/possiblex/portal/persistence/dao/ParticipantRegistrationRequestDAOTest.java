@@ -57,7 +57,7 @@ class ParticipantRegistrationRequestDAOTest {
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
-        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName(), new OmejdnConnectorCertificateEntity());
+        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName(), new OmejdnConnectorCertificateEntity(), "validVpLink");
         verify(participantRegistrationRequestRepository, times(3)).save(any());
         assertNotNull(participantRegistrationRequestRepository.findByName("validName").getOmejdnConnectorCertificate());
     }

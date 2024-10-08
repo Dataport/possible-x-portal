@@ -36,7 +36,7 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
-    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate) {
+    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate, String vpLink) {
         // request worked
 
     }

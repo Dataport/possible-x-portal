@@ -19,7 +19,6 @@ public interface ParticipantRegistrationServiceMapper {
     RegistrationNumberTO legalRegistrationNumberToRegistrationNumberTO(
         GxLegalRegistrationNumberCredentialSubject legalRegistrationNumber);
 
-    @Mapping(target = "omejdnConnectorCertificate", source = "omejdnConnectorCertificate")
     RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestEntryTO(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
 

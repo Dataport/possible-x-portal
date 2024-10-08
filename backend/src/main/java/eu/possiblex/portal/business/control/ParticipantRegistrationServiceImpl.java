@@ -79,8 +79,8 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         OmejdnConnectorCertificateEntity certificate =
             participantRegistrationServiceMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(requestDapsCertificate(id));
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
-      
-        participantRegistrationRequestDAO.completeRegistrationRequest(id, certificate);
+        String vpLink = getVPLink();
+        participantRegistrationRequestDAO.completeRegistrationRequest(id, certificate, vpLink);
     }
 
     /**
@@ -111,5 +111,9 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     private OmejdnConnectorCertificateBE requestDapsCertificate(String clientName){
         return omejdnConnectorApiClient.addConnector(
             new OmejdnConnectorCertificateRequest(clientName));
+    }
+
+    private String getVPLink() {
+        return "www.example.com";
     }
 }

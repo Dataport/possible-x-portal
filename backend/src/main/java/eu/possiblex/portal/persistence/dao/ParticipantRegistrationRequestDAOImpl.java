@@ -101,12 +101,13 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate) {
+    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate, String vpLink) {
         log.info("Completing participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
             entity.setStatus(RequestStatus.COMPLETED);
             entity.setOmejdnConnectorCertificate(certificate);
+            entity.setVerifiablePresentation(vpLink);
             log.info("Storing the OmejdnConnectorCertificate: {}", certificate);
             participantRegistrationRequestRepository.save(entity);
         } else {

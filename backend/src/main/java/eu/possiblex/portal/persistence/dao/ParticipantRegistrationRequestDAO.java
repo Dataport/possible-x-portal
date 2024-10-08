@@ -15,7 +15,7 @@ public interface ParticipantRegistrationRequestDAO {
 
     void deleteRegistrationRequest(String id);
 
-    void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate);
+    void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate, String vpLink);
 
     List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests();
 

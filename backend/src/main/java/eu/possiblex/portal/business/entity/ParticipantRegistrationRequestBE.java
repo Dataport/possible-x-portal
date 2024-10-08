@@ -24,4 +24,6 @@ public class ParticipantRegistrationRequestBE {
     private RequestStatus status;
 
     private OmejdnConnectorCertificateBE omejdnConnectorCertificate;
+
+    private String verifiablePresentation;
 }
