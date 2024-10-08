@@ -79,8 +79,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         completeRegistrationRequest(id);
     }
 
-    @Override
-    public void completeRegistrationRequest(String id) {
+    private void completeRegistrationRequest(String id) {
 
         OmejdnConnectorCertificateDto certificate = requestDapsCertificate(id);
         ParticipantDidBE didWeb = generateDidWeb(id);

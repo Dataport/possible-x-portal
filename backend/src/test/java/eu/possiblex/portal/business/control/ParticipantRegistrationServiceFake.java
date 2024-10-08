@@ -1,9 +1,7 @@
 package eu.possiblex.portal.business.control;
 
-
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-
 
 import java.util.List;
 
@@ -32,10 +30,5 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
     @Override
     public void deleteRegistrationRequest(String id) {
         // request worked
-    }
-
-    @Override
-    public void completeRegistrationRequest(String id) {
-
     }
 }

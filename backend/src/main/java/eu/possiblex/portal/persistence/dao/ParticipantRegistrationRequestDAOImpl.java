@@ -30,6 +30,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         this.participantRegistrationEntityMapper = participantRegistrationEntityMapper;
     }
 
+    /**
+     * Initially save a participant registration request.
+     *
+     * @param request registration request
+     */
     @Transactional
     @Override
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request) {
@@ -42,6 +47,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         participantRegistrationRequestRepository.save(entity);
     }
 
+    /**
+     * Get a list of all participant registration requests.
+     *
+     * @return list of participant registration requests
+     */
     @Override
     public List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests() {
 
@@ -50,6 +60,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
             .map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe).toList();
     }
 
+    /**
+     * Accept a participant registration request given the id, if the current status allows so.
+     *
+     * @param id registration request id
+     */
     @Transactional
     @Override
     public void acceptRegistrationRequest(String id) {
@@ -69,6 +84,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         }
     }
 
+    /**
+     * Reject a participant registration request given the id, if the current status allows so.
+     *
+     * @param id registration request id
+     */
     @Transactional
     @Override
     public void rejectRegistrationRequest(String id) {
@@ -88,6 +108,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         }
     }
 
+    /**
+     * Delete a participant registration request given the id, if the current status allows so.
+     *
+     * @param id registration request id
+     */
     @Transactional
     @Override
     public void deleteRegistrationRequest(String id) {
@@ -107,6 +132,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         }
     }
 
+    /**
+     * Complete a participant registration request given the id.
+     *
+     * @param id registration request id
+     */
     @Transactional
     @Override
     public void completeRegistrationRequest(String id) {
@@ -121,6 +151,12 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         }
     }
 
+    /**
+     * Given an existing registration request, store the corresponding DID data.
+     *
+     * @param id registration request id
+     * @param to DID data to store
+     */
     @Transactional
     @Override
     public void storeRegistrationRequestDid(String id, ParticipantDidBE to) {

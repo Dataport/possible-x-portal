@@ -1,14 +1,12 @@
 package eu.possiblex.portal.business.control;
 
-
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-
 
 import java.util.List;
 
 public interface ParticipantRegistrationService {
-  
+
     /**
      * Given a registration request, process and store it for later use.
      *
@@ -43,11 +41,4 @@ public interface ParticipantRegistrationService {
      * @param id registration request id
      */
     void deleteRegistrationRequest(String id);
-
-    /**
-     * Given a registration request id, complete the registration request.
-     *
-     * @param id registration request id
-     */
-    void completeRegistrationRequest(String id);
 }
