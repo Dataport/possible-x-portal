@@ -135,14 +135,14 @@ export class ParticipantWizardExtensionComponent {
     return shapeSource;
   }
 
-  public isFieldFilled(str: string) {
+  private isFieldFilled(str: string) {
     if (!str || str.trim().length === 0) {
       return false;
     }
     return true;
   }
 
-  get isInvalidEmailAddress(): boolean {
+  protected isEmailAddressInvalid(): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return !this.isFieldFilled(this.emailAddress) || !emailRegex.test(this.emailAddress);
   }
