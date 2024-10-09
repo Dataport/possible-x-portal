@@ -4,7 +4,6 @@ import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
-import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
@@ -83,13 +82,16 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
 
     private void completeRegistrationRequest(String id) {
-
         OmejdnConnectorCertificateBE certificate = requestDapsCertificate(id);
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
+        participantRegistrationRequestDAO.storeRegistrationRequestDaps(id, certificate);
         String vpLink = getVPLink();
-        participantRegistrationRequestDAO.completeRegistrationRequest(id, );
+        log.info("Received VP {} for participant: {}", vpLink, id);
+        participantRegistrationRequestDAO.storeRegistrationRequestVpLink(id, vpLink);
         ParticipantDidBE didWeb = generateDidWeb(id);
-        participantRegistrationRequestDAO.storeRegistrationRequestDid(id, certificate, vpLink, didWeb);
+        log.info("Created did {} for participant: {}", didWeb, id);
+        participantRegistrationRequestDAO.storeRegistrationRequestDid(id, didWeb);
+        participantRegistrationRequestDAO.completeRegistrationRequest(id);
     }
 
     /**
@@ -118,9 +120,9 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     }
 
 
-    private OmejdnConnectorCertificateBE requestDapsCertificate(String clientName){
-        return omejdnConnectorApiClient.addConnector(
-            new OmejdnConnectorCertificateRequest(clientName));
+    private OmejdnConnectorCertificateBE requestDapsCertificate(String clientName) {
+        return omejdnConnectorApiClient.addConnector(new OmejdnConnectorCertificateRequest(clientName));
+    }
 
     private ParticipantDidBE generateDidWeb(String id) {
 

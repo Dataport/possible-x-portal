@@ -40,7 +40,7 @@ public interface ParticipantRegistrationRequestDAO {
      */
     void deleteRegistrationRequest(String id);
 
-    void completeRegistrationRequest(String id, OmejdnConnectorCertificateBE certificate, String vpLink);
+    void completeRegistrationRequest(String id);
 
     /**
      * Given the id of an existing registration request, store the corresponding DID data.
@@ -57,4 +57,7 @@ public interface ParticipantRegistrationRequestDAO {
      */
     List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests();
 
+    void storeRegistrationRequestVpLink(String id, String vpLink);
+
+    void storeRegistrationRequestDaps(String id, OmejdnConnectorCertificateBE certificate);
 }

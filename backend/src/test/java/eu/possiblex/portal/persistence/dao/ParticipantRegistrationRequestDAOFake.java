@@ -34,6 +34,16 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
+    public void storeRegistrationRequestVpLink(String id, String vpLink) {
+
+    }
+
+    @Override
+    public void storeRegistrationRequestDaps(String id, OmejdnConnectorCertificateBE certificate) {
+
+    }
+
+    @Override
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject participant, ParticipantMetadataBE metadata) {
         // request worked
     }
@@ -54,10 +64,9 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
-    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateBE certificate, String vpLink) {
-        // request worked
-    }
+    public void completeRegistrationRequest(String id) {
 
+    }
 
     @Override
     public void storeRegistrationRequestDid(String id, ParticipantDidBE to) {

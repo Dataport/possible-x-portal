@@ -1,8 +1,6 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
-import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
-import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
@@ -23,9 +21,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -49,7 +47,7 @@ class ParticipantRegistrationServiceTest {
     void registerParticipant() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
-        ParticipantMetadataBE metadata = ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
         participantRegistrationService.registerParticipant(participant, metadata);
         verify(participantRegistrationRequestDao).saveParticipantRegistrationRequest(any(), any());
     }
@@ -66,15 +64,17 @@ class ParticipantRegistrationServiceTest {
     @Test
     void acceptRegistrationRequest() {
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
-        participantRegistrationService.registerParticipant(participant);
+        ParticipantMetadataBE metadata = getParticipantMetadata();
+        participantRegistrationService.registerParticipant(participant, metadata);
 
         ArgumentCaptor<OmejdnConnectorCertificateBE> certificateCaptor = ArgumentCaptor.forClass(OmejdnConnectorCertificateBE.class);
         participantRegistrationService.acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getName());
-        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getName()));
-        verify(participantRegistrationRequestDao).completeRegistrationRequest(any(String.class), certificateCaptor.capture(), any(String.class));
-        verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE(participant.getName()));
         verify(participantRegistrationRequestDao).completeRegistrationRequest(participant.getName());
+        verify(participantRegistrationRequestDao).storeRegistrationRequestDaps(any(String.class), certificateCaptor.capture());
+        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getName()));
+        verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE(participant.getName()));
+
         OmejdnConnectorCertificateBE certificate = certificateCaptor.getValue();
         assertEquals(participant.getName(), certificate.getClientName());
         assertNotNull(certificate.getKeystore());
@@ -103,6 +103,10 @@ class ParticipantRegistrationServiceTest {
         return PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
             .legalRegistrationNumber(be.getLegalRegistrationNumber()).headquarterAddress(be.getHeadquarterAddress())
             .legalAddress(be.getLegalAddress()).name(be.getName()).description(be.getDescription()).build();
+    }
+
+    private ParticipantMetadataBE getParticipantMetadata() {
+        return ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
     }
 
     // Test-specific configuration to provide mocks

@@ -142,18 +142,45 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
      * @param id registration request id
      */
     @Transactional
-    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateBE certificate, String vpLink) {
-        OmejdnConnectorCertificateEntity certificateEntity = participantRegistrationEntityMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(certificate);
-        log.info("Completing participant registration request: {}", id);
+    public void completeRegistrationRequest(String id) {
+        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
+        if (entity != null) {
+            entity.setStatus(RequestStatus.COMPLETED);
+            log.info("Completing participant registration request: {}", id);
+            participantRegistrationRequestRepository.save(entity);
+        } else {
+            log.error("(Complete) Participant not found: {}", id);
+            throw new RuntimeException("Participant not found: " + id);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void storeRegistrationRequestVpLink(String id, String vpLink) {
+        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
+        if (entity != null) {
+            entity.setVpLink(vpLink);
+            log.info("Storing the VP Link: {}", vpLink);
+            //participantRegistrationRequestRepository.save(entity);
+        } else {
+            log.error("(Set VP Link) Participant not found: {}", id);
+            throw new RuntimeException("Participant not found: " + id);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void storeRegistrationRequestDaps(String id, OmejdnConnectorCertificateBE certificate) {
+        OmejdnConnectorCertificateEntity certificateEntity =
+            participantRegistrationEntityMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(certificate);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
             entity.setStatus(RequestStatus.COMPLETED);
             entity.setOmejdnConnectorCertificate(certificateEntity);
-            entity.setVpLink(vpLink);
             log.info("Storing the OmejdnConnectorCertificate: {}", certificateEntity);
-            participantRegistrationRequestRepository.save(entity);
+            //participantRegistrationRequestRepository.save(entity);
         } else {
-            log.error("(Complete) Participant not found: {}", id);
+            log.error("(Set Daps) Participant not found: {}", id);
             throw new RuntimeException("Participant not found: " + id);
         }
     }
@@ -167,13 +194,13 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     @Transactional
     @Override
     public void storeRegistrationRequestDid(String id, ParticipantDidBE to) {
-
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
             DidDataEntity didData = new DidDataEntity();
             didData.setDid(to.getDid());
             didData.setVerificationMethod(to.getVerificationMethod());
             entity.setDidData(didData);
+            log.info("Storing the DidDataEntity: {}", didData);
         } else {
             log.error("(Set Did) Participant not found: {}", id);
             throw new RuntimeException("Participant not found: " + id);

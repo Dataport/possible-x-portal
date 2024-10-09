@@ -28,7 +28,7 @@ public class ParticipantRegistrationRequestEntity {
     @NotNull
     private String name;
 
-    @Column(length = 1023)
+    @Size(max=1023)
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL)

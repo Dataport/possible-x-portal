@@ -18,6 +18,8 @@ package eu.possiblex.portal.persistence.entity.daps;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
 import lombok.Data;
 
 @Data
@@ -36,7 +38,7 @@ public class OmejdnConnectorCertificateEntity {
     @NotNull
     private String clientId;
 
-    @Column(length = 4095)
+    @Size(max = 4095)
     private String keystore;
 
     private String password;

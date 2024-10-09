@@ -8,6 +8,7 @@ import eu.possiblex.portal.business.entity.RequestStatus;
 import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
+import eu.possiblex.portal.persistence.entity.DidDataEntity;
 import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import jakarta.transaction.Transactional;
@@ -132,9 +133,12 @@ class ParticipantRegistrationRequestDAOTest {
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
-        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName(), new OmejdnConnectorCertificateBE(), "validVpLink");
-        verify(participantRegistrationRequestRepository, times(3)).save(any());
-        assertNotNull(participantRegistrationRequestRepository.findByName("validName").getOmejdnConnectorCertificate());
+        participantRegistrationRequestDAO.storeRegistrationRequestDaps(participant.getName(), new OmejdnConnectorCertificateBE( "validClientId", "validPassword", "validKeystore", "123","1234"));
+        participantRegistrationRequestDAO.storeRegistrationRequestVpLink(participant.getName(), "validVpLink");
+        participantRegistrationRequestDAO.storeRegistrationRequestDid(participant.getName(), new ParticipantDidBE("validDid", "validVerificationMethod"));
+        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName());
+        verify(participantRegistrationRequestRepository, times(2)).save(any());
+        assertNotNull(participantRegistrationRequestRepository.findByName(participant.getName()).getOmejdnConnectorCertificate());
     }
 
     @Test
