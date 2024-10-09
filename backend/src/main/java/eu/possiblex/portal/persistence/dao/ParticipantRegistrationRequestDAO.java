@@ -43,7 +43,7 @@ public interface ParticipantRegistrationRequestDAO {
     void completeRegistrationRequest(String id);
 
     /**
-     * Given an existing registration request, store the corresponding DID data.
+     * Given the id of an existing registration request, store the corresponding DID data.
      *
      * @param id registration request id
      * @param to DID data

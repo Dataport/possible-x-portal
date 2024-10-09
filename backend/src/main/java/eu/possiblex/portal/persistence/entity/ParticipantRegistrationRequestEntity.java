@@ -50,7 +50,6 @@ public class ParticipantRegistrationRequestEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "did_data_id", referencedColumnName = "id")
-    @NotNull
     private DidDataEntity didData;
 
 }
