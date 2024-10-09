@@ -26,4 +26,8 @@ public class RegistrationRequestEntryTO {
     private OmejdnConnectorCertificateDto omejdnConnectorCertificate;
 
     private String vpLink;
+
+    private ParticipantDidDataTO didData;
+
+    private String emailAddress;
 }

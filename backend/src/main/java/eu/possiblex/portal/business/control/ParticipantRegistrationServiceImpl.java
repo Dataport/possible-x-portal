@@ -1,10 +1,13 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
+import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
+import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +25,18 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
     private final OmejdnConnectorApiClient omejdnConnectorApiClient;
 
+    private final DidWebServiceApiClient didWebServiceApiClient;
+
     public ParticipantRegistrationServiceImpl(
         @Autowired ParticipantRegistrationRequestDAO participantRegistrationRequestDAO,
         @Autowired ParticipantRegistrationServiceMapper participantRegistrationServiceMapper,
-        @Autowired OmejdnConnectorApiClient omejdnConnectorApiClient) {
+        @Autowired OmejdnConnectorApiClient omejdnConnectorApiClient,
+        @Autowired DidWebServiceApiClient didWebServiceApiClient) {
 
         this.participantRegistrationRequestDAO = participantRegistrationRequestDAO;
         this.participantRegistrationServiceMapper = participantRegistrationServiceMapper;
         this.omejdnConnectorApiClient = omejdnConnectorApiClient;
+        this.didWebServiceApiClient = didWebServiceApiClient;
     }
 
     /**
@@ -38,11 +45,11 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @param cs request
      */
     @Override
-    public void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs) {
+    public void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs, ParticipantMetadataBE be) {
 
         log.info("Processing participant registration: {}", cs);
 
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs);
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs, be);
     }
 
     /**
@@ -74,12 +81,15 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         completeRegistrationRequest(id);
     }
 
-    @Override
-    public void completeRegistrationRequest(String id) {
+
+    private void completeRegistrationRequest(String id) {
+
         OmejdnConnectorCertificateBE certificate = requestDapsCertificate(id);
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
         String vpLink = getVPLink();
-        participantRegistrationRequestDAO.completeRegistrationRequest(id, certificate, vpLink);
+        participantRegistrationRequestDAO.completeRegistrationRequest(id, );
+        ParticipantDidBE didWeb = generateDidWeb(id);
+        participantRegistrationRequestDAO.storeRegistrationRequestDid(id, certificate, vpLink, didWeb);
     }
 
     /**
@@ -107,9 +117,16 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         participantRegistrationRequestDAO.deleteRegistrationRequest(id);
     }
 
+
     private OmejdnConnectorCertificateBE requestDapsCertificate(String clientName){
         return omejdnConnectorApiClient.addConnector(
             new OmejdnConnectorCertificateRequest(clientName));
+
+    private ParticipantDidBE generateDidWeb(String id) {
+
+        ParticipantDidCreateRequestBE createRequestTo = new ParticipantDidCreateRequestBE();
+        createRequestTo.setSubject(id);
+        return didWebServiceApiClient.generateDidWeb(createRequestTo);
     }
 
     private String getVPLink() {

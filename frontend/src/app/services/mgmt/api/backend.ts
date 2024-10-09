@@ -24,9 +24,17 @@ export interface IAddressTOBuilder {
 export interface ICreateRegistrationRequestTO {
     participantCs: IGxLegalParticipantCredentialSubject;
     registrationNumberCs: IGxLegalRegistrationNumberCredentialSubject;
+    emailAddress: string;
 }
 
 export interface ICreateRegistrationRequestTOBuilder {
+}
+
+export interface IParticipantDidDataTO {
+    did: string;
+}
+
+export interface IParticipantDidDataTOBuilder {
 }
 
 export interface IRegistrationNumberTO {
@@ -47,6 +55,8 @@ export interface IRegistrationRequestEntryTO {
     status: IRequestStatus;
     omejdnConnectorCertificate: IOmejdnConnectorCertificateDto;
     vpLink: string;
+    didData: IParticipantDidDataTO;
+    emailAddress: string;
 }
 
 export interface IRegistrationRequestEntryTOBuilder {
@@ -226,12 +236,12 @@ export interface IResolvedType {
     concrete: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
+    containerType: boolean;
     referencedType: IResolvedType;
     /**
      * @deprecated
      */
     parameterSource: IClass<any>;
-    containerType: boolean;
     rawClass: IClass<any>;
     throwable: boolean;
     keyType: IResolvedType;
@@ -335,8 +345,8 @@ export interface IObjectIdInfo {
 }
 
 export interface ITypeDeserializer {
-    typeIdResolver: ITypeIdResolver;
     defaultImpl: IClass<any>;
+    typeIdResolver: ITypeIdResolver;
     typeInclusion: IAs;
     propertyName: string;
 }

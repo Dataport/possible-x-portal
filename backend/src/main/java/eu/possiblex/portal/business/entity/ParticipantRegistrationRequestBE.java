@@ -3,7 +3,11 @@ package eu.possiblex.portal.business.entity;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
-import lombok.*;
+import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 @Data
 @ToString
@@ -21,9 +25,14 @@ public class ParticipantRegistrationRequestBE {
 
     private String description;
 
+    private String emailAddress;
+
     private RequestStatus status;
 
     private OmejdnConnectorCertificateBE omejdnConnectorCertificate;
 
     private String vpLink;
+
+    private ParticipantDidBE didData;
+
 }
