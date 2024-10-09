@@ -52,4 +52,6 @@ public class ParticipantRegistrationRequestEntity {
     @JoinColumn(name = "did_data_id", referencedColumnName = "id")
     private DidDataEntity didData;
 
+    @NotNull
+    private String emailAddress;
 }

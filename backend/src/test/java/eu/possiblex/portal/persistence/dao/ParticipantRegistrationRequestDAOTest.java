@@ -5,6 +5,7 @@ import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLega
 import eu.possiblex.portal.business.control.DidWebServiceApiClientFake;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.RequestStatus;
+import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import jakarta.transaction.Transactional;
@@ -33,7 +34,9 @@ class ParticipantRegistrationRequestDAOTest {
     void saveParticipantRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
+        ParticipantMetadataBE metadata = getParticipantMetadata();
+
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         verify(participantRegistrationRequestRepository).save(any());
     }
 
@@ -48,8 +51,9 @@ class ParticipantRegistrationRequestDAOTest {
     void acceptRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestRepository, times(1)).save(any());
 
@@ -93,8 +97,9 @@ class ParticipantRegistrationRequestDAOTest {
     void saveDidData() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
         participantRegistrationRequestDAO.storeRegistrationRequestDid(participant.getName(),
             new ParticipantDidBE(DidWebServiceApiClientFake.EXAMPLE_DID,
@@ -118,8 +123,9 @@ class ParticipantRegistrationRequestDAOTest {
     void completeRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.acceptRegistrationRequest("validName");
         participantRegistrationRequestDAO.completeRegistrationRequest("validName");
         verify(participantRegistrationRequestRepository, times(1)).save(any());
@@ -129,13 +135,19 @@ class ParticipantRegistrationRequestDAOTest {
     void rejectAndDeleteRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
+        ParticipantMetadataBE metadata = getParticipantMetadata();
 
-        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
+        participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant, metadata);
         participantRegistrationRequestDAO.rejectRegistrationRequest("validName");
         participantRegistrationRequestDAO.deleteRegistrationRequest("validName");
         verify(participantRegistrationRequestRepository, times(1)).save(any());
 
         verify(participantRegistrationRequestRepository).delete(any());
+    }
+
+    private ParticipantMetadataBE getParticipantMetadata() {
+
+        return ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
     }
 
     private PxExtendedLegalParticipantCredentialSubject getParticipant() {

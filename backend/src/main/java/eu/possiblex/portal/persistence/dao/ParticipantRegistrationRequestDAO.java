@@ -1,5 +1,7 @@
 package eu.possiblex.portal.persistence.dao;
 
+import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
+import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
@@ -10,9 +12,10 @@ public interface ParticipantRegistrationRequestDAO {
     /**
      * Save a participant registration request.
      *
-     * @param request registration request
+     * @param participant registration request CS
+     * @param metadata registration request metadata
      */
-    void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject request);
+    void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject participant, ParticipantMetadataBE metadata);
 
     /**
      * Given a registration request id, accept the registration request.
