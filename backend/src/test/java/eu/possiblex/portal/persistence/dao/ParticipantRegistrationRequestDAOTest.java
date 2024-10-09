@@ -3,6 +3,7 @@ package eu.possiblex.portal.persistence.dao;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ class ParticipantRegistrationRequestDAOTest {
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
-        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName(), new OmejdnConnectorCertificateEntity(), "validVpLink");
+        participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName(), new OmejdnConnectorCertificateBE(), "validVpLink");
         verify(participantRegistrationRequestRepository, times(3)).save(any());
         assertNotNull(participantRegistrationRequestRepository.findByName("validName").getOmejdnConnectorCertificate());
     }

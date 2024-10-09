@@ -2,6 +2,7 @@ package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import eu.possiblex.portal.persistence.entity.RequestStatus;
@@ -101,14 +102,15 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     }
 
     @Transactional
-    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate, String vpLink) {
+    public void completeRegistrationRequest(String id, OmejdnConnectorCertificateBE certificate, String vpLink) {
+        OmejdnConnectorCertificateEntity certificateEntity = participantRegistrationEntityMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(certificate);
         log.info("Completing participant registration request: {}", id);
         ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
         if (entity != null) {
             entity.setStatus(RequestStatus.COMPLETED);
-            entity.setOmejdnConnectorCertificate(certificate);
-            entity.setVerifiablePresentation(vpLink);
-            log.info("Storing the OmejdnConnectorCertificate: {}", certificate);
+            entity.setOmejdnConnectorCertificate(certificateEntity);
+            entity.setVpLink(vpLink);
+            log.info("Storing the OmejdnConnectorCertificate: {}", certificateEntity);
             participantRegistrationRequestRepository.save(entity);
         } else {
             log.error("(Complete) Participant not found: {}", id);

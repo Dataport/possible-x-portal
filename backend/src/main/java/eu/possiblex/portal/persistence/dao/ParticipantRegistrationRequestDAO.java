@@ -2,6 +2,7 @@ package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface ParticipantRegistrationRequestDAO {
 
     void deleteRegistrationRequest(String id);
 
-    void completeRegistrationRequest(String id, OmejdnConnectorCertificateEntity certificate, String vpLink);
+    void completeRegistrationRequest(String id, OmejdnConnectorCertificateBE certificate, String vpLink);
 
     List<ParticipantRegistrationRequestBE> getAllParticipantRegistrationRequests();
 

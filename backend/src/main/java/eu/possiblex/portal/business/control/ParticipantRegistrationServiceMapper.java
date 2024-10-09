@@ -22,7 +22,4 @@ public interface ParticipantRegistrationServiceMapper {
     RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestEntryTO(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
 
-    OmejdnConnectorCertificateEntity omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(
-        OmejdnConnectorCertificateBE omjednConnectorCertificateBE);
-
 }

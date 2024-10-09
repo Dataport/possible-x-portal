@@ -25,8 +25,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OmejdnConnectorCertificateDto {
-    private Long id;
-
     @JsonProperty("client_name")
     private String clientName;
 

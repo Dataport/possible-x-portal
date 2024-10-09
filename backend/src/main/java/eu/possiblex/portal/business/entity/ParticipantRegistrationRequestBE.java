@@ -25,5 +25,5 @@ public class ParticipantRegistrationRequestBE {
 
     private OmejdnConnectorCertificateBE omejdnConnectorCertificate;
 
-    private String verifiablePresentation;
+    private String vpLink;
 }

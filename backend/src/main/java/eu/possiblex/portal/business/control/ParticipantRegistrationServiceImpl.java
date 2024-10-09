@@ -76,8 +76,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
     @Override
     public void completeRegistrationRequest(String id) {
-        OmejdnConnectorCertificateEntity certificate =
-            participantRegistrationServiceMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(requestDapsCertificate(id));
+        OmejdnConnectorCertificateBE certificate = requestDapsCertificate(id);
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
         String vpLink = getVPLink();
         participantRegistrationRequestDAO.completeRegistrationRequest(id, certificate, vpLink);

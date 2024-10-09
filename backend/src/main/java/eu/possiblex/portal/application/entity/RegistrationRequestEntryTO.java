@@ -25,5 +25,5 @@ public class RegistrationRequestEntryTO {
 
     private OmejdnConnectorCertificateDto omejdnConnectorCertificate;
 
-    private String verifiablePresentation;
+    private String vpLink;
 }

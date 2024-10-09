@@ -5,10 +5,10 @@ import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOFake;
-import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.mockito.ArgumentCaptor;
@@ -64,15 +64,17 @@ class ParticipantRegistrationServiceTest {
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
         participantRegistrationService.registerParticipant(participant);
 
-        ArgumentCaptor<OmejdnConnectorCertificateEntity> certificateCaptor = ArgumentCaptor.forClass(OmejdnConnectorCertificateEntity.class);
-        participantRegistrationService.acceptRegistrationRequest(participant.getId());
-        verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getId());
-        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getId()));
+        ArgumentCaptor<OmejdnConnectorCertificateBE> certificateCaptor = ArgumentCaptor.forClass(OmejdnConnectorCertificateBE.class);
+        participantRegistrationService.acceptRegistrationRequest(participant.getName());
+        verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getName());
+        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getName()));
         verify(participantRegistrationRequestDao).completeRegistrationRequest(any(String.class), certificateCaptor.capture(), any(String.class));
-        assertEquals(participant.getId(), certificateCaptor.getValue().getClientName());
-        assertNotNull(certificateCaptor.getValue().getKeystore());
-        assertNotNull(certificateCaptor.getValue().getClientId());
-        assertNotNull(certificateCaptor.getValue().getPassword());
+
+        OmejdnConnectorCertificateBE certificate = certificateCaptor.getValue();
+        assertEquals(participant.getName(), certificate.getClientName());
+        assertNotNull(certificate.getKeystore());
+        assertNotNull(certificate.getClientId());
+        assertNotNull(certificate.getPassword());
     }
 
     @Test

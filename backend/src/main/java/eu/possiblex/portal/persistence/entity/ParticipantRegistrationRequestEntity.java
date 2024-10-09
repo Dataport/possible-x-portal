@@ -52,5 +52,5 @@ public class ParticipantRegistrationRequestEntity {
     @JoinColumn(name = "omejdn_connector_certificate_id", referencedColumnName = "id")
     private OmejdnConnectorCertificateEntity omejdnConnectorCertificate;
 
-    private String verifiablePresentation;
+    private String vpLink;
 }
