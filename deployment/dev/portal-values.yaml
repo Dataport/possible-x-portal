@@ -1,0 +1,42 @@
+image:
+  pullPolicy: Always
+  tag: "latest-develop"
+
+imagePullSecrets:
+  - name: github-registry-auth
+
+ingress:
+  enabled: true
+  hosts:
+    - host: portal.dev.possible-x.de
+      paths:
+        - path: /
+          portNumber: 80
+          pathType: Prefix
+  tls:
+    - secretName: dev-portal-tls
+      hosts:
+        - portal.dev.possible-x.de
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8088
+
+application:
+  variables:
+    database:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://possible-x-portal-postgres.edc-dev/portal
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_DATABASE: portal
+    portal-variables:
+      SPRING_PROFILES_ACTIVE: dev
+      SDCREATIONWIZARDAPI_BASEURL: https://sd-creation-wizard.dev.possible-x.de
+  secrets: 
+    database: portal-database-secret
+  db:
+    image:
+      repository: postgres
+      pullPolicy: IfNotPresent
+      tag: "16"
+fullnameOverride: possible-x-portal
