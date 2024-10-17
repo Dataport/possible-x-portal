@@ -83,13 +83,12 @@ class ParticipantRegistrationServiceTest {
         participantRegistrationService.acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestDao).completeRegistrationRequest(participant.getName());
-        verify(participantRegistrationRequestDao).storeRegistrationRequestDaps(any(String.class),
-            certificateCaptor.capture());
-        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getName()));
+        verify(participantRegistrationRequestDao).storeRegistrationRequestDaps(any(String.class), certificateCaptor.capture());
         verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE(participant.getName()));
+        verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(DidWebServiceApiClientFake.EXAMPLE_DID));
 
         OmejdnConnectorCertificateBE certificate = certificateCaptor.getValue();
-        assertEquals(participant.getName(), certificate.getClientName());
+        assertEquals(DidWebServiceApiClientFake.EXAMPLE_DID, certificate.getClientName());
         assertNotNull(certificate.getKeystore());
         assertNotNull(certificate.getClientId());
         assertNotNull(certificate.getPassword());
