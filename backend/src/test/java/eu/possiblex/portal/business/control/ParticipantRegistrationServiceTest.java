@@ -62,16 +62,29 @@ class ParticipantRegistrationServiceTest {
     }
 
     @Test
+    void getParticipantRegistrationRequestByDid() {
+
+        RegistrationRequestEntryTO entry = participantRegistrationService.getParticipantRegistrationRequestByDid(
+            "validDid");
+        assertNotNull(entry);
+
+        verify(participantRegistrationRequestDao).getRegistrationRequestByDid("validDid");
+    }
+
+    @Test
     void acceptRegistrationRequest() {
+
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
         ParticipantMetadataBE metadata = getParticipantMetadata();
         participantRegistrationService.registerParticipant(participant, metadata);
 
-        ArgumentCaptor<OmejdnConnectorCertificateBE> certificateCaptor = ArgumentCaptor.forClass(OmejdnConnectorCertificateBE.class);
+        ArgumentCaptor<OmejdnConnectorCertificateBE> certificateCaptor = ArgumentCaptor.forClass(
+            OmejdnConnectorCertificateBE.class);
         participantRegistrationService.acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestDao).acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestDao).completeRegistrationRequest(participant.getName());
-        verify(participantRegistrationRequestDao).storeRegistrationRequestDaps(any(String.class), certificateCaptor.capture());
+        verify(participantRegistrationRequestDao).storeRegistrationRequestDaps(any(String.class),
+            certificateCaptor.capture());
         verify(omejdnConnectorApiClient).addConnector(new OmejdnConnectorCertificateRequest(participant.getName()));
         verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE(participant.getName()));
 
@@ -79,7 +92,7 @@ class ParticipantRegistrationServiceTest {
         assertEquals(participant.getName(), certificate.getClientName());
         assertNotNull(certificate.getKeystore());
         assertNotNull(certificate.getClientId());
-        assertNotNull(certificate.getPassword());        
+        assertNotNull(certificate.getPassword());
     }
 
     @Test
@@ -106,6 +119,7 @@ class ParticipantRegistrationServiceTest {
     }
 
     private ParticipantMetadataBE getParticipantMetadata() {
+
         return ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
     }
 
