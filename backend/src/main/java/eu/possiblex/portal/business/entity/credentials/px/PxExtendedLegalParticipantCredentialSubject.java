@@ -46,6 +46,9 @@ public class PxExtendedLegalParticipantCredentialSubject {
     @JsonProperty("gx:description")
     private String description;
 
+    @JsonProperty("px:mailAddress")
+    private String mailAddress;
+
     @JsonProperty("@type")
     public List<String> getType() {
 

@@ -26,6 +26,7 @@ public interface ParticipantRegistrationServiceMapper {
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
 
     @Mapping(target = "id", source = "didData.did")
+    @Mapping(target = "mailAddress", source = "emailAddress")
     PxExtendedLegalParticipantCredentialSubject participantRegistrationRequestBEToCs(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
 

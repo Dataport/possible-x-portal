@@ -1,7 +1,6 @@
 package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
-import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
@@ -50,9 +49,8 @@ class ParticipantRegistrationServiceTest {
     void registerParticipant() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
-        ParticipantMetadataBE metadata = getParticipantMetadata();
-        participantRegistrationService.registerParticipant(participant, metadata);
-        verify(participantRegistrationRequestDao).saveParticipantRegistrationRequest(any(), any());
+        participantRegistrationService.registerParticipant(participant);
+        verify(participantRegistrationRequestDao).saveParticipantRegistrationRequest(any());
     }
 
     @Test
@@ -78,8 +76,7 @@ class ParticipantRegistrationServiceTest {
     void acceptRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
-        ParticipantMetadataBE metadata = getParticipantMetadata();
-        participantRegistrationService.registerParticipant(participant, metadata);
+        participantRegistrationService.registerParticipant(participant);
 
         ArgumentCaptor<OmejdnConnectorCertificateBE> certificateCaptor = ArgumentCaptor.forClass(
             OmejdnConnectorCertificateBE.class);
@@ -120,12 +117,8 @@ class ParticipantRegistrationServiceTest {
 
         return PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
             .legalRegistrationNumber(be.getLegalRegistrationNumber()).headquarterAddress(be.getHeadquarterAddress())
-            .legalAddress(be.getLegalAddress()).name(be.getName()).description(be.getDescription()).build();
-    }
-
-    private ParticipantMetadataBE getParticipantMetadata() {
-
-        return ParticipantMetadataBE.builder().emailAddress("example@address.com").build();
+            .legalAddress(be.getLegalAddress()).name(be.getName()).description(be.getDescription())
+            .mailAddress("example@address.com").build();
     }
 
     // Test-specific configuration to provide mocks
