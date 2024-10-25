@@ -71,26 +71,27 @@ public class FhCatalogClientImpl implements FhCatalogClient {
         throws ParticipantNotFoundException {
 
         log.info("fetching participant for fh catalog ID " + participantId);
-        String offerJsonContent;
+        String participantJsonContent;
         try {
-            offerJsonContent = technicalFhCatalogClient.getParticipantFromCatalog(participantId);
+            participantJsonContent = technicalFhCatalogClient.getParticipantFromCatalog(participantId);
         } catch (WebClientResponseException e) {
             if (e.getStatusCode().value() == 404) {
                 throw new ParticipantNotFoundException("no FH Catalog participant found with ID " + participantId);
             }
             throw e;
         }
-        log.info("answer for fh catalog ID: " + offerJsonContent);
+        log.info("answer for fh catalog ID: " + participantJsonContent);
 
         try {
-            JsonDocument input = JsonDocument.of(new StringReader(offerJsonContent));
-            JsonDocument offeringFrame = getFrameByType(PxExtendedLegalParticipantCredentialSubject.TYPE,
+            JsonDocument input = JsonDocument.of(new StringReader(participantJsonContent));
+            JsonDocument participantFrame = getFrameByType(PxExtendedLegalParticipantCredentialSubject.TYPE,
                 PxExtendedLegalParticipantCredentialSubject.CONTEXT);
-            JsonObject framedOffering = JsonLd.frame(input, offeringFrame).get();
+            JsonObject framedParticipant = JsonLd.frame(input, participantFrame).get();
 
-            return objectMapper.readValue(framedOffering.toString(), PxExtendedLegalParticipantCredentialSubject.class);
+            return objectMapper.readValue(framedParticipant.toString(),
+                PxExtendedLegalParticipantCredentialSubject.class);
         } catch (JsonLdError | JsonProcessingException e) {
-            throw new RuntimeException("failed to parse fh catalog participant json: " + offerJsonContent, e);
+            throw new RuntimeException("failed to parse fh catalog participant json: " + participantJsonContent, e);
         }
     }
 }
