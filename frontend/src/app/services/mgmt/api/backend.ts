@@ -64,7 +64,7 @@ export interface IRegistrationRequestEntryTOBuilder {
 }
 
 export interface IPojoCredentialSubject {
-    "@type": "UnknownCredentialSubject" | "gx:LegalParticipant" | "gx:legalRegistrationNumber" | "PxParticipantExtensionCredentialSubject";
+    "@type": "UnknownCredentialSubject" | "gx:LegalParticipant" | "gx:legalRegistrationNumber" | "px:PossibleXLegalParticipantExtension";
     id: string;
 }
 
@@ -105,7 +105,7 @@ export interface IGxLegalRegistrationNumberCredentialSubject extends IPojoCreden
 }
 
 export interface IPxParticipantExtensionCredentialSubject extends IPojoCredentialSubject {
-    "@type": "PxParticipantExtensionCredentialSubject";
+    "@type": "px:PossibleXLegalParticipantExtension";
     "px:mailAddress": string;
     "@context": { [index: string]: string };
     type: string;
@@ -156,9 +156,9 @@ export interface IValueInstantiator {
     valueClass: IClass<any>;
     arrayDelegateCreator: IAnnotatedWithParams;
     delegateCreator: IAnnotatedWithParams;
+    withArgsCreator: IAnnotatedWithParams;
     valueTypeDesc: string;
     defaultCreator: IAnnotatedWithParams;
-    withArgsCreator: IAnnotatedWithParams;
 }
 
 export interface IJavaType extends IResolvedType, ISerializable, IType {
@@ -279,16 +279,16 @@ export interface IObjectIdResolver {
 }
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
-    valueDeserializer: IJsonDeserializer<any>;
-    creatorIndex: number;
-    objectIdInfo: IObjectIdInfo;
+    ignorable: boolean;
     managedReferenceName: string;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
-    ignorable: boolean;
+    valueDeserializer: IJsonDeserializer<any>;
+    creatorIndex: number;
+    objectIdInfo: IObjectIdInfo;
 }
 
 export interface IStdDeserializer<T> extends IJsonDeserializer<T>, ISerializable, IGettable {
@@ -320,10 +320,10 @@ export interface IOfField<F> extends ITypeDescriptor {
     primitive: boolean;
 }
 
-export interface IAnnotationMap extends IAnnotations {
+export interface ITypeResolutionContext {
 }
 
-export interface ITypeResolutionContext {
+export interface IAnnotationMap extends IAnnotations {
 }
 
 export interface IMember {
@@ -334,14 +334,21 @@ export interface IMember {
 }
 
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
-    allAnnotations: IAnnotationMap;
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
+    allAnnotations: IAnnotationMap;
     member: IMember;
     declaringClass: IClass<any>;
     fullName: string;
+}
+
+export interface ITypeDeserializer {
+    typeIdResolver: ITypeIdResolver;
+    defaultImpl: IClass<any>;
+    typeInclusion: IAs;
+    propertyName: string;
 }
 
 export interface IObjectIdInfo {
@@ -350,13 +357,6 @@ export interface IObjectIdInfo {
     alwaysAsId: boolean;
     scope: IClass<any>;
     propertyName: IPropertyName;
-}
-
-export interface ITypeDeserializer {
-    typeIdResolver: ITypeIdResolver;
-    defaultImpl: IClass<any>;
-    typeInclusion: IAs;
-    propertyName: string;
 }
 
 export interface IPropertyMetadata extends ISerializable {
@@ -507,7 +507,7 @@ export class RestApplicationClient {
 
 export type RestResponse<R> = Promise<R>;
 
-export type IPojoCredentialSubjectUnion = IGxLegalParticipantCredentialSubject | IGxLegalRegistrationNumberCredentialSubject;
+export type IPojoCredentialSubjectUnion = IGxLegalParticipantCredentialSubject | IGxLegalRegistrationNumberCredentialSubject | IPxParticipantExtensionCredentialSubject;
 
 export const enum IRequestStatus {
     NEW = "NEW",
