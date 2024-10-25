@@ -3,7 +3,11 @@ package eu.possiblex.portal.application.entity.credentials.px.participants;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import eu.possiblex.portal.application.entity.credentials.PojoCredentialSubject;
+import eu.possiblex.portal.application.entity.credentials.serialization.StringDeserializer;
+import eu.possiblex.portal.application.entity.credentials.serialization.StringSerializer;
 import lombok.*;
 
 import java.util.Map;
@@ -30,6 +34,8 @@ public class PxParticipantExtensionCredentialSubject extends PojoCredentialSubje
         "vcard", "http://www.w3.org/2006/vcard/ns#", "xsd", "http://www.w3.org/2001/XMLSchema#");
 
     @JsonProperty("px:mailAddress")
+    @JsonSerialize(using = StringSerializer.class)
+    @JsonDeserialize(using = StringDeserializer.class)
     private String mailAddress;
 
     @JsonProperty("type")
