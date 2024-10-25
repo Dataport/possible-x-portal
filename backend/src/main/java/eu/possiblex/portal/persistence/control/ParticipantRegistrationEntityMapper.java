@@ -27,7 +27,7 @@ public interface ParticipantRegistrationEntityMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", expression = "java(eu.possiblex.portal.persistence.entity.RequestStatus.NEW)")
     @Mapping(target = "emailAddress", source = "mailAddress")
-    ParticipantRegistrationRequestEntity pxExtendedLegalParticipantCsAndMetadataToNewEntity(
+    ParticipantRegistrationRequestEntity pxExtendedLegalParticipantCsToNewEntity(
         PxExtendedLegalParticipantCredentialSubject cs);
 
     GxVcard entityToGxVcard(VcardEntity entity);

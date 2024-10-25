@@ -143,16 +143,12 @@ class ParticipantRegistrationServiceMapperTest {
 
         ParticipantRegistrationRequestBE be = getParticipantRegistrationRequestExample();
 
-        ParticipantDidBE didBe = new ParticipantDidBE();
-        didBe.setDid("did:web:example.com:participant:123");
-        didBe.setVerificationMethod("did:web:example.com:participant:123#JWK2020");
+        ParticipantDidBE didBe = ParticipantDidBE.builder().did("did:web:example.com:participant:123")
+            .verificationMethod("did:web:example.com:participant:123#JWK2020").build();
 
-        OmejdnConnectorCertificateBE certificateBe = new OmejdnConnectorCertificateBE();
-        certificateBe.setKeystore("123");
-        certificateBe.setPassword("456");
-        certificateBe.setClientId("11:22:33");
-        certificateBe.setClientName("did:web:example.com:participant:123");
-        certificateBe.setScope("some-scope");
+        OmejdnConnectorCertificateBE certificateBe = OmejdnConnectorCertificateBE.builder().keystore("123")
+            .password("456").clientId("11:22:33").clientName("did:web:example.com:participant:123").scope("some-scope")
+            .build();
 
         be.setDidData(didBe);
         be.setOmejdnConnectorCertificate(certificateBe);

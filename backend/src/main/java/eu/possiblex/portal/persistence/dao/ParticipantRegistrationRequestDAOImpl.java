@@ -41,7 +41,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     @Override
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject participant) {
 
-        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsAndMetadataToNewEntity(
+        ParticipantRegistrationRequestEntity entity = participantRegistrationEntityMapper.pxExtendedLegalParticipantCsToNewEntity(
             participant);
         log.info("Saving participant registration request: {}", entity);
 
