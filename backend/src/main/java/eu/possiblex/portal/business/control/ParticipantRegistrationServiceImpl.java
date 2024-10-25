@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 
@@ -165,9 +166,16 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         PxExtendedLegalParticipantCredentialSubject cs = participantRegistrationServiceMapper.participantRegistrationRequestBEToCs(
             be);
 
-        FhCatalogIdResponse idResponse = fhCatalogClient.addParticipantToCatalog(cs);
-        log.info("Stored CS for participant {} in catalog: {}", idResponse, cs);
+        // for local testing
+        //cs.setId("did:web:didwebservice.dev.possible-x.de:participant:0a527305-97fb-3ffa-81fc-117d9e71e3a9");
 
-        return fhCatalogParticipantBaseUrl + idResponse.getId();
+        try {
+            FhCatalogIdResponse idResponse = fhCatalogClient.addParticipantToCatalog(cs);
+            log.info("Stored CS for participant {} in catalog: {}", idResponse, cs);
+
+            return fhCatalogParticipantBaseUrl + idResponse.getId();
+        } catch (WebClientResponseException.UnprocessableEntity e) {
+            throw new RuntimeException(e.getResponseBodyAsString());
+        }
     }
 }
