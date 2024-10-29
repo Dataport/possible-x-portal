@@ -63,6 +63,10 @@ export class BaseWizardExtensionComponent {
     return this.shapeInitialized.value;
   }
 
+  public isFormInitialized(): boolean {
+    return this.wizard.form.get('user_prefix') === undefined;
+  }
+
   public prefillFields(selfDescriptionFields: any, disabledFields: string[]) {
     console.log("prefillFields", selfDescriptionFields)
     if (this.createDateTimer) {

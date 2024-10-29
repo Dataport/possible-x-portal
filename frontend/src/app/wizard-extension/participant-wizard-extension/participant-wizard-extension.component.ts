@@ -108,6 +108,17 @@ export class ParticipantWizardExtensionComponent {
     return participantWizardInvalid || registrationNumberWizardInvalid;
   }
 
+  protected isRegistrationNumberWizardInvalid(): boolean {
+    let gxRegistrationNumberJson: IGxLegalRegistrationNumberCredentialSubject = this.gxRegistrationNumberWizard?.generateJsonCs();
+
+      let leiCode = gxRegistrationNumberJson["gx:leiCode"]["@value"];
+      let vatID = gxRegistrationNumberJson["gx:vatID"]["@value"];
+      let eori = gxRegistrationNumberJson["gx:EORI"]["@value"];
+      let registrationNumberValid = this.isFieldFilled(leiCode) || this.isFieldFilled(vatID) || this.isFieldFilled(eori);
+
+      return !registrationNumberValid;
+  }
+
   private prefillHandleCs(cs: IPojoCredentialSubject) {
     if (isGxLegalParticipantCs(cs)) {
       this.gxParticipantWizard.prefillFields(cs, []);
