@@ -105,18 +105,21 @@ export class ParticipantWizardExtensionComponent {
     let participantWizardInvalid = this.gxParticipantWizard?.isWizardFormInvalid();
     let registrationNumberWizardInvalid = this.gxRegistrationNumberWizard?.isWizardFormInvalid();
 
-    return participantWizardInvalid || registrationNumberWizardInvalid;
+    return participantWizardInvalid || registrationNumberWizardInvalid || this.isRegistrationNumberInvalid();
   }
 
-  protected isRegistrationNumberWizardInvalid(): boolean {
-    let gxRegistrationNumberJson: IGxLegalRegistrationNumberCredentialSubject = this.gxRegistrationNumberWizard?.generateJsonCs();
+  protected isRegistrationNumberInvalid(): boolean {
+    if (this.gxRegistrationNumberWizard?.isWizardShapePresent()) {
+      let gxRegistrationNumberJson: IGxLegalRegistrationNumberCredentialSubject = this.gxRegistrationNumberWizard.generateJsonCs();
 
-      let leiCode = gxRegistrationNumberJson["gx:leiCode"]["@value"];
-      let vatID = gxRegistrationNumberJson["gx:vatID"]["@value"];
-      let eori = gxRegistrationNumberJson["gx:EORI"]["@value"];
-      let registrationNumberValid = this.isFieldFilled(leiCode) || this.isFieldFilled(vatID) || this.isFieldFilled(eori);
+      let leiCode = gxRegistrationNumberJson["gx:leiCode"]?.["@value"];
+      let vatID = gxRegistrationNumberJson["gx:vatID"]?.["@value"];
+      let eori = gxRegistrationNumberJson["gx:EORI"]?.["@value"];
 
-      return !registrationNumberValid;
+      return !this.isFieldFilled(leiCode) && !this.isFieldFilled(vatID) && !this.isFieldFilled(eori);
+    } else {
+      return false;
+    }
   }
 
   private prefillHandleCs(cs: IPojoCredentialSubject) {

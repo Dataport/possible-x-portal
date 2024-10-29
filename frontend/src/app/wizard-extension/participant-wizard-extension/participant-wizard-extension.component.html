@@ -19,16 +19,13 @@
     Gaia-X Legal Registration Number Fields
   </div>
   <div class="text-brand-50">
-    Please enter one of the Legal Registration Numbers: LEI Code, EORI or VatID.
+    Please enter one of the Legal Registration Numbers: VatID, EORI or LEI Code.
   </div>
-  <div class="text-brand-200">
-    At least one of VatID, EORI or LEI Code must be defined.
+  <div *ngIf="isRegistrationNumberInvalid()" class="text-error pt-2">
+    <small>At least one of VatID, EORI or LEI Code is required.</small>
   </div>
   <br/>
   <app-base-wizard-extension #gxRegistrationNumberWizard></app-base-wizard-extension>
-  <div *ngIf="isWizardFormInvalid()" class="text-error pt-2">
-    <small>At least one of VatID, EORI or LEI Code is required.</small>
-  </div>
 </div>
 
 <div class="text-right mt-3t">
