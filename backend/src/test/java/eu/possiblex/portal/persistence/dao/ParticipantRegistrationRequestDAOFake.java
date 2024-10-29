@@ -44,6 +44,12 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
+    public ParticipantRegistrationRequestBE getParticipantRegistrationRequest(String id) {
+
+        return getExampleParticipant();
+    }
+
+    @Override
     public void saveParticipantRegistrationRequest(PxExtendedLegalParticipantCredentialSubject participant, ParticipantMetadataBE metadata) {
         // request worked
     }

@@ -60,4 +60,6 @@ public interface ParticipantRegistrationRequestDAO {
     void storeRegistrationRequestVpLink(String id, String vpLink);
 
     void storeRegistrationRequestDaps(String id, OmejdnConnectorCertificateBE certificate);
+
+    ParticipantRegistrationRequestBE getParticipantRegistrationRequest(String id);
 }

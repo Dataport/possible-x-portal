@@ -183,6 +183,16 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         }
     }
 
+    @Override
+    public ParticipantRegistrationRequestBE getParticipantRegistrationRequest(String id) {
+        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByName(id);
+        if (entity != null) {
+            return participantRegistrationEntityMapper.entityToParticipantRegistrationRequestBe(entity);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Given an existing registration request, store the corresponding DID data.
      *

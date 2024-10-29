@@ -7,6 +7,7 @@ import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
+import eu.possiblex.portal.business.entity.exception.RegistrationRequestException;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,10 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
     public void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs, ParticipantMetadataBE be) {
 
         log.info("Processing participant registration: {}", cs);
+
+        if (participantRegistrationRequestDAO.getParticipantRegistrationRequest(cs.getName()) != null) {
+            throw new RegistrationRequestException("A registration request has already been made under this organization name: " + cs.getName());
+        }
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs, be);
     }

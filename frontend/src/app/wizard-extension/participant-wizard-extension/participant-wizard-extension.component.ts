@@ -88,7 +88,7 @@ export class ParticipantWizardExtensionComponent {
       console.log(response);
       this.participantRegistrationStatusMessage.showSuccessMessage();
     }).catch((e: HttpErrorResponse) => {
-      this.participantRegistrationStatusMessage.showErrorMessage(e.error.detail);
+      this.participantRegistrationStatusMessage.showErrorMessage(e.error.detail || e.error || e.message);
     }).catch(_ => {
       this.participantRegistrationStatusMessage.showErrorMessage("Unbekannter Fehler");
     });
