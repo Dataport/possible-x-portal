@@ -160,4 +160,8 @@ export class ParticipantWizardExtensionComponent {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return !this.isFieldFilled(this.emailAddress) || !emailRegex.test(this.emailAddress);
   }
+
+  protected isRegistrationFormInvalid(): boolean {
+    return this.isWizardFormInvalid() || this.isEmailAddressInvalid();
+  }
 }
