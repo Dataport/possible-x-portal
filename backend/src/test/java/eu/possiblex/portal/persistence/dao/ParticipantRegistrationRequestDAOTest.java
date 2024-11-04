@@ -54,6 +54,13 @@ class ParticipantRegistrationRequestDAOTest {
     }
 
     @Test
+    void getParticipantRegistrationByName() {
+
+        participantRegistrationRequestDAO.getRegistrationRequestByName("name");
+        verify(participantRegistrationRequestRepository).findByName("name");
+    }
+
+    @Test
     void acceptRegistrationRequest() {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
