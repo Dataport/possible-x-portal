@@ -42,7 +42,7 @@ class ParticipantRegistrationRequestDAOTest {
     @Test
     void getAllParticipantRegistrationRequests() {
 
-        participantRegistrationRequestDAO.getAllParticipantRegistrationRequests();
+        participantRegistrationRequestDAO.getAllRegistrationRequests();
         verify(participantRegistrationRequestRepository).findAll();
     }
 
@@ -62,7 +62,7 @@ class ParticipantRegistrationRequestDAOTest {
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestRepository, times(1)).save(any());
 
-        List<ParticipantRegistrationRequestBE> repoParticipants = participantRegistrationRequestDAO.getAllParticipantRegistrationRequests();
+        List<ParticipantRegistrationRequestBE> repoParticipants = participantRegistrationRequestDAO.getAllRegistrationRequests();
         assertEquals(1, repoParticipants.size());
         ParticipantRegistrationRequestBE repoParticipant = repoParticipants.get(0);
         assertEquals(participant.getName(), repoParticipant.getName());
@@ -112,7 +112,7 @@ class ParticipantRegistrationRequestDAOTest {
 
         participantRegistrationRequestDAO.completeRegistrationRequest(participant.getName());
 
-        List<ParticipantRegistrationRequestBE> repoParticipants = participantRegistrationRequestDAO.getAllParticipantRegistrationRequests();
+        List<ParticipantRegistrationRequestBE> repoParticipants = participantRegistrationRequestDAO.getAllRegistrationRequests();
         assertEquals(1, repoParticipants.size());
         ParticipantRegistrationRequestBE repoParticipant = repoParticipants.get(0);
 
