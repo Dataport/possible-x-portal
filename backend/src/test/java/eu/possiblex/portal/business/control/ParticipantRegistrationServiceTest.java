@@ -7,6 +7,7 @@ import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalPartici
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
+import eu.possiblex.portal.business.entity.exception.RegistrationRequestException;
 import eu.possiblex.portal.persistence.control.ParticipantRegistrationEntityMapper;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAOFake;
@@ -22,10 +23,9 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ContextConfiguration(classes = { ParticipantRegistrationServiceTest.TestConfig.class,
@@ -46,6 +46,10 @@ class ParticipantRegistrationServiceTest {
     @Test
     void registerParticipant() {
 
+        reset(participantRegistrationRequestDao);
+        reset(omejdnConnectorApiClient);
+        reset(didWebServiceApiClient);
+
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
         ParticipantMetadataBE metadata = getParticipantMetadata();
         participantRegistrationService.registerParticipant(participant, metadata);
@@ -53,7 +57,30 @@ class ParticipantRegistrationServiceTest {
     }
 
     @Test
+    void registerParticipantAlreadyExists() {
+
+        reset(participantRegistrationRequestDao);
+        reset(omejdnConnectorApiClient);
+        reset(didWebServiceApiClient);
+
+        PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
+        participant.setName(ParticipantRegistrationRequestDAOFake.EXISTING_ID);
+        ParticipantMetadataBE metadata = getParticipantMetadata();
+
+        assertThrows(RegistrationRequestException.class, () -> {
+            participantRegistrationService.registerParticipant(participant, metadata);
+        });
+
+        verify(participantRegistrationRequestDao).getParticipantRegistrationRequest(ParticipantRegistrationRequestDAOFake.EXISTING_ID);
+        verify(participantRegistrationRequestDao, times(0)).saveParticipantRegistrationRequest(any(), any());
+    }
+
+    @Test
     void getAllParticipantRegistrationRequests() {
+
+        reset(participantRegistrationRequestDao);
+        reset(omejdnConnectorApiClient);
+        reset(didWebServiceApiClient);
 
         List<RegistrationRequestEntryTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
         assertEquals(1, list.size());
@@ -63,6 +90,11 @@ class ParticipantRegistrationServiceTest {
 
     @Test
     void acceptRegistrationRequest() {
+
+        reset(participantRegistrationRequestDao);
+        reset(omejdnConnectorApiClient);
+        reset(didWebServiceApiClient);
+
         PxExtendedLegalParticipantCredentialSubject participant = getParticipantCs();
         ParticipantMetadataBE metadata = getParticipantMetadata();
         participantRegistrationService.registerParticipant(participant, metadata);
@@ -85,12 +117,20 @@ class ParticipantRegistrationServiceTest {
     @Test
     void rejectRegistrationRequest() {
 
+        reset(participantRegistrationRequestDao);
+        reset(omejdnConnectorApiClient);
+        reset(didWebServiceApiClient);
+
         participantRegistrationService.rejectRegistrationRequest("validId");
         verify(participantRegistrationRequestDao).rejectRegistrationRequest("validId");
     }
 
     @Test
     void deleteRegistrationRequest() {
+
+        reset(participantRegistrationRequestDao);
+        reset(omejdnConnectorApiClient);
+        reset(didWebServiceApiClient);
 
         participantRegistrationService.deleteRegistrationRequest("validId");
         verify(participantRegistrationRequestDao).deleteRegistrationRequest("validId");

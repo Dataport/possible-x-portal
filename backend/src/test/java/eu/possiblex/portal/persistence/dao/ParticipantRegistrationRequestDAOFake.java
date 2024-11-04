@@ -6,12 +6,12 @@ import eu.possiblex.portal.business.entity.ParticipantMetadataBE;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
-import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 
 import java.util.List;
 
 public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistrationRequestDAO {
+    public static final String EXISTING_ID = "existingId";
 
     public static ParticipantRegistrationRequestBE getExampleParticipant() {
 
@@ -45,8 +45,11 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
 
     @Override
     public ParticipantRegistrationRequestBE getParticipantRegistrationRequest(String id) {
-
-        return getExampleParticipant();
+        if (id.equals(EXISTING_ID)) {
+            return getExampleParticipant();
+        } else {
+            return null;
+        }
     }
 
     @Override
