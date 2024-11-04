@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-default-layout',
@@ -8,6 +9,7 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class DefaultLayoutComponent {
   isAdminPage = false;
+  environment = environment;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {

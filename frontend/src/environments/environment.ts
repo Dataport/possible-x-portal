@@ -2,5 +2,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  api_url: "http://localhost:8088"
+  api_url: "http://localhost:8088",
+  possible_website_url: "https://www.possible-gaia-x.eu/#possible",
+  imprint_url: "https://www.possible-gaia-x.eu/impressum/",
+  catalog_url: "https://possible.fokus.fraunhofer.de/"
 };

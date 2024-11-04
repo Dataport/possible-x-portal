@@ -4,6 +4,17 @@
       <a [routerLink]="['/']" cNavbarBrand class="logo">
         <img [alt]="'POSSIBLE-X Logo'" [height]="36" [src]="'assets/images/brand/possible_blue.svg'" [width]="142"/>
       </a>
+      <button [cNavbarToggler]="collapseRef"></button>
+      <div #collapseRef="cCollapse" cCollapse navbar>
+        <c-navbar-nav class="navbar-nav ms-auto">
+          <c-nav-item>
+            <a [href]="environment.possible_website_url" cNavLink target="_blank">Possible</a>
+          </c-nav-item>
+          <c-nav-item>
+            <a [href]="environment.imprint_url" cNavLink target="_blank">Impressum</a>
+          </c-nav-item>
+        </c-navbar-nav>
+      </div>
     </c-container>
   </c-navbar>
 </div>
@@ -35,8 +46,8 @@
         <div class="mb-2 text-2xl">Information</div>
         <div class="text-sm">
           <ul>
-            <li><a [routerLink]="['/']">POSSIBLE Project</a></li>
-            <li><a [routerLink]="['/']">Imprint - About Us</a></li>
+            <li><a [href]="environment.possible_website_url" target="_blank">POSSIBLE Project</a></li>
+            <li><a [href]="environment.imprint_url" target="_blank">Imprint - About Us</a></li>
             <li><a [routerLink]="['/']">Privacy Notice</a></li>
           </ul>
         </div>
