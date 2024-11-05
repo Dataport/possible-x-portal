@@ -8,6 +8,10 @@
   /* Full height with Flexbox */
 }
 
+.main-page-container {
+  @apply bg-brand-50;
+  min-height: calc(100vh - 5rem); /* Ensure it takes the full height minus the header */
+}
 
 .content {
   @apply flex-1 mx-auto h-auto lg:max-w-screen-xl;

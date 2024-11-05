@@ -10,11 +10,13 @@ import {environment} from "../../../environments/environment";
 export class DefaultLayoutComponent {
   isAdminPage = false;
   environment = environment;
+  isMainPage = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isAdminPage = event.urlAfterRedirects.includes('administration/management');
+        this.isMainPage = event.urlAfterRedirects === '' || event.urlAfterRedirects === '/';
       }
     });
   }
