@@ -1,11 +1,6 @@
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.grid-item {
-  padding: 10px;
+  grid-template-columns: 2fr 1fr;
 }
 
 .custom-button {
@@ -29,4 +24,11 @@
   height: 100%;
   gap: 50px;
   @apply bg-brand-700;
+}
+
+.image {
+  width: auto;
+  height: 100%;
+  opacity: 0.5;
+  object-fit: cover;
 }
