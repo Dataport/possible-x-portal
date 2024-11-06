@@ -27,6 +27,10 @@ const routes: Routes = [
           import('./views/administration/administration.module').then((m) => m.AdministrationModule)
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 
