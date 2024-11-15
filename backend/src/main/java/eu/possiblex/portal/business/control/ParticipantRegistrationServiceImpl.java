@@ -62,7 +62,8 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         log.info("Processing participant registration: {}", cs);
 
         if (participantRegistrationRequestDAO.getRegistrationRequestByName(cs.getName()) != null) {
-            throw new RegistrationRequestException("A registration request has already been made under this organization name: " + cs.getName());
+            throw new RegistrationRequestException(
+                "A registration request has already been made under this organization name: " + cs.getName());
         }
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(cs);
@@ -114,11 +115,18 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         participantRegistrationRequestDAO.storeRegistrationRequestDid(id, didWeb);
 
         // retrieve full request from db (including did)
+        //didWeb.setDid("did:web:didwebservice.dev.possible-x.de:participant:0a527305-97fb-3ffa-81fc-117d9e71e3a9");
         ParticipantRegistrationRequestBE be = participantRegistrationRequestDAO.getRegistrationRequestByDid(
             didWeb.getDid());
 
+        // for local testing
+        //be.getDidData()
+        //   .setDid("did:web:didwebservice.dev.possible-x.de:participant:0a527305-97fb-3ffa-81fc-117d9e71e3a9");
+
         // build credential subject and enroll participant in catalog
-        String vpLink = enrollParticipantInCatalog(be);
+        PxExtendedLegalParticipantCredentialSubject cs = participantRegistrationServiceMapper.participantRegistrationRequestBEToCs(
+            be);
+        String vpLink = enrollParticipantInCatalog(cs);
         log.info("Received VP {} for participant: {}", vpLink, id);
         participantRegistrationRequestDAO.storeRegistrationRequestVpLink(id, vpLink);
 
@@ -127,6 +135,10 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         OmejdnConnectorCertificateBE certificate = requestDapsCertificate(didWeb.getDid(), didWeb.getDid());
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
         participantRegistrationRequestDAO.storeRegistrationRequestDaps(id, certificate);
+
+        // update participant with daps id
+        cs.setDapsId(certificate.getClientId());
+        enrollParticipantInCatalog(cs);
 
         // set request to completed
         participantRegistrationRequestDAO.completeRegistrationRequest(id);
@@ -169,14 +181,8 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         return didWebServiceApiClient.generateDidWeb(createRequestTo);
     }
 
-    private String enrollParticipantInCatalog(ParticipantRegistrationRequestBE be)
+    private String enrollParticipantInCatalog(PxExtendedLegalParticipantCredentialSubject cs)
         throws ParticipantComplianceException {
-
-        PxExtendedLegalParticipantCredentialSubject cs = participantRegistrationServiceMapper.participantRegistrationRequestBEToCs(
-            be);
-
-        // for local testing
-        //cs.setId("did:web:didwebservice.dev.possible-x.de:participant:0a527305-97fb-3ffa-81fc-117d9e71e3a9");
 
         try {
             FhCatalogIdResponse idResponse = fhCatalogClient.addParticipantToCatalog(cs);
@@ -184,11 +190,16 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
             return fhCatalogParticipantBaseUrl + idResponse.getId();
         } catch (WebClientResponseException.UnprocessableEntity e) {
-            JsonNode error = e.getResponseBodyAs(JsonNode.class);
-            if (error != null && error.get("error") != null) {
-                throw new ParticipantComplianceException(error.get("error").textValue(), e);
-            }
-            throw new ParticipantComplianceException("Unknown catalog processing exception", e);
+            throw buildComplianceException(e);
         }
+    }
+
+    private ParticipantComplianceException buildComplianceException(WebClientResponseException.UnprocessableEntity e) {
+
+        JsonNode error = e.getResponseBodyAs(JsonNode.class);
+        if (error != null && error.get("error") != null) {
+            return new ParticipantComplianceException(error.get("error").textValue(), e);
+        }
+        return new ParticipantComplianceException("Unknown catalog processing exception", e);
     }
 }

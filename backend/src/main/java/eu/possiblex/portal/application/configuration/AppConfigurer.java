@@ -4,6 +4,7 @@ import eu.possiblex.portal.business.control.DidWebServiceApiClient;
 import eu.possiblex.portal.business.control.OmejdnConnectorApiClient;
 import eu.possiblex.portal.business.control.SdCreationWizardApiClient;
 import eu.possiblex.portal.business.control.TechnicalFhCatalogClient;
+import eu.possiblex.portal.utilities.LogUtils;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -58,7 +59,8 @@ public class AppConfigurer {
     @Bean
     public OmejdnConnectorApiClient dapsConnectorApiClient() {
 
-        WebClient webClient = WebClient.builder().baseUrl(dapsServerBaseUri + "/api/v1/connectors").build();
+        WebClient webClient = WebClient.builder().baseUrl(dapsServerBaseUri + "/api/v1/connectors")
+            .clientConnector(LogUtils.createHttpClient()).build();
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder()
             .exchangeAdapter(WebClientAdapter.create(webClient)).build();
         return httpServiceProxyFactory.createClient(OmejdnConnectorApiClient.class);
@@ -76,7 +78,8 @@ public class AppConfigurer {
             webClient = WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient))
                 .baseUrl(didWebServiceBaseUri).build();
         } else {
-            webClient = WebClient.builder().baseUrl(didWebServiceBaseUri).build();
+            webClient = WebClient.builder().baseUrl(didWebServiceBaseUri).clientConnector(LogUtils.createHttpClient())
+                .build();
         }
 
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder()
@@ -90,7 +93,7 @@ public class AppConfigurer {
         WebClient webClient = WebClient.builder().baseUrl(fhCatalogUrl).defaultHeaders(httpHeaders -> {
             httpHeaders.set("Content-Type", "application/json");
             httpHeaders.set("Authorization", "Bearer " + fhCatalogSecretKey);
-        }).build();
+        }).clientConnector(LogUtils.createHttpClient()).build();
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder()
             .exchangeAdapter(WebClientAdapter.create(webClient)).build();
         return httpServiceProxyFactory.createClient(TechnicalFhCatalogClient.class);

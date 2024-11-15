@@ -7,6 +7,7 @@ import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.credentials.px.CatalogGxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import org.mapstruct.Mapper;
@@ -29,5 +30,11 @@ public interface ParticipantRegistrationServiceMapper {
     @Mapping(target = "mailAddress", source = "emailAddress")
     PxExtendedLegalParticipantCredentialSubject participantRegistrationRequestBEToCs(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "context", ignore = true)
+    CatalogGxLegalRegistrationNumberCredentialSubject registrationNumberCsToCatalogGxLegalRegistrationNumberCs(
+        GxLegalRegistrationNumberCredentialSubject legalRegistrationNumberCredentialSubject);
 
 }

@@ -1,9 +1,9 @@
 package eu.possiblex.portal.business.entity.credentials.px;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
-import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -15,6 +15,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true, value = { "type", "@type", "@context" }, allowGetters = true)
 public class PxExtendedLegalParticipantCredentialSubject {
 
     @Getter(AccessLevel.NONE)
@@ -31,7 +32,7 @@ public class PxExtendedLegalParticipantCredentialSubject {
 
     @NotNull
     @JsonProperty("gx:legalRegistrationNumber")
-    private GxLegalRegistrationNumberCredentialSubject legalRegistrationNumber;
+    private CatalogGxLegalRegistrationNumberCredentialSubject legalRegistrationNumber;
 
     @NotNull
     @JsonProperty("gx:legalAddress")
@@ -41,14 +42,20 @@ public class PxExtendedLegalParticipantCredentialSubject {
     @JsonProperty("gx:headquarterAddress")
     private GxVcard headquarterAddress;
 
+    @NotNull
     @JsonProperty("schema:name")
     private String name;
 
     @JsonProperty("schema:description")
     private String description;
 
+    @NotNull
     @JsonProperty("px:mailAddress")
     private String mailAddress;
+
+    @NotNull
+    @JsonProperty("px:dapsId")
+    private String dapsId;
 
     @JsonProperty("@type")
     public List<String> getType() {

@@ -1,6 +1,8 @@
 package eu.possiblex.portal.application.control;
 
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
+import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
+import eu.possiblex.portal.business.entity.credentials.px.CatalogGxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,5 +19,11 @@ public interface ParticipantRegistrationRestApiMapper {
     @Mapping(target = "id", ignore = true)
     PxExtendedLegalParticipantCredentialSubject credentialSubjectsToExtendedLegalParticipantCs(
         CreateRegistrationRequestTO request);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "context", ignore = true)
+    CatalogGxLegalRegistrationNumberCredentialSubject registrationNumberCsToCatalogGxLegalRegistrationNumberCs(
+        GxLegalRegistrationNumberCredentialSubject legalRegistrationNumberCredentialSubject);
 }
 
