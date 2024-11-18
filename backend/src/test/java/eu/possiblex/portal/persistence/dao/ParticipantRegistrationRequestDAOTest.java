@@ -1,10 +1,10 @@
 package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
-import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.control.DidWebServiceApiClientFake;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.RequestStatus;
+import eu.possiblex.portal.business.entity.credentials.px.CatalogGxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
@@ -172,7 +172,7 @@ class ParticipantRegistrationRequestDAOTest {
         vcard.setPostalCode("validPostalCode");
 
         return PxExtendedLegalParticipantCredentialSubject.builder().id("validId").legalRegistrationNumber(
-                new GxLegalRegistrationNumberCredentialSubject("validEori", "validVatId", "validLeiCode"))
+                new CatalogGxLegalRegistrationNumberCredentialSubject(null, "validEori", "validVatId", "validLeiCode"))
             .headquarterAddress(vcard).legalAddress(vcard).name("validName").description("validDescription")
             .mailAddress("example@address.com").build();
     }

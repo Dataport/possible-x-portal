@@ -2,6 +2,7 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.credentials.px.CatalogGxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
@@ -74,7 +75,8 @@ class ParticipantRegistrationServiceTest {
             participantRegistrationService.registerParticipant(participant);
         });
 
-        verify(participantRegistrationRequestDao).getRegistrationRequestByName(ParticipantRegistrationRequestDAOFake.EXISTING_NAME);
+        verify(participantRegistrationRequestDao).getRegistrationRequestByName(
+            ParticipantRegistrationRequestDAOFake.EXISTING_NAME);
         verify(participantRegistrationRequestDao, times(0)).saveParticipantRegistrationRequest(any());
     }
 
@@ -126,7 +128,7 @@ class ParticipantRegistrationServiceTest {
         verify(participantRegistrationRequestDao).storeRegistrationRequestDaps(any(String.class),
             certificateCaptor.capture());
         verify(didWebServiceApiClient).generateDidWeb(new ParticipantDidCreateRequestBE(participant.getName()));
-        verify(fhCatalogClient).addParticipantToCatalog(any());
+        verify(fhCatalogClient, times(2)).addParticipantToCatalog(any());
         verify(omejdnConnectorApiClient).addConnector(
             new OmejdnConnectorCertificateRequest(DidWebServiceApiClientFake.EXAMPLE_DID,
                 DidWebServiceApiClientFake.EXAMPLE_DID));
@@ -166,10 +168,11 @@ class ParticipantRegistrationServiceTest {
 
         ParticipantRegistrationRequestBE be = ParticipantRegistrationRequestDAOFake.getExampleParticipant();
 
-        return PxExtendedLegalParticipantCredentialSubject.builder().id("validId")
-            .legalRegistrationNumber(be.getLegalRegistrationNumber()).headquarterAddress(be.getHeadquarterAddress())
-            .legalAddress(be.getLegalAddress()).name(be.getName()).description(be.getDescription())
-            .mailAddress("example@address.com").build();
+        return PxExtendedLegalParticipantCredentialSubject.builder().id("validId").legalRegistrationNumber(
+                new CatalogGxLegalRegistrationNumberCredentialSubject(null, be.getLegalRegistrationNumber().getEori(),
+                    be.getLegalRegistrationNumber().getVatID(), be.getLegalRegistrationNumber().getLeiCode()))
+            .headquarterAddress(be.getHeadquarterAddress()).legalAddress(be.getLegalAddress()).name(be.getName())
+            .description(be.getDescription()).mailAddress("example@address.com").build();
     }
 
     // Test-specific configuration to provide mocks
