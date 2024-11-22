@@ -2,6 +2,7 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
+import eu.possiblex.portal.business.entity.did.ParticipantDidDeleteRequestBE;
 
 public class DidWebServiceApiClientFake implements DidWebServiceApiClient {
 
@@ -16,6 +17,11 @@ public class DidWebServiceApiClientFake implements DidWebServiceApiClient {
         be.setDid(EXAMPLE_DID);
         be.setVerificationMethod(EXAMPLE_VERIFICATION_METHOD);
         return be;
+    }
+
+    @Override
+    public void deleteDidWeb(ParticipantDidDeleteRequestBE request) {
+        // request worked
     }
 
     @Override

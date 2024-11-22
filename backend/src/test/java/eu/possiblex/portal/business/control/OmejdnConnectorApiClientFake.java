@@ -18,6 +18,7 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
+import eu.possiblex.portal.business.entity.daps.OmejdnConnectorRemoveRequest;
 import io.netty.util.internal.StringUtil;
 
 import java.util.UUID;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class OmejdnConnectorApiClientFake implements OmejdnConnectorApiClient {
     @Override
     public OmejdnConnectorCertificateBE addConnector(OmejdnConnectorCertificateRequest request) {
+
         OmejdnConnectorCertificateBE dto = new OmejdnConnectorCertificateBE();
         dto.setClientId("12:34:56");
         dto.setClientName((request == null || StringUtil.isNullOrEmpty(request.getClientName()))
@@ -33,5 +35,10 @@ public class OmejdnConnectorApiClientFake implements OmejdnConnectorApiClient {
         dto.setKeystore("keystore123");
         dto.setPassword("password1234");
         return dto;
+    }
+
+    @Override
+    public void deleteConnector(OmejdnConnectorRemoveRequest request) {
+        // request worked
     }
 }
