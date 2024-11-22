@@ -3,10 +3,12 @@ package eu.possiblex.portal.business.control;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidDeleteRequestBE;
+import eu.possiblex.portal.business.entity.did.ParticipantDidUpdateRequestBE;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.PatchExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
 public interface DidWebServiceApiClient {
@@ -16,6 +18,9 @@ public interface DidWebServiceApiClient {
 
     @DeleteExchange("/internal/didweb/remove")
     void deleteDidWeb(@RequestBody ParticipantDidDeleteRequestBE request);
+
+    @PatchExchange("/internal/didweb/update")
+    void updateDidWeb(@RequestBody ParticipantDidUpdateRequestBE request);
 
     @GetExchange("/participant/{id}/did.json")
     String getDidDocument(@PathVariable(value = "id") String id);

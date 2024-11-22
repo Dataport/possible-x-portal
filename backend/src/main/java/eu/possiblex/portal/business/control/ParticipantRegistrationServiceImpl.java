@@ -10,6 +10,7 @@ import eu.possiblex.portal.business.entity.daps.OmejdnConnectorRemoveRequest;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidDeleteRequestBE;
+import eu.possiblex.portal.business.entity.did.ParticipantDidUpdateRequestBE;
 import eu.possiblex.portal.business.entity.exception.ParticipantComplianceException;
 import eu.possiblex.portal.business.entity.exception.ParticipantNotFoundException;
 import eu.possiblex.portal.business.entity.exception.RegistrationRequestException;
@@ -39,12 +40,14 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
     private final String fhCatalogParticipantBaseUrl;
 
+    private final String dapsIdBaseUrl;
+
     public ParticipantRegistrationServiceImpl(
         @Autowired ParticipantRegistrationRequestDAO participantRegistrationRequestDAO,
         @Autowired ParticipantRegistrationServiceMapper participantRegistrationServiceMapper,
         @Autowired OmejdnConnectorApiClient omejdnConnectorApiClient,
         @Autowired DidWebServiceApiClient didWebServiceApiClient, @Autowired FhCatalogClient fhCatalogClient,
-        @Value("${fh.catalog.url}") String fhCatalogUrl) {
+        @Value("${fh.catalog.url}") String fhCatalogUrl, @Value("${daps-server.base-url}") String dapsServerBaseUrl) {
 
         this.participantRegistrationRequestDAO = participantRegistrationRequestDAO;
         this.participantRegistrationServiceMapper = participantRegistrationServiceMapper;
@@ -52,6 +55,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         this.didWebServiceApiClient = didWebServiceApiClient;
         this.fhCatalogClient = fhCatalogClient;
         this.fhCatalogParticipantBaseUrl = fhCatalogUrl + "/resources/legal-participant/";
+        this.dapsIdBaseUrl = dapsServerBaseUrl + "/api/v1/connector/details/";
     }
 
     /**
@@ -145,6 +149,18 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         }
         log.info("Created DAPS digital identity {} for participant: {}", certificate.getClientId(), id);
 
+        String dapsIdUrl = dapsIdBaseUrl + certificate.getClientId();
+        try {
+            updateDidWebWithAliases(didWeb.getDid(), List.of(dapsIdUrl));
+        } catch (RegistrationRequestException e) {
+            // revert all changes if something goes wrong
+            deleteDapsCertificate(certificate.getClientName());
+            deleteParticipantFromCatalog(idResponse.getId());
+            deleteDidWeb(didWeb.getDid());
+            throw e;
+        }
+        log.info("Updated did document {} with daps identity {}", didWeb.getDid(), dapsIdUrl);
+
         // set request to completed
         try {
             participantRegistrationRequestDAO.completeRegistrationRequest(id, didWeb, vpLink, certificate);
@@ -211,6 +227,17 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         } catch (WebClientResponseException e) {
             log.error("Failed to generate DID: {}", e.getResponseBodyAsString());
             throw new RegistrationRequestException("Failed to generate DID", e);
+        }
+    }
+
+    private void updateDidWebWithAliases(String did, List<String> aliases) {
+
+        ParticipantDidUpdateRequestBE updateRequestBE = new ParticipantDidUpdateRequestBE(did, aliases);
+        try {
+            didWebServiceApiClient.updateDidWeb(updateRequestBE);
+        } catch (WebClientResponseException e) {
+            log.error("Failed to update DID: {}", e.getResponseBodyAsString());
+            throw new RegistrationRequestException("Failed to update DID document with DAPS ID", e);
         }
     }
 
