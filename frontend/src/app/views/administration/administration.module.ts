@@ -9,11 +9,16 @@ import {
   TemplateIdDirective
 } from "@coreui/angular";
 import {CommonViewsModule} from "../common-views/common-views.module";
+import { RegistrationRequestComponent } from './registration-request/registration-request.component';
 
 
 @NgModule({
   declarations: [
-    RegistrationRequestManagementComponent
+    RegistrationRequestManagementComponent,
+    RegistrationRequestComponent
+  ],
+  exports: [
+    RegistrationRequestComponent
   ],
   imports: [
     CommonModule,

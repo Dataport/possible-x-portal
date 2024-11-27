@@ -11,7 +11,6 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class RegistrationRequestManagementComponent implements OnInit {
 
-  @ViewChild("operationStatusMessage") public operationStatusMessage!: StatusMessageComponent;
   @ViewChild("requestListStatusMessage") public requestListStatusMessage!: StatusMessageComponent;
   registrationRequests: IRegistrationRequestEntryTO[] = [];
 
@@ -26,68 +25,7 @@ export class RegistrationRequestManagementComponent implements OnInit {
     this.handleGetRegistrationRequests();
   }
 
-  async acceptRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
-    event.stopPropagation();
-    this.operationStatusMessage.hideAllMessages();
-
-    this.apiService.acceptRegistrationRequest(request.name).then(() => {
-      console.log("Accept request for: " + request.name);
-      this.operationStatusMessage.showSuccessMessage("Request accepted successfully. Participant was checked for compliance and stored in the catalog.");
-      this.handleGetRegistrationRequests();
-    }).catch((e: HttpErrorResponse) => {
-      this.operationStatusMessage.showErrorMessage(e.error.detail);
-    }).catch(_ => {
-      this.operationStatusMessage.showErrorMessage("Unknown error occurred");
-    });
-  }
-
-  async deleteRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
-    event.stopPropagation();
-    this.operationStatusMessage.hideAllMessages();
-
-    this.apiService.deleteRegistrationRequest(request.name).then(() => {
-      console.log("Delete request for: " + request.name);
-      this.operationStatusMessage.showSuccessMessage("Request deleted successfully");
-      this.handleGetRegistrationRequests();
-    }).catch((e: HttpErrorResponse) => {
-      this.operationStatusMessage.showErrorMessage(e.error.detail);
-    }).catch(_ => {
-      this.operationStatusMessage.showErrorMessage("Unknown error occurred");
-    });
-  }
-
-  async rejectRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
-    event.stopPropagation();
-    this.operationStatusMessage.hideAllMessages();
-
-    this.apiService.rejectRegistrationRequest(request.name).then(() => {
-      console.log("Reject request for: " + request.name);
-      this.operationStatusMessage.showSuccessMessage("Request rejected successfully");
-      this.handleGetRegistrationRequests();
-    }).catch((e: HttpErrorResponse) => {
-      this.operationStatusMessage.showErrorMessage(e.error.detail);
-    }).catch(_ => {
-      this.operationStatusMessage.showErrorMessage("Unknown error occurred");
-    });
-  }
-
-  protected isRegistrationRequestNew(request: IRegistrationRequestEntryTO): boolean {
-    return request.status === IRequestStatus.NEW;
-  }
-
-  protected isRegistrationRequestAccepted(request: IRegistrationRequestEntryTO): boolean {
-    return request.status === IRequestStatus.ACCEPTED;
-  }
-
-  protected isRegistrationRequestRejected(request: IRegistrationRequestEntryTO): boolean {
-    return request.status === IRequestStatus.REJECTED;
-  }
-
-  protected isRegistrationRequestCompleted(request: IRegistrationRequestEntryTO): boolean {
-    return request.status === IRequestStatus.COMPLETED;
-  }
-
-  private handleGetRegistrationRequests() {
+  handleGetRegistrationRequests() {
     this.getRegistrationRequests().catch((e: HttpErrorResponse) => {
       this.requestListStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
