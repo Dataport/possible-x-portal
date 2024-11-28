@@ -110,11 +110,19 @@
   </ng-template>
 </c-accordion-item>
 
-<div class="flex justify-center mt-3">
-  <app-status-message
-    #operationStatusMessage
-    [errorMessage]="'Operation failed.'"
-    [infoMessage]="'Operation ongoing.'"
-    [successMessage]="'Operation successful.'">
-  </app-status-message>
-</div>
+<c-modal #responseModal id="responseModal" (visibleChange)="handleModalToggle($event)">
+  <c-modal-header>
+    Response
+  </c-modal-header>
+  <c-modal-body>
+    <app-status-message
+      #operationStatusMessage
+      [errorMessage]="'Operation failed.'"
+      [infoMessage]="'Operation ongoing.'"
+      [successMessage]="'Operation successful.'">
+    </app-status-message>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleResponseModal()" cButton color="secondary">Close</button>
+  </c-modal-footer>
+</c-modal>

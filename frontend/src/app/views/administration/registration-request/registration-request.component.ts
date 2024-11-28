@@ -3,6 +3,7 @@ import {IRegistrationRequestEntryTO, IRequestStatus} from "../../../services/mgm
 import {HttpErrorResponse} from "@angular/common/http";
 import {StatusMessageComponent} from "../../common-views/status-message/status-message.component";
 import {ApiService} from "../../../services/mgmt/api/api.service";
+import {ModalComponent} from "@coreui/angular";
 
 @Component({
   selector: 'app-registration-request',
@@ -12,6 +13,7 @@ import {ApiService} from "../../../services/mgmt/api/api.service";
 export class RegistrationRequestComponent implements OnInit, OnChanges {
   @Input() request: IRegistrationRequestEntryTO;
   @ViewChild("operationStatusMessage") public operationStatusMessage!: StatusMessageComponent;
+  @ViewChild("responseModal") responseModal: ModalComponent;
   @Output() reloadList: EventEmitter<any> = new EventEmitter();
 
   isClickableAccept: boolean = true;
@@ -77,11 +79,14 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
     this.apiService.acceptRegistrationRequest(request.name).then(() => {
       console.log("Accept request for: " + request.name);
       this.operationStatusMessage.showSuccessMessage("Request accepted successfully. Participant was checked for compliance and stored in the catalog.");
+      this.toggleResponseModal();
       this.reloadList.emit();
     }).catch((e: HttpErrorResponse) => {
       this.operationStatusMessage.showErrorMessage(e.error.detail);
+      this.toggleResponseModal();
     }).catch(_ => {
       this.operationStatusMessage.showErrorMessage("Unknown error occurred");
+      this.toggleResponseModal();
     });
   }
 
@@ -92,11 +97,14 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
     this.apiService.deleteRegistrationRequest(request.name).then(() => {
       console.log("Delete request for: " + request.name);
       this.operationStatusMessage.showSuccessMessage("Request deleted successfully");
+      this.toggleResponseModal();
       this.reloadList.emit();
     }).catch((e: HttpErrorResponse) => {
       this.operationStatusMessage.showErrorMessage(e.error.detail);
+      this.toggleResponseModal();
     }).catch(_ => {
       this.operationStatusMessage.showErrorMessage("Unknown error occurred");
+      this.toggleResponseModal();
     });
   }
 
@@ -107,11 +115,22 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
     this.apiService.rejectRegistrationRequest(request.name).then(() => {
       console.log("Reject request for: " + request.name);
       this.operationStatusMessage.showSuccessMessage("Request rejected successfully");
+      this.toggleResponseModal();
       this.reloadList.emit();
     }).catch((e: HttpErrorResponse) => {
       this.operationStatusMessage.showErrorMessage(e.error.detail);
+      this.toggleResponseModal();
     }).catch(_ => {
       this.operationStatusMessage.showErrorMessage("Unknown error occurred");
+      this.toggleResponseModal();
     });
+  }
+
+  toggleResponseModal() {
+    this.responseModal.visible = !this.responseModal.visible;
+  }
+
+  handleModalToggle(event: any) {
+    this.responseModal.visible = event;
   }
 }

@@ -5,7 +5,12 @@ import {AdministrationRoutingModule} from "./administration-routing.module";
 import {
   AccordionButtonDirective,
   AccordionComponent,
-  AccordionItemComponent, ButtonDirective,
+  AccordionItemComponent,
+  ButtonDirective,
+  ModalBodyComponent,
+  ModalComponent,
+  ModalFooterComponent,
+  ModalHeaderComponent, ModalToggleDirective,
   TemplateIdDirective
 } from "@coreui/angular";
 import {CommonViewsModule} from "../common-views/common-views.module";
@@ -29,7 +34,12 @@ import { RegistrationRequestComponent } from './registration-request/registratio
     TemplateIdDirective,
     NgOptimizedImage,
     ButtonDirective,
-    CommonViewsModule
+    CommonViewsModule,
+    ModalComponent,
+    ModalBodyComponent,
+    ModalHeaderComponent,
+    ModalFooterComponent,
+    ModalToggleDirective
   ]
 })
 export class AdministrationModule { }
