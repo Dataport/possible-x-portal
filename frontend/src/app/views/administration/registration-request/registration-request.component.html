@@ -5,7 +5,7 @@
       <span class="request-name">{{ request.name }}</span>
 
       <div class="icon-text-container">
-        <ng-container *ngIf="isRegistrationRequestNew(request)"><!--TODO add ngSrc programmatically when computing state-->
+        <ng-container *ngIf="isRegistrationRequestNew(request)">
               <span class="new-text">
                 <img class="icon" ngSrc="assets/images/icons/new.svg" alt="New Icon" height="20" width="20"/>
                 New
@@ -109,20 +109,3 @@
     </div>
   </ng-template>
 </c-accordion-item>
-
-<c-modal #responseModal id="responseModal" (visibleChange)="handleModalToggle($event)">
-  <c-modal-header>
-    Response
-  </c-modal-header>
-  <c-modal-body>
-    <app-status-message
-      #operationStatusMessage
-      [errorMessage]="'Operation failed.'"
-      [infoMessage]="'Operation ongoing.'"
-      [successMessage]="'Operation successful.'">
-    </app-status-message>
-  </c-modal-body>
-  <c-modal-footer>
-    <button (click)="toggleResponseModal()" cButton color="secondary">Close</button>
-  </c-modal-footer>
-</c-modal>

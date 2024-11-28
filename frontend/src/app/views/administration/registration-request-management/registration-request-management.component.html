@@ -8,10 +8,26 @@
 
   <c-accordion>
     <app-registration-request *ngFor="let request of registrationRequests" [request]="request"
-                              (reloadList)="handleGetRegistrationRequests()">
-    </app-registration-request>
+                              (response)="showResponse($event)"></app-registration-request>
   </c-accordion>
 </div>
+
+<c-modal #responseModal id="responseModal" (visibleChange)="handleModalToggle($event)">
+  <c-modal-header>
+    Response
+  </c-modal-header>
+  <c-modal-body>
+    <app-status-message
+      #operationStatusMessage
+      [errorMessage]="'Operation failed.'"
+      [infoMessage]="'Operation ongoing.'"
+      [successMessage]="'Operation successful.'">
+    </app-status-message>
+  </c-modal-body>
+  <c-modal-footer>
+    <button [cModalToggle]="responseModal.id" cButton color="secondary">Close</button>
+  </c-modal-footer>
+</c-modal>
 
 <div class="flex justify-center mt-3">
   <app-status-message

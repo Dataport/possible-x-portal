@@ -1,9 +1,12 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {IRegistrationRequestEntryTO, IRequestStatus} from "../../../services/mgmt/api/backend";
 import {HttpErrorResponse} from "@angular/common/http";
-import {StatusMessageComponent} from "../../common-views/status-message/status-message.component";
 import {ApiService} from "../../../services/mgmt/api/api.service";
-import {ModalComponent} from "@coreui/angular";
+
+export interface RequestResponse {
+  isError: boolean;
+  message: string;
+}
 
 @Component({
   selector: 'app-registration-request',
@@ -12,9 +15,7 @@ import {ModalComponent} from "@coreui/angular";
 })
 export class RegistrationRequestComponent implements OnInit, OnChanges {
   @Input() request: IRegistrationRequestEntryTO;
-  @ViewChild("operationStatusMessage") public operationStatusMessage!: StatusMessageComponent;
-  @ViewChild("responseModal") responseModal: ModalComponent;
-  @Output() reloadList: EventEmitter<any> = new EventEmitter();
+  @Output() response: EventEmitter<RequestResponse> = new EventEmitter();
 
   isClickableAccept: boolean = true;
   isClickableReject: boolean = true;
@@ -71,66 +72,51 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
     }
   }
 
+  disableAllButtons() {
+    this.isClickableAccept = false;
+    this.isClickableReject = false;
+    this.isClickableDelete = false;
+  }
 
   async acceptRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
-    this.operationStatusMessage.hideAllMessages();
+    this.disableAllButtons();
 
     this.apiService.acceptRegistrationRequest(request.name).then(() => {
       console.log("Accept request for: " + request.name);
-      this.operationStatusMessage.showSuccessMessage("Request accepted successfully. Participant was checked for compliance and stored in the catalog.");
-      this.toggleResponseModal();
-      this.reloadList.emit();
+      this.response.emit({isError: false, message: "Request accepted successfully. Participant was checked for compliance and stored in the catalog."});
     }).catch((e: HttpErrorResponse) => {
-      this.operationStatusMessage.showErrorMessage(e.error.detail);
-      this.toggleResponseModal();
+      this.response.emit({isError: true, message: e.message});
     }).catch(_ => {
-      this.operationStatusMessage.showErrorMessage("Unknown error occurred");
-      this.toggleResponseModal();
+      this.response.emit({isError: true, message: "Unknown error occurred"});
     });
   }
 
   async deleteRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
-    this.operationStatusMessage.hideAllMessages();
+    this.disableAllButtons();
 
     this.apiService.deleteRegistrationRequest(request.name).then(() => {
       console.log("Delete request for: " + request.name);
-      this.operationStatusMessage.showSuccessMessage("Request deleted successfully");
-      this.toggleResponseModal();
-      this.reloadList.emit();
+      this.response.emit({isError: false, message: "Request deleted successfully"});
     }).catch((e: HttpErrorResponse) => {
-      this.operationStatusMessage.showErrorMessage(e.error.detail);
-      this.toggleResponseModal();
+      this.response.emit({isError: true, message: e.message});
     }).catch(_ => {
-      this.operationStatusMessage.showErrorMessage("Unknown error occurred");
-      this.toggleResponseModal();
+      this.response.emit({isError: true, message: "Unknown error occurred"});
     });
   }
 
   async rejectRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
-    this.operationStatusMessage.hideAllMessages();
+    this.disableAllButtons();
 
     this.apiService.rejectRegistrationRequest(request.name).then(() => {
       console.log("Reject request for: " + request.name);
-      this.operationStatusMessage.showSuccessMessage("Request rejected successfully");
-      this.toggleResponseModal();
-      this.reloadList.emit();
+      this.response.emit({isError: false, message: "Request rejected successfully"});
     }).catch((e: HttpErrorResponse) => {
-      this.operationStatusMessage.showErrorMessage(e.error.detail);
-      this.toggleResponseModal();
+      this.response.emit({isError: true, message: e.message});
     }).catch(_ => {
-      this.operationStatusMessage.showErrorMessage("Unknown error occurred");
-      this.toggleResponseModal();
+      this.response.emit({isError: true, message: "Unknown error occurred"});
     });
-  }
-
-  toggleResponseModal() {
-    this.responseModal.visible = !this.responseModal.visible;
-  }
-
-  handleModalToggle(event: any) {
-    this.responseModal.visible = event;
   }
 }
