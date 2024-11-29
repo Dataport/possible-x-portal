@@ -47,8 +47,4 @@ export class RegistrationRequestManagementComponent implements OnInit {
     this.responseModal.visible = true;
     this.handleGetRegistrationRequests();
   }
-
-  handleModalToggle(event: any) {
-    this.responseModal.visible = event;
-  }
 }
