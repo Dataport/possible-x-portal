@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {IRegistrationRequestEntryTO, IRequestStatus} from "../../../services/mgmt/api/backend";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../services/mgmt/api/api.service";
