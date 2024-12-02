@@ -163,7 +163,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
             entity.setDidData(didData);
 
             // set daps data
-            OmejdnConnectorCertificateEntity certificateEntity = participantRegistrationEntityMapper.omjednConnectorCertificateBEToOmejdnConnectorCertificateEntity(
+            OmejdnConnectorCertificateEntity certificateEntity = participantRegistrationEntityMapper.omejdnConnectorCertificateBEToOmejdnConnectorCertificateEntity(
                 certificate);
             entity.setOmejdnConnectorCertificate(certificateEntity);
 

@@ -118,8 +118,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         ParticipantRegistrationRequestBE be = participantRegistrationRequestDAO.getRegistrationRequestByName(id);
 
         // generate organisation identity for participant
-        ParticipantDidBE didWeb;
-        didWeb = generateDidWeb(id);
+        ParticipantDidBE didWeb = generateDidWeb(id);
         log.info("Created did {} for participant: {}", didWeb, id);
 
         // build credential subject and enroll participant in catalog
@@ -141,7 +140,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
             certificate = requestDapsCertificate(didWeb.getDid(), didWeb.getDid());
         } catch (RegistrationRequestException e) {
             // revert catalog and did if daps won't work
-            deleteParticipantFromCatalog(didWeb.getDid());
+            deleteParticipantFromCatalog(idResponse.getId());
             deleteDidWeb(didWeb.getDid());
             throw e;
         }
