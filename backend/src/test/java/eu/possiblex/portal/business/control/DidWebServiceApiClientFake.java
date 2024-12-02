@@ -2,7 +2,6 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
-import eu.possiblex.portal.business.entity.did.ParticipantDidDeleteRequestBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidUpdateRequestBE;
 
 public class DidWebServiceApiClientFake implements DidWebServiceApiClient {
@@ -21,7 +20,7 @@ public class DidWebServiceApiClientFake implements DidWebServiceApiClient {
     }
 
     @Override
-    public void deleteDidWeb(ParticipantDidDeleteRequestBE request) {
+    public void deleteDidWeb(String did) {
         // request worked
     }
 

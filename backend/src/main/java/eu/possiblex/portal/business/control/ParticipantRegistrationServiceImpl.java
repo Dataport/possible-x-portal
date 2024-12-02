@@ -6,10 +6,8 @@ import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
-import eu.possiblex.portal.business.entity.daps.OmejdnConnectorRemoveRequest;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
-import eu.possiblex.portal.business.entity.did.ParticipantDidDeleteRequestBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidUpdateRequestBE;
 import eu.possiblex.portal.business.entity.exception.ParticipantComplianceException;
 import eu.possiblex.portal.business.entity.exception.ParticipantNotFoundException;
@@ -154,7 +152,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
             updateDidWebWithAliases(didWeb.getDid(), List.of(dapsIdUrl));
         } catch (RegistrationRequestException e) {
             // revert all changes if something goes wrong
-            deleteDapsCertificate(certificate.getClientName());
+            deleteDapsCertificate(certificate.getClientId());
             deleteParticipantFromCatalog(idResponse.getId());
             deleteDidWeb(didWeb.getDid());
             throw e;
@@ -166,7 +164,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
             participantRegistrationRequestDAO.completeRegistrationRequest(id, didWeb, vpLink, certificate);
         } catch (Exception e) {
             // revert all changes if something goes wrong
-            deleteDapsCertificate(certificate.getClientName());
+            deleteDapsCertificate(certificate.getClientId());
             deleteParticipantFromCatalog(idResponse.getId());
             deleteDidWeb(didWeb.getDid());
             throw e;
@@ -209,10 +207,10 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         }
     }
 
-    private void deleteDapsCertificate(String clientName) {
+    private void deleteDapsCertificate(String clientId) {
 
         try {
-            omejdnConnectorApiClient.deleteConnector(new OmejdnConnectorRemoveRequest(clientName));
+            omejdnConnectorApiClient.deleteConnector(clientId);
         } catch (WebClientResponseException e) {
             log.error("Failed to delete DAPS certificate", e);
         }
@@ -243,10 +241,8 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
     private void deleteDidWeb(String id) {
 
-        ParticipantDidDeleteRequestBE deleteRequestBE = new ParticipantDidDeleteRequestBE();
-        deleteRequestBE.setDid(id);
         try {
-            didWebServiceApiClient.deleteDidWeb(deleteRequestBE);
+            didWebServiceApiClient.deleteDidWeb(id);
         } catch (WebClientResponseException e) {
             log.error("Failed to delete DID: {}", e.getResponseBodyAsString());
         }

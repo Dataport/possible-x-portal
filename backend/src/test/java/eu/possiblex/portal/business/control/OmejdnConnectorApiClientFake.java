@@ -18,7 +18,6 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
-import eu.possiblex.portal.business.entity.daps.OmejdnConnectorRemoveRequest;
 import io.netty.util.internal.StringUtil;
 
 import java.util.UUID;
@@ -38,7 +37,7 @@ public class OmejdnConnectorApiClientFake implements OmejdnConnectorApiClient {
     }
 
     @Override
-    public void deleteConnector(OmejdnConnectorRemoveRequest request) {
+    public void deleteConnector(String clientId) {
         // request worked
     }
 }
