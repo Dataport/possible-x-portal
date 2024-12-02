@@ -53,7 +53,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         this.didWebServiceApiClient = didWebServiceApiClient;
         this.fhCatalogClient = fhCatalogClient;
         this.fhCatalogParticipantBaseUrl = fhCatalogUrl + "/resources/legal-participant/";
-        this.dapsIdBaseUrl = dapsServerBaseUrl + "/api/v1/connector/";
+        this.dapsIdBaseUrl = dapsServerBaseUrl + "/api/v1/connectors/";
     }
 
     /**
