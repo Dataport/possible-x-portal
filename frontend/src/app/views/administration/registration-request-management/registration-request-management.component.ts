@@ -58,10 +58,10 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
     this.handleGetRegistrationRequests();
   }
 
-  customSort(sortState: Sort) {
+  async customSort(sortState: Sort) {
     const data = this.registrationRequests.data.slice();
     if (!sortState.active || sortState.direction === '') {
-      this.registrationRequests.data = data;
+      this.registrationRequests.data = await this.apiService.getAllRegistrationRequests();
       return;
     }
 
