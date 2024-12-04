@@ -5,7 +5,7 @@ import {StatusMessageComponent} from "../../common-views/status-message/status-m
 import {HttpErrorResponse} from "@angular/common/http";
 import {ModalComponent} from "@coreui/angular";
 import {RequestResponse} from "../registration-request/registration-request.component";
-import {MatSort, Sort} from "@angular/material/sort";
+import {MatSort, MatSortable, Sort} from "@angular/material/sort";
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -24,7 +24,13 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   constructor(private apiService: ApiService) {
   }
 
-  async getRegistrationRequests() {
+  async getRegistrationRequestsWithSort() {
+    this.registrationRequests.data = await this.apiService.getAllRegistrationRequests();
+    this.sort.sort(({id: 'organizationName', start: 'asc'}) as MatSortable);
+    this.registrationRequests.sort = this.sort;
+  }
+
+  async getRegistrationRequestsWithoutSort() {
     this.registrationRequests.data = await this.apiService.getAllRegistrationRequests();
     this.registrationRequests.sort = this.sort;
   }
@@ -40,7 +46,7 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   }
 
   handleGetRegistrationRequests() {
-    this.getRegistrationRequests().catch((e: HttpErrorResponse) => {
+    this.getRegistrationRequestsWithSort().catch((e: HttpErrorResponse) => {
       this.requestListStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
       this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
@@ -61,7 +67,11 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   async customSort(sortState: Sort) {
     const data = this.registrationRequests.data.slice();
     if (!sortState.active || sortState.direction === '') {
-      this.registrationRequests.data = await this.apiService.getAllRegistrationRequests();
+      this.getRegistrationRequestsWithoutSort().catch((e: HttpErrorResponse) => {
+        this.requestListStatusMessage.showErrorMessage(e.error.detail);
+      }).catch(_ => {
+        this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
+      });
       return;
     }
 
