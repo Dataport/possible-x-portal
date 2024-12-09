@@ -32,7 +32,10 @@ application:
     portal-variables:
       SPRING_PROFILES_ACTIVE: dev
       SDCREATIONWIZARDAPI_BASEURL: https://sd-creation-wizard.dev.possible-x.de
-      DAPSSERVER_BASEURL: https://daps.dev.possible-x.de/ 
+      DAPSSERVER_BASEURL: http://daps-daps-server:4567
+      DIDWEBSERVICE_IGNORESSL: "false"
+      DIDWEBSERVICE_BASEURL: http://did-web-service:8080
+
   secrets: 
     database: portal-database-secret
   db:
