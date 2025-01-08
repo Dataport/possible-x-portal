@@ -12,9 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.http.HttpHeaders;
 import java.util.List;
 
 @RestController
@@ -39,7 +41,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @param request participant registration request
      */
     @Override
-    public void registerParticipant(@RequestBody CreateRegistrationRequestTO request) {
+    public void registerParticipant(@RequestBody CreateRegistrationRequestTO request, @RequestHeader HttpHeaders header) {
 
         log.info("Received participant registration request: {}", request);
         PxExtendedLegalParticipantCredentialSubject cs = participantRegistrationRestApiMapper.credentialSubjectsToExtendedLegalParticipantCs(
@@ -54,7 +56,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public List<RegistrationRequestEntryTO> getAllRegistrationRequests() {
+    public List<RegistrationRequestEntryTO> getAllRegistrationRequests(@RequestHeader HttpHeaders header) {
 
         log.info("Received request to get all participant registration requests");
 
@@ -63,7 +65,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     }
 
     @Override
-    public RegistrationRequestEntryTO getRegistrationRequestByDid(@PathVariable String did) {
+    public RegistrationRequestEntryTO getRegistrationRequestByDid(@PathVariable String did, @RequestHeader HttpHeaders header) {
 
         log.info("Received request to get registration request for did {}", did);
 
@@ -76,7 +78,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @param id registration request id
      */
     @Override
-    public void acceptRegistrationRequest(@PathVariable String id) {
+    public void acceptRegistrationRequest(@PathVariable String id, @RequestHeader HttpHeaders header) {
 
         log.info("Received request to accept participant: {}", id);
         try {
@@ -92,7 +94,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @param id registration request id
      */
     @Override
-    public void rejectRegistrationRequest(@PathVariable String id) {
+    public void rejectRegistrationRequest(@PathVariable String id, @RequestHeader HttpHeaders header) {
 
         log.info("Received request to reject participant: {}", id);
         participantRegistrationService.rejectRegistrationRequest(id);
@@ -104,7 +106,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @param id registration request id
      */
     @Override
-    public void deleteRegistrationRequest(@PathVariable String id) {
+    public void deleteRegistrationRequest(@PathVariable String id, @RequestHeader HttpHeaders header) {
 
         log.info("Received request to delete participant: {}", id);
         participantRegistrationService.deleteRegistrationRequest(id);

@@ -43,8 +43,8 @@ fh:
     secret-key: secret
 
 admin:
-  username: username
-  password: password
+  username: admin
+  password: admin
 
 version.no: "1.0.0"
 

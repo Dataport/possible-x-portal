@@ -5,6 +5,7 @@ import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpHeaders;
 import java.util.List;
 
 @RequestMapping("/registration")
@@ -15,7 +16,7 @@ public interface ParticipantRegistrationRestApi {
      * @param request participant registration request
      */
     @PostMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
-    void registerParticipant(@RequestBody CreateRegistrationRequestTO request);
+    void registerParticipant(@RequestBody CreateRegistrationRequestTO request, @RequestHeader HttpHeaders header);
 
     /**
      * GET request for retrieving all registration requests.
@@ -23,7 +24,7 @@ public interface ParticipantRegistrationRestApi {
      * @return list of registration requests
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<RegistrationRequestEntryTO> getAllRegistrationRequests();
+    List<RegistrationRequestEntryTO> getAllRegistrationRequests(@RequestHeader HttpHeaders header);
 
     /**
      * GET request for retrieving a specific registration requests by did.
@@ -32,7 +33,7 @@ public interface ParticipantRegistrationRestApi {
      * @return registration request
      */
     @GetMapping(value = "/request/{did}", produces = MediaType.APPLICATION_JSON_VALUE)
-    RegistrationRequestEntryTO getRegistrationRequestByDid(@PathVariable String did);
+    RegistrationRequestEntryTO getRegistrationRequestByDid(@PathVariable String did,  @RequestHeader HttpHeaders header);
 
     /**
      * POST request for accepting a registration request.
@@ -40,7 +41,7 @@ public interface ParticipantRegistrationRestApi {
      * @param id registration request id
      */
     @PostMapping(value = "/request/{id}/accept", produces = MediaType.APPLICATION_JSON_VALUE)
-    void acceptRegistrationRequest(@PathVariable String id);
+    void acceptRegistrationRequest(@PathVariable String id, @RequestHeader HttpHeaders header);
 
     /**
      * POST request for rejecting a registration request.
@@ -48,7 +49,7 @@ public interface ParticipantRegistrationRestApi {
      * @param id registration request id
      */
     @PostMapping(value = "/request/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
-    void rejectRegistrationRequest(@PathVariable String id);
+    void rejectRegistrationRequest(@PathVariable String id, @RequestHeader HttpHeaders header);
 
     /**
      * DELETE request for deleting a registration request.
@@ -56,6 +57,6 @@ public interface ParticipantRegistrationRestApi {
      * @param id registration request id
      */
     @DeleteMapping(value = "/request/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    void deleteRegistrationRequest(@PathVariable String id);
+    void deleteRegistrationRequest(@PathVariable String id, @RequestHeader HttpHeaders header);
 
 }

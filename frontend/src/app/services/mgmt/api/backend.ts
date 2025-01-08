@@ -1,12 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { HttpHeaders } from "@angular/common/http";
+
 export interface ICommonPortalRestApi {
     version: IVersionTO;
 }
 
 export interface IParticipantRegistrationRestApi {
-    allRegistrationRequests: IRegistrationRequestEntryTO[];
 }
 
 export interface IParticipantShapeRestApi {
@@ -183,8 +184,8 @@ export interface IJavaType extends IResolvedType, ISerializable, IType {
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
-    superClass: IJavaType;
     keyType: IJavaType;
+    superClass: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
     contentType: IJavaType;
@@ -262,9 +263,9 @@ export interface IResolvedType {
      * @deprecated
      */
     parameterSource: IClass<any>;
-    throwable: boolean;
-    rawClass: IClass<any>;
     keyType: IResolvedType;
+    rawClass: IClass<any>;
+    throwable: boolean;
     interface: boolean;
     primitive: boolean;
     final: boolean;
@@ -365,8 +366,8 @@ export interface IObjectIdInfo {
 }
 
 export interface ITypeDeserializer {
-    defaultImpl: IClass<any>;
     typeIdResolver: ITypeIdResolver;
+    defaultImpl: IClass<any>;
     typeInclusion: IAs;
     propertyName: string;
 }
@@ -434,94 +435,94 @@ export interface INamed {
     name: string;
 }
 
-export interface HttpClient {
+export interface HttpClient<O> {
 
-    request<R>(requestConfig: { method: string; url: string; queryParams?: any; data?: any; copyFn?: (data: R) => R; }): RestResponse<R>;
+    request<R>(requestConfig: { method: string; url: string; queryParams?: any; data?: any; copyFn?: (data: R) => R; options?: O; }): RestResponse<R>;
 }
 
-export class RestApplicationClient {
+export class RestApplicationClient<O> {
 
-    constructor(protected httpClient: HttpClient) {
+    constructor(protected httpClient: HttpClient<O>) {
     }
 
     /**
      * HTTP GET /common/version
      * Java method: eu.possiblex.portal.application.boundary.CommonPortalRestApiImpl.getVersion
      */
-    getVersion(): RestResponse<IVersionTO> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`common/version` });
+    getVersion(options?: O): RestResponse<IVersionTO> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`common/version`, options: options });
     }
 
     /**
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getAllRegistrationRequests
      */
-    getAllRegistrationRequests(): RestResponse<IRegistrationRequestEntryTO[]> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request` });
+    getAllRegistrationRequests(options?: O): RestResponse<IRegistrationRequestEntryTO[]> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, options: options });
     }
 
     /**
      * HTTP POST /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.registerParticipant
      */
-    registerParticipant(request: ICreateRegistrationRequestTO): RestResponse<void> {
-        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request`, data: request });
+    registerParticipant(request: ICreateRegistrationRequestTO, options?: O): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request`, data: request, options: options });
     }
 
     /**
      * HTTP GET /registration/request/{did}
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequestByDid
      */
-    getRegistrationRequestByDid(did: string): RestResponse<IRegistrationRequestEntryTO> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request/${did}` });
+    getRegistrationRequestByDid(did: string, options?: O): RestResponse<IRegistrationRequestEntryTO> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request/${did}`, options: options });
     }
 
     /**
      * HTTP DELETE /registration/request/{id}
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.deleteRegistrationRequest
      */
-    deleteRegistrationRequest(id: string): RestResponse<void> {
-        return this.httpClient.request({ method: "DELETE", url: uriEncoding`registration/request/${id}` });
+    deleteRegistrationRequest(id: string, options?: O): RestResponse<void> {
+        return this.httpClient.request({ method: "DELETE", url: uriEncoding`registration/request/${id}`, options: options });
     }
 
     /**
      * HTTP POST /registration/request/{id}/accept
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.acceptRegistrationRequest
      */
-    acceptRegistrationRequest(id: string): RestResponse<void> {
-        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/accept` });
+    acceptRegistrationRequest(id: string, options?: O): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/accept`, options: options });
     }
 
     /**
      * HTTP POST /registration/request/{id}/reject
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.rejectRegistrationRequest
      */
-    rejectRegistrationRequest(id: string): RestResponse<void> {
-        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/reject` });
+    rejectRegistrationRequest(id: string, options?: O): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/reject`, options: options });
     }
 
     /**
      * HTTP GET /shapes/gx/legalparticipant
      * Java method: eu.possiblex.portal.application.boundary.ParticipantShapeRestApiImpl.getGxLegalParticipantShape
      */
-    getGxLegalParticipantShape(): RestResponse<string> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalparticipant` });
+    getGxLegalParticipantShape(options?: O): RestResponse<string> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalparticipant`, options: options });
     }
 
     /**
      * HTTP GET /shapes/gx/legalregistrationnumber
      * Java method: eu.possiblex.portal.application.boundary.ParticipantShapeRestApiImpl.getGxLegalRegistrationNumberShape
      */
-    getGxLegalRegistrationNumberShape(): RestResponse<string> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalregistrationnumber` });
+    getGxLegalRegistrationNumberShape(options?: O): RestResponse<string> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalregistrationnumber`, options: options });
     }
 
     /**
      * HTTP GET /shapes/px/participantextension
      * Java method: eu.possiblex.portal.application.boundary.ParticipantShapeRestApiImpl.getPxParticipantExtension
      */
-    getPxParticipantExtension(): RestResponse<string> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/px/participantextension` });
+    getPxParticipantExtension(options?: O): RestResponse<string> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/px/participantextension`, options: options });
     }
 }
 
