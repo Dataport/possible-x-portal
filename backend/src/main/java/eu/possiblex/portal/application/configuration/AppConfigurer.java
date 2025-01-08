@@ -7,10 +7,21 @@ import eu.possiblex.portal.business.control.TechnicalFhCatalogClient;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
@@ -20,6 +31,7 @@ import reactor.netty.http.client.HttpClient;
 import javax.net.ssl.SSLException;
 
 @Configuration
+@EnableWebSecurity
 public class AppConfigurer {
 
     private static final int EXCHANGE_STRATEGY_SIZE = 16 * 1024 * 1024;
@@ -44,6 +56,12 @@ public class AppConfigurer {
 
     @Value("${fh.catalog.secret-key}")
     private String fhCatalogSecretKey;
+
+    @Value("${admin.username}")
+    private String adminUsername;
+
+    @Value("${admin.password}")
+    private String adminPassword;
 
     @Bean
     public SdCreationWizardApiClient sdCreationWizardApiClient() {
@@ -94,5 +112,32 @@ public class AppConfigurer {
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builder()
             .exchangeAdapter(WebClientAdapter.create(webClient)).build();
         return httpServiceProxyFactory.createClient(TechnicalFhCatalogClient.class);
+    }
+
+    @Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests
+                .requestMatchers("/registration/**").hasRole("ADMIN")
+            )
+            .httpBasic(Customizer.withDefaults());
+		return http.build();
+	}
+
+    @Bean
+	public UserDetailsService userDetailsService() {
+		UserDetails admin =
+			 User.builder()
+                .username(adminUsername)
+				.password(passwordEncoder().encode(adminPassword))
+                .roles("ADMIN")
+				.build();
+
+		return new InMemoryUserDetailsManager(admin);
+	}
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

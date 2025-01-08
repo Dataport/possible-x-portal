@@ -42,6 +42,10 @@ fh:
     url: url
     secret-key: secret
 
+admin:
+  username: username
+  password: password
+
 version.no: "1.0.0"
 
 version.date: "2024-12-31"
