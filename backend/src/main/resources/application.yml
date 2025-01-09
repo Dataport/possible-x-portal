@@ -12,6 +12,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    admin:
+      username: admin
+      password: admin
 
 server:
   port: 8088
@@ -41,10 +45,6 @@ fh:
   catalog:
     url: url
     secret-key: secret
-
-admin:
-  username: admin
-  password: admin
 
 version.no: "1.0.0"
 

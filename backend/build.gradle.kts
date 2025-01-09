@@ -116,6 +116,5 @@ tasks {
     importDeclarations = listOf(
       "import { HttpHeaders } from \"@angular/common/http\""
     )
-    restOptionsType = "<O>"
   }
 }

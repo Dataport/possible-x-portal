@@ -8,6 +8,7 @@ export interface ICommonPortalRestApi {
 }
 
 export interface IParticipantRegistrationRestApi {
+    allRegistrationRequests: IRegistrationRequestEntryTO[];
 }
 
 export interface IParticipantShapeRestApi {
@@ -166,24 +167,24 @@ export interface IClass<T> extends ISerializable, IGenericDeclaration, IType, IA
 }
 
 export interface IValueInstantiator {
-    valueClass: IClass<any>;
     arrayDelegateCreator: IAnnotatedWithParams;
     delegateCreator: IAnnotatedWithParams;
+    withArgsCreator: IAnnotatedWithParams;
     valueTypeDesc: string;
     defaultCreator: IAnnotatedWithParams;
-    withArgsCreator: IAnnotatedWithParams;
+    valueClass: IClass<any>;
 }
 
 export interface IJavaType extends IResolvedType, ISerializable, IType {
-    javaLangObject: boolean;
     recordType: boolean;
     typeHandler: any;
     valueHandler: any;
     enumImplType: boolean;
-    referencedType: IJavaType;
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
+    referencedType: IJavaType;
+    javaLangObject: boolean;
     keyType: IJavaType;
     superClass: IJavaType;
     interfaces: IJavaType[];
@@ -193,6 +194,10 @@ export interface IJavaType extends IResolvedType, ISerializable, IType {
 }
 
 export interface IJsonDeserializer<T> extends INullValueProvider {
+    emptyAccessPattern: IAccessPattern;
+    delegatee: IJsonDeserializer<any>;
+    knownPropertyNames: any[];
+    objectIdReader: IObjectIdReader;
     /**
      * @deprecated
      */
@@ -201,10 +206,6 @@ export interface IJsonDeserializer<T> extends INullValueProvider {
      * @deprecated
      */
     nullValue: T;
-    emptyAccessPattern: IAccessPattern;
-    delegatee: IJsonDeserializer<any>;
-    knownPropertyNames: any[];
-    objectIdReader: IObjectIdReader;
     cachable: boolean;
 }
 
@@ -213,13 +214,13 @@ export interface IObjectIdReader extends ISerializable {
     generator: IObjectIdGenerator<any>;
     resolver: IObjectIdResolver;
     idProperty: ISettableBeanProperty;
-    deserializer: IJsonDeserializer<any>;
     idType: IJavaType;
+    deserializer: IJsonDeserializer<any>;
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
-    unwrappingSerializer: boolean;
     delegatee: IJsonSerializer<any>;
+    unwrappingSerializer: boolean;
 }
 
 export interface ISerializable {
@@ -253,16 +254,16 @@ export interface ITypeBindings extends ISerializable {
 
 export interface IResolvedType {
     containerType: boolean;
-    arrayType: boolean;
     concrete: boolean;
-    enumType: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
-    referencedType: IResolvedType;
     /**
      * @deprecated
      */
     parameterSource: IClass<any>;
+    referencedType: IResolvedType;
+    enumType: boolean;
+    arrayType: boolean;
     keyType: IResolvedType;
     rawClass: IClass<any>;
     throwable: boolean;
@@ -293,14 +294,14 @@ export interface IObjectIdResolver {
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
     valueDeserializer: IJsonDeserializer<any>;
-    creatorIndex: number;
-    objectIdInfo: IObjectIdInfo;
     managedReferenceName: string;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
+    objectIdInfo: IObjectIdInfo;
+    creatorIndex: number;
     ignorable: boolean;
 }
 
@@ -357,19 +358,19 @@ export interface IAnnotatedMember extends IAnnotated, ISerializable {
     fullName: string;
 }
 
+export interface ITypeDeserializer {
+    defaultImpl: IClass<any>;
+    typeInclusion: IAs;
+    typeIdResolver: ITypeIdResolver;
+    propertyName: string;
+}
+
 export interface IObjectIdInfo {
     generatorType: IClass<IObjectIdGenerator<any>>;
     resolverType: IClass<IObjectIdResolver>;
     alwaysAsId: boolean;
     scope: IClass<any>;
     propertyName: IPropertyName;
-}
-
-export interface ITypeDeserializer {
-    typeIdResolver: ITypeIdResolver;
-    defaultImpl: IClass<any>;
-    typeInclusion: IAs;
-    propertyName: string;
 }
 
 export interface IPropertyMetadata extends ISerializable {
@@ -412,8 +413,8 @@ export interface IAnnotated {
 }
 
 export interface ITypeIdResolver {
-    mechanism: IId;
     descForKnownTypeIds: string;
+    mechanism: IId;
 }
 
 export interface IMergeInfo {
@@ -435,94 +436,94 @@ export interface INamed {
     name: string;
 }
 
-export interface HttpClient<O> {
+export interface HttpClient {
 
-    request<R>(requestConfig: { method: string; url: string; queryParams?: any; data?: any; copyFn?: (data: R) => R; options?: O; }): RestResponse<R>;
+    request<R>(requestConfig: { method: string; url: string; queryParams?: any; data?: any; copyFn?: (data: R) => R; }): RestResponse<R>;
 }
 
-export class RestApplicationClient<O> {
+export class RestApplicationClient {
 
-    constructor(protected httpClient: HttpClient<O>) {
+    constructor(protected httpClient: HttpClient) {
     }
 
     /**
      * HTTP GET /common/version
      * Java method: eu.possiblex.portal.application.boundary.CommonPortalRestApiImpl.getVersion
      */
-    getVersion(options?: O): RestResponse<IVersionTO> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`common/version`, options: options });
+    getVersion(): RestResponse<IVersionTO> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`common/version` });
     }
 
     /**
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getAllRegistrationRequests
      */
-    getAllRegistrationRequests(options?: O): RestResponse<IRegistrationRequestEntryTO[]> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, options: options });
+    getAllRegistrationRequests(): RestResponse<IRegistrationRequestEntryTO[]> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request` });
     }
 
     /**
      * HTTP POST /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.registerParticipant
      */
-    registerParticipant(request: ICreateRegistrationRequestTO, options?: O): RestResponse<void> {
-        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request`, data: request, options: options });
+    registerParticipant(request: ICreateRegistrationRequestTO): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request`, data: request });
     }
 
     /**
      * HTTP GET /registration/request/{did}
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequestByDid
      */
-    getRegistrationRequestByDid(did: string, options?: O): RestResponse<IRegistrationRequestEntryTO> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request/${did}`, options: options });
+    getRegistrationRequestByDid(did: string): RestResponse<IRegistrationRequestEntryTO> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request/${did}` });
     }
 
     /**
      * HTTP DELETE /registration/request/{id}
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.deleteRegistrationRequest
      */
-    deleteRegistrationRequest(id: string, options?: O): RestResponse<void> {
-        return this.httpClient.request({ method: "DELETE", url: uriEncoding`registration/request/${id}`, options: options });
+    deleteRegistrationRequest(id: string): RestResponse<void> {
+        return this.httpClient.request({ method: "DELETE", url: uriEncoding`registration/request/${id}` });
     }
 
     /**
      * HTTP POST /registration/request/{id}/accept
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.acceptRegistrationRequest
      */
-    acceptRegistrationRequest(id: string, options?: O): RestResponse<void> {
-        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/accept`, options: options });
+    acceptRegistrationRequest(id: string): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/accept` });
     }
 
     /**
      * HTTP POST /registration/request/{id}/reject
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.rejectRegistrationRequest
      */
-    rejectRegistrationRequest(id: string, options?: O): RestResponse<void> {
-        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/reject`, options: options });
+    rejectRegistrationRequest(id: string): RestResponse<void> {
+        return this.httpClient.request({ method: "POST", url: uriEncoding`registration/request/${id}/reject` });
     }
 
     /**
      * HTTP GET /shapes/gx/legalparticipant
      * Java method: eu.possiblex.portal.application.boundary.ParticipantShapeRestApiImpl.getGxLegalParticipantShape
      */
-    getGxLegalParticipantShape(options?: O): RestResponse<string> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalparticipant`, options: options });
+    getGxLegalParticipantShape(): RestResponse<string> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalparticipant` });
     }
 
     /**
      * HTTP GET /shapes/gx/legalregistrationnumber
      * Java method: eu.possiblex.portal.application.boundary.ParticipantShapeRestApiImpl.getGxLegalRegistrationNumberShape
      */
-    getGxLegalRegistrationNumberShape(options?: O): RestResponse<string> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalregistrationnumber`, options: options });
+    getGxLegalRegistrationNumberShape(): RestResponse<string> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/gx/legalregistrationnumber` });
     }
 
     /**
      * HTTP GET /shapes/px/participantextension
      * Java method: eu.possiblex.portal.application.boundary.ParticipantShapeRestApiImpl.getPxParticipantExtension
      */
-    getPxParticipantExtension(options?: O): RestResponse<string> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/px/participantextension`, options: options });
+    getPxParticipantExtension(): RestResponse<string> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`shapes/px/participantextension` });
     }
 }
 

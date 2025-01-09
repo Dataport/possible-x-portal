@@ -7,7 +7,7 @@ import {AngularHttpClientImpl} from "./angular-http-client";
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService extends RestApplicationClient<HttpHeaders> {
+export class ApiService extends RestApplicationClient {
 
   private baseUrl: string = environment.api_url;
 

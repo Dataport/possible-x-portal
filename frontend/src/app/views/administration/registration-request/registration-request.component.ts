@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {IRegistrationRequestEntryTO, IRequestStatus} from "../../../services/mgmt/api/backend";
-import {HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import {ApiService} from "../../../services/mgmt/api/api.service";
 
 export interface RequestResponse {
@@ -21,8 +21,6 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
   isClickableReject: boolean = true;
   isClickableDelete: boolean = true;
 
-  username: string = '';
-  password: string = '';
 
   constructor(private apiService: ApiService) {
   }
@@ -84,9 +82,7 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
   async acceptRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
     this.disableAllButtons();
-    var token: string = this.createAuthorizationToken();
-    var header = new HttpHeaders().set('Authorization', `Basic ${token}`);
-    this.apiService.acceptRegistrationRequest(request.name, header).then(() => {
+    this.apiService.acceptRegistrationRequest(request.name).then(() => {
       console.log("Accept request for: " + request.name);
       this.response.emit({isError: false, message: "Request accepted successfully. Participant was checked for compliance and stored in the catalog."});
     }).catch((e: HttpErrorResponse) => {
@@ -99,9 +95,7 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
   async deleteRequest(event: Event, request: IRegistrationRequestEntryTO): Promise<void> {
     event.stopPropagation();
     this.disableAllButtons();
-    var token: string = this.createAuthorizationToken();
-    var header = new HttpHeaders().set('Authorization', `Basic ${token}`);
-    this.apiService.deleteRegistrationRequest(request.name, header).then(() => {
+    this.apiService.deleteRegistrationRequest(request.name).then(() => {
       console.log("Delete request for: " + request.name);
       this.response.emit({isError: false, message: "Request deleted successfully"});
     }).catch((e: HttpErrorResponse) => {
@@ -125,11 +119,4 @@ export class RegistrationRequestComponent implements OnInit, OnChanges {
     });
   }
 
-  createAuthorizationToken() : string {
-    return btoa(`${this.username}:${this.password}`);
-  }
-
-  setCredentials() {
-
-  }
 }

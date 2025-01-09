@@ -11,10 +11,12 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,10 +59,10 @@ public class AppConfigurer {
     @Value("${fh.catalog.secret-key}")
     private String fhCatalogSecretKey;
 
-    @Value("${admin.username}")
+    @Value("${spring.security.admin.username}")
     private String adminUsername;
 
-    @Value("${admin.password}")
+    @Value("${spring.security.admin.password}")
     private String adminPassword;
 
     @Bean
@@ -118,9 +120,12 @@ public class AppConfigurer {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                .requestMatchers("/registration/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/registration/request").permitAll()
+                .requestMatchers("/registration/**").authenticated()
+                .anyRequest().permitAll()
             )
-            .httpBasic(Customizer.withDefaults());
+            .httpBasic(Customizer.withDefaults())
+            .csrf(AbstractHttpConfigurer::disable);
 		return http.build();
 	}
 
