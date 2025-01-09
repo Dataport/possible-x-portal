@@ -51,6 +51,7 @@ dependencies {
   testImplementation(libs.springBootStarterTest)
   testImplementation(libs.reactorTest)
   testImplementation(libs.h2)
+  testImplementation(libs.springSecurityTest)
   testRuntimeOnly(libs.jUnit)
 }
 
