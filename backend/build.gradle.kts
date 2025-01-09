@@ -114,8 +114,5 @@ tasks {
     outputFile = "../frontend/src/app/services/mgmt/api/backend.ts"
     noFileComment = true
     mapEnum = EnumMapping.asEnum
-    importDeclarations = listOf(
-      "import { HttpHeaders } from \"@angular/common/http\""
-    )
   }
 }
