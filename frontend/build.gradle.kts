@@ -1,7 +1,14 @@
 import com.github.gradle.node.npm.task.NpmTask
+import org.yaml.snakeyaml.Yaml
 
 plugins {
   id("com.github.node-gradle.node") version "7.0.2"
+}
+
+buildscript {
+  dependencies {
+    classpath("org.yaml:snakeyaml:1.29")
+  }
 }
 
 node {
