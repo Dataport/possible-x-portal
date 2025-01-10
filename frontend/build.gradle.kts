@@ -42,7 +42,7 @@ tasks {
       val applicationYaml = file("$rootDir/backend/src/main/resources/$yamlFileName")
       val config = yaml.load<Map<String, Any>>(applicationYaml.inputStream())
 
-      val backendPort = (config["server"] as? Map<*, *>)?.get("port") ?: "8080"
+      val backendPort = (config["server"] as? Map<*, *>)?.get("port") ?: "8088"
       port = "420" + backendPort.toString().last()
     }
 
