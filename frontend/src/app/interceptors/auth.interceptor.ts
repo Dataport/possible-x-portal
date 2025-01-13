@@ -1,13 +1,12 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Observable, catchError, throwError, map} from 'rxjs';
+import {Observable, catchError, throwError} from 'rxjs';
 import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router, private dialog: MatDialog)  {}
+  constructor(private router: Router)  {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // basic authentification for /registration/** path except POST /registration/request
