@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {RestApplicationClient} from "./backend";
 import {environment} from "../../../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {AngularHttpClientImpl} from "./angular-http-client";
 
 @Injectable({

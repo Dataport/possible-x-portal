@@ -1,4 +1,4 @@
-import {HttpClient as AngularHttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient as AngularHttpClient, HttpParams} from '@angular/common/http';
 import {lastValueFrom, map, Observable} from 'rxjs';
 import {HttpClient, RestResponse} from './backend';
 
