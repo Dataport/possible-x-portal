@@ -90,7 +90,7 @@ jobs:
         id: frontend-meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REGISTRY_NAMESPACE }}//main-portal-frontend
+          images: ${{ env.REGISTRY }}/${{ env.REGISTRY_NAMESPACE }}/main-portal-frontend
           tags: |
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main'}}
             type=raw,value=latest-${{github.ref_name }},enable=${{ github.ref != 'refs/heads/main'}}
