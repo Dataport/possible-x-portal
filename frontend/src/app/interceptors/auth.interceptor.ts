@@ -23,11 +23,11 @@ export class AuthInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             sessionStorage.removeItem('authToken');
             console.log(error)
-            alert('Invalid Token generated. Please log in again.');
+            alert('Invalid Credentials used. Please log in again.');
           } else if (error.status === 403) {
             sessionStorage.removeItem('authToken');
             console.log(error)
-            alert('Unauthorized Token used. Please log in with the correct Role.');
+            alert('Unauthorized Credentials used. Please log in with the correct Role.');
           } else {
             sessionStorage.removeItem('authToken');
             console.log(error)
