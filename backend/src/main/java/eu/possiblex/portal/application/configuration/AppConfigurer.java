@@ -33,12 +33,12 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import reactor.netty.http.client.HttpClient;
 
 import javax.net.ssl.SSLException;
 
 @Configuration
-@EnableWebSecurity
 public class AppConfigurer {
 
     private static final int EXCHANGE_STRATEGY_SIZE = 16 * 1024 * 1024;
@@ -130,7 +130,7 @@ public class AppConfigurer {
                 .requestMatchers("/registration/**").authenticated()
                 .anyRequest().permitAll()
             )
-            .httpBasic(Customizer.withDefaults())
+            .httpBasic(new wwwAuthenticateEntryPoint())
             .csrf(AbstractHttpConfigurer::disable);
 		return http.build();
 	}
