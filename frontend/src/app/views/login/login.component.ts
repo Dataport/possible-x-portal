@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -17,6 +17,8 @@ export class LoginComponent {
     sessionStorage.setItem('authToken', authToken);
     this.username = '';
     this.password = '';
-    this.router.navigate(["/administration/management"]);
+    this.router.navigate(['/administration/management']).then(() => {
+      window.location.reload();
+    });
   }
 }
