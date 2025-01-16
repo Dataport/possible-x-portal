@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 @Slf4j
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponseTO> handleRegistrationRequestCreationException(
