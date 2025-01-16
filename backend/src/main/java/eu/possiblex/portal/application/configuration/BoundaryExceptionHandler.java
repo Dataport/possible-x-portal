@@ -52,6 +52,6 @@ public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
 
     private void logError(Exception e) {
 
-        log.error("Caught boundary exception:", e);
+        log.error("Caught boundary exception: {}", e.getClass().getName(), e);
     }
 }
