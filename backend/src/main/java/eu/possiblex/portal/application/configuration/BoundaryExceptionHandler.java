@@ -17,37 +17,35 @@ import static org.springframework.http.HttpStatus.*;
 public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseTO> handleRegistrationRequestCreationException(
-        RegistrationRequestCreationException e) {
+    public ResponseEntity<ErrorResponseTO> handleException(RegistrationRequestCreationException e) {
 
         logError(e);
-        return new ResponseEntity<>(new ErrorResponseTO("Failed to process registration request.", e.getMessage()),
+        return new ResponseEntity<>(new ErrorResponseTO("Failed to process registration request", e.getMessage()),
             UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseTO> handleRegistrationRequestProcessingException(
-        RegistrationRequestProcessingException e) {
+    public ResponseEntity<ErrorResponseTO> handleException(RegistrationRequestProcessingException e) {
 
         logError(e);
-        return new ResponseEntity<>(new ErrorResponseTO("Failed to create registration request.", e.getMessage()),
+        return new ResponseEntity<>(new ErrorResponseTO("Failed to create registration request", e.getMessage()),
             CONFLICT);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseTO> handleParticipantComplianceException(ParticipantComplianceException e) {
+    public ResponseEntity<ErrorResponseTO> handleException(ParticipantComplianceException e) {
 
         logError(e);
         return new ResponseEntity<>(
-            new ErrorResponseTO("Compliance was not attested for this participant.", e.getMessage()),
+            new ErrorResponseTO("Compliance was not attested for this participant", e.getMessage()),
             UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler
-    public ResponseEntity<ErrorResponseTO> handleUnknownException(Exception e) {
+    public ResponseEntity<ErrorResponseTO> handleException(Exception e) {
 
         logError(e);
-        return new ResponseEntity<>(new ErrorResponseTO("An unknown error occurred."), INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorResponseTO("An unknown error occurred"), INTERNAL_SERVER_ERROR);
     }
 
     private void logError(Exception e) {
