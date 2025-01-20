@@ -10,7 +10,7 @@ import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidCreateRequestBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidUpdateRequestBE;
 import eu.possiblex.portal.business.entity.exception.ParticipantComplianceException;
-import eu.possiblex.portal.business.entity.exception.RegistrationRequestCreationException;
+import eu.possiblex.portal.business.entity.exception.RegistrationRequestConflictException;
 import eu.possiblex.portal.business.entity.exception.RegistrationRequestProcessingException;
 import eu.possiblex.portal.business.entity.fh.FhCatalogIdResponse;
 import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
@@ -68,7 +68,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
         log.info("Processing participant registration: {}", cs);
 
         if (participantRegistrationRequestDAO.getRegistrationRequestByName(cs.getName()) != null) {
-            throw new RegistrationRequestCreationException(
+            throw new RegistrationRequestConflictException(
                 "A registration request has already been made under this organization name: " + cs.getName());
         }
 
