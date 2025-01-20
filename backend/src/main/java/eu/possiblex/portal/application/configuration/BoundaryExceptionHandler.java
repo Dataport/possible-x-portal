@@ -20,16 +20,16 @@ public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponseTO> handleException(RegistrationRequestCreationException e) {
 
         logError(e);
-        return new ResponseEntity<>(new ErrorResponseTO("Failed to process registration request", e.getMessage()),
-            UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(new ErrorResponseTO("Failed to create registration request", e.getMessage()),
+            CONFLICT);
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponseTO> handleException(RegistrationRequestProcessingException e) {
 
         logError(e);
-        return new ResponseEntity<>(new ErrorResponseTO("Failed to create registration request", e.getMessage()),
-            CONFLICT);
+        return new ResponseEntity<>(new ErrorResponseTO("Failed to process registration request", e.getMessage()),
+            UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler
