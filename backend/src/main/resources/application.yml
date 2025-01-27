@@ -44,8 +44,8 @@ did-web-service:
 fh:
   catalog:
     ui-url: https://possible.fokus.fraunhofer.de/
-    url: http://localhost:5081/
-    secret-key: yourRepoApiKey
+    url: url
+    secret-key: secret
 
 version.no: "1.0.0"
 
