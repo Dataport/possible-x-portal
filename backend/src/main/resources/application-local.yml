@@ -1,2 +1,6 @@
 server:
   port: 8088
+
+fh:
+  catalog:
+    ui-url: http://localhost:5080/
