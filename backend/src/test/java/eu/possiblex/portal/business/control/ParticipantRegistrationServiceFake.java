@@ -12,7 +12,7 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
     }
 
     @Override
-    public List<RegistrationRequestEntryTO> getAllParticipantRegistrationRequests() {
+    public List<RegistrationRequestEntryTO> getParticipantRegistrationRequests(int pageNumber, int pageSize) {
 
         return List.of();
     }

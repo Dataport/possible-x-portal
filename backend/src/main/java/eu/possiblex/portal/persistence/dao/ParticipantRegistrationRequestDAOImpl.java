@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 @Repository
@@ -54,10 +56,11 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
      * @return list of participant registration requests
      */
     @Override
-    public List<ParticipantRegistrationRequestBE> getAllRegistrationRequests() {
+    public List<ParticipantRegistrationRequestBE> getRegistrationRequests(Pageable pageable) {
 
-        log.info("Getting all participant registration requests");
-        return participantRegistrationRequestRepository.findAll().stream()
+        log.info("Getting participant registration requests for page: {} and size: {}", pageable.getPageNumber(),
+            pageable.getPageSize());
+        return participantRegistrationRequestRepository.findAll(pageable).stream()
             .map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe).toList();
     }
 

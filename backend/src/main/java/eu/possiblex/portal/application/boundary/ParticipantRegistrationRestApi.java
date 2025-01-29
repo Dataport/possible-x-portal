@@ -23,7 +23,9 @@ public interface ParticipantRegistrationRestApi {
      * @return list of registration requests
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<RegistrationRequestEntryTO> getAllRegistrationRequests();
+    List<RegistrationRequestEntryTO> getRegistrationRequests(
+        @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+        @RequestParam(value = "size", defaultValue = "10") int pageSize);
 
     /**
      * GET request for retrieving a specific registration requests by did.

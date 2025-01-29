@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -49,11 +50,14 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public List<RegistrationRequestEntryTO> getAllRegistrationRequests() {
+    public List<RegistrationRequestEntryTO> getRegistrationRequests(
+        @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+        @RequestParam(value = "size", defaultValue = "10") int pageSize) {
 
-        log.info("Received request to get all participant registration requests");
+        log.info("Received request to get participant registration requests for page: {} and size: {}", pageNumber,
+            pageSize);
 
-        return participantRegistrationService.getAllParticipantRegistrationRequests();
+        return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize);
 
     }
 

@@ -82,17 +82,17 @@ class ParticipantRegistrationServiceTest {
     }
 
     @Test
-    void getAllParticipantRegistrationRequests() {
+    void getParticipantRegistrationRequests() {
 
         reset(participantRegistrationRequestDao);
         reset(omejdnConnectorApiClient);
         reset(didWebServiceApiClient);
         reset(fhCatalogClient);
 
-        List<RegistrationRequestEntryTO> list = participantRegistrationService.getAllParticipantRegistrationRequests();
+        List<RegistrationRequestEntryTO> list = participantRegistrationService.getParticipantRegistrationRequests(0, 1);
         assertEquals(1, list.size());
 
-        verify(participantRegistrationRequestDao).getAllRegistrationRequests();
+        verify(participantRegistrationRequestDao).getRegistrationRequests(any());
     }
 
     @Test

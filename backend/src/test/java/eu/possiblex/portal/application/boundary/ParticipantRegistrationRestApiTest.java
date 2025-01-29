@@ -19,6 +19,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,12 +51,12 @@ class ParticipantRegistrationRestApiTest {
 
     @WithMockUser(username = "admin")
     @Test
-    void getAllRegistrationRequests() throws Exception {
+    void getRegistrationRequests() throws Exception {
 
         reset(participantRegistrationService);
         this.mockMvc.perform(get("/registration/request")).andDo(print()).andExpect(status().isOk());
 
-        verify(participantRegistrationService).getAllParticipantRegistrationRequests();
+        verify(participantRegistrationService).getParticipantRegistrationRequests(anyInt(), anyInt());
     }
 
     @WithMockUser(username = "admin")

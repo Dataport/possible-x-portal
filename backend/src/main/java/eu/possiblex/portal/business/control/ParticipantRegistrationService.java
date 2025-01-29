@@ -19,7 +19,7 @@ public interface ParticipantRegistrationService {
      *
      * @return list of registration requests
      */
-    List<RegistrationRequestEntryTO> getAllParticipantRegistrationRequests();
+    List<RegistrationRequestEntryTO> getParticipantRegistrationRequests(int pageNumber, int pageSize);
 
     /**
      * Get a registration request by did
