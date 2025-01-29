@@ -10,6 +10,14 @@
     <app-registration-request *ngFor="let request of registrationRequests.data" [request]="request"
                               (response)="showResponse($event)"></app-registration-request>
   </c-accordion>
+  <mat-paginator [length]="totalNumberOfRegistrationRequests"
+                 [pageSize]="pageSize"
+                 [pageIndex]="pageIndex"
+                 [showFirstLastButtons]='true'
+                 [pageSizeOptions]="[5, 10, 20]"
+                 (page)="onPageChange($event)"
+                 class="custom-paginator">
+  </mat-paginator>
 </div>
 
 <c-modal #responseModal id="responseModal">

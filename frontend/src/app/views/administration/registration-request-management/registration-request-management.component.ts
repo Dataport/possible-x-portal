@@ -5,8 +5,8 @@ import {StatusMessageComponent} from "../../common-views/status-message/status-m
 import {HttpErrorResponse} from "@angular/common/http";
 import {ModalComponent} from "@coreui/angular";
 import {RequestResponse} from "../registration-request/registration-request.component";
-import {MatSort, MatSortable, Sort} from "@angular/material/sort";
-import { MatTableDataSource } from '@angular/material/table';
+import {MatSort, Sort} from "@angular/material/sort";
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-registration-request-management',
@@ -20,19 +20,23 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   @ViewChild("responseModal") responseModal: ModalComponent;
   @ViewChild(MatSort) sort: MatSort;
   registrationRequests = new MatTableDataSource<IRegistrationRequestEntryTO>();
+  pageSize = 10;
+  pageIndex = 0;
+  totalNumberOfRegistrationRequests = 0;
 
-  constructor(private apiService: ApiService) {
+  constructor(private readonly apiService: ApiService) {
   }
 
-  async getRegistrationRequestsWithSort() {
-    this.registrationRequests.data = await this.apiService.getAllRegistrationRequests();
-    this.sort.sort(({id: 'organizationName', start: 'asc'}) as MatSortable);
+  async getRegistrationRequests() {
+    const requestsResponseTO = await this.apiService.getRegistrationRequests({page: this.pageIndex, size: this.pageSize});
+    this.registrationRequests.data = requestsResponseTO.registrationRequests;
+    this.totalNumberOfRegistrationRequests = requestsResponseTO.totalNumberOfRegistrationRequests;
     this.registrationRequests.sort = this.sort;
-  }
 
-  async getRegistrationRequestsWithoutSort() {
-    this.registrationRequests.data = await this.apiService.getAllRegistrationRequests();
-    this.registrationRequests.sort = this.sort;
+    // Apply the current sorting state
+    if (this.sort.active && this.sort.direction) {
+      await this.customSort({active: this.sort.active, direction: this.sort.direction});
+    }
   }
 
   ngOnInit(): void {
@@ -46,7 +50,7 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   }
 
   handleGetRegistrationRequests() {
-    this.getRegistrationRequestsWithSort().catch((e: HttpErrorResponse) => {
+    this.getRegistrationRequests().catch((e: HttpErrorResponse) => {
       this.requestListStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
       this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
@@ -66,16 +70,8 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
 
   async customSort(sortState: Sort) {
     const data = this.registrationRequests.data.slice();
-    if (!sortState.active || sortState.direction === '') {
-      this.getRegistrationRequestsWithoutSort().catch((e: HttpErrorResponse) => {
-        this.requestListStatusMessage.showErrorMessage(e.error.detail);
-      }).catch(_ => {
-        this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
-      });
-      return;
-    }
 
-    this.registrationRequests.data = data.sort((a, b) => {
+    data.sort((a, b) => {
       const isAsc = sortState.direction === 'asc';
       switch (sortState.active) {
         case 'organizationName':
@@ -86,9 +82,17 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
           return 0;
       }
     });
+
+    this.registrationRequests.data = data.slice();
   }
 
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  onPageChange(event: any): void {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.handleGetRegistrationRequests();
   }
 }
