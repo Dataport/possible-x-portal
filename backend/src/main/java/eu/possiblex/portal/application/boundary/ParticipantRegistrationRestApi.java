@@ -1,8 +1,6 @@
 package eu.possiblex.portal.application.boundary;
 
-import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
-import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.application.entity.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +23,8 @@ public interface ParticipantRegistrationRestApi {
     GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
         @RequestParam(value = "size", defaultValue = "10") int pageSize,
-        @RequestParam(value = "sortField", required = false) String sortField,
-        @RequestParam(value = "sortOrder", required = false) String sortOrder);
+        @RequestParam(value = "sortField", required = false) SortField sortField,
+        @RequestParam(value = "sortOrder", required = false) SortOrder sortOrder);
 
     /**
      * GET request for retrieving a specific registration requests by did.

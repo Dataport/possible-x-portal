@@ -1,9 +1,7 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantRegistrationRestApiMapper;
-import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
-import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.application.entity.*;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import lombok.extern.slf4j.Slf4j;
@@ -52,13 +50,15 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     public GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
         @RequestParam(value = "size", defaultValue = "10") int pageSize,
-        @RequestParam(value = "sortField", required = false) String sortField,
-        @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+        @RequestParam(value = "sortField", required = false) SortField sortField,
+        @RequestParam(value = "sortOrder", required = false) SortOrder sortOrder) {
 
-        log.info("Received request to get participant registration requests for page: {} and size: {}", pageNumber,
-            pageSize);
+        log.info(
+            "Received request to get participant registration requests for page: {} and size: {} with sort field: {} and sort order: {}",
+            pageNumber, pageSize, sortField, sortOrder);
 
-        return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize, sortField, sortOrder);
+        return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize,
+            sortField != null ? sortField.getValue() : null, sortOrder != null ? sortOrder.getValue() : null);
 
     }
 
