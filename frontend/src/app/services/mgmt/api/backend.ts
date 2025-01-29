@@ -185,35 +185,38 @@ export interface IOmejdnConnectorCertificateDto {
 export interface IClass<T> extends ISerializable, IGenericDeclaration, IType, IAnnotatedElement, IOfField<IClass<any>>, IConstable {
 }
 
+export interface IValueInstantiator {
+    valueClass: IClass<any>;
+    withArgsCreator: IAnnotatedWithParams;
+    valueTypeDesc: string;
+    defaultCreator: IAnnotatedWithParams;
+    arrayDelegateCreator: IAnnotatedWithParams;
+    delegateCreator: IAnnotatedWithParams;
+}
+
 export interface IJavaType extends IResolvedType, ISerializable, IType {
-    recordType: boolean;
+    javaLangObject: boolean;
     typeHandler: any;
     valueHandler: any;
     enumImplType: boolean;
-    keyType: IJavaType;
+    recordType: boolean;
     referencedType: IJavaType;
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
-    javaLangObject: boolean;
     superClass: IJavaType;
+    keyType: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
     bindings: ITypeBindings;
     contentType: IJavaType;
 }
 
-export interface IValueInstantiator {
-    valueClass: IClass<any>;
-    arrayDelegateCreator: IAnnotatedWithParams;
-    delegateCreator: IAnnotatedWithParams;
-    withArgsCreator: IAnnotatedWithParams;
-    valueTypeDesc: string;
-    defaultCreator: IAnnotatedWithParams;
-}
-
 export interface IJsonDeserializer<T> extends INullValueProvider {
     emptyAccessPattern: IAccessPattern;
+    delegatee: IJsonDeserializer<any>;
+    knownPropertyNames: any[];
+    objectIdReader: IObjectIdReader;
     /**
      * @deprecated
      */
@@ -222,9 +225,6 @@ export interface IJsonDeserializer<T> extends INullValueProvider {
      * @deprecated
      */
     nullValue: T;
-    delegatee: IJsonDeserializer<any>;
-    knownPropertyNames: any[];
-    objectIdReader: IObjectIdReader;
     cachable: boolean;
 }
 
@@ -233,8 +233,8 @@ export interface IObjectIdReader extends ISerializable {
     generator: IObjectIdGenerator<any>;
     resolver: IObjectIdResolver;
     idProperty: ISettableBeanProperty;
-    deserializer: IJsonDeserializer<any>;
     idType: IJavaType;
+    deserializer: IJsonDeserializer<any>;
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
@@ -261,37 +261,37 @@ export interface IAnnotatedElement {
 export interface IConstable {
 }
 
+export interface IAnnotatedWithParams extends IAnnotatedMember {
+    annotationCount: number;
+    parameterCount: number;
+}
+
 export interface ITypeBindings extends ISerializable {
     empty: boolean;
     typeParameters: IJavaType[];
 }
 
 export interface IResolvedType {
+    enumType: boolean;
+    arrayType: boolean;
     containerType: boolean;
     concrete: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
-    keyType: IResolvedType;
     referencedType: IResolvedType;
     /**
      * @deprecated
      */
     parameterSource: IClass<any>;
-    enumType: boolean;
-    arrayType: boolean;
     rawClass: IClass<any>;
     throwable: boolean;
+    keyType: IResolvedType;
     interface: boolean;
     primitive: boolean;
     final: boolean;
     abstract: boolean;
     referenceType: boolean;
     contentType: IResolvedType;
-}
-
-export interface IAnnotatedWithParams extends IAnnotatedMember {
-    annotationCount: number;
-    parameterCount: number;
 }
 
 export interface INullValueProvider {
@@ -313,14 +313,14 @@ export interface IObjectIdResolver {
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
     valueDeserializer: IJsonDeserializer<any>;
-    creatorIndex: number;
+    objectIdInfo: IObjectIdInfo;
     managedReferenceName: string;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
-    objectIdInfo: IObjectIdInfo;
+    creatorIndex: number;
     ignorable: boolean;
 }
 
@@ -353,10 +353,10 @@ export interface IOfField<F> extends ITypeDescriptor {
     primitive: boolean;
 }
 
-export interface ITypeResolutionContext {
+export interface IAnnotationMap extends IAnnotations {
 }
 
-export interface IAnnotationMap extends IAnnotations {
+export interface ITypeResolutionContext {
 }
 
 export interface IMember {
@@ -367,21 +367,14 @@ export interface IMember {
 }
 
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
+    allAnnotations: IAnnotationMap;
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
-    allAnnotations: IAnnotationMap;
     member: IMember;
     declaringClass: IClass<any>;
     fullName: string;
-}
-
-export interface ITypeDeserializer {
-    typeIdResolver: ITypeIdResolver;
-    typeInclusion: IAs;
-    defaultImpl: IClass<any>;
-    propertyName: string;
 }
 
 export interface IObjectIdInfo {
@@ -390,6 +383,13 @@ export interface IObjectIdInfo {
     resolverType: IClass<IObjectIdResolver>;
     propertyName: IPropertyName;
     scope: IClass<any>;
+}
+
+export interface ITypeDeserializer {
+    defaultImpl: IClass<any>;
+    typeInclusion: IAs;
+    typeIdResolver: ITypeIdResolver;
+    propertyName: string;
 }
 
 export interface IPropertyMetadata extends ISerializable {
@@ -432,8 +432,8 @@ export interface IAnnotated {
 }
 
 export interface ITypeIdResolver {
-    mechanism: IId;
     descForKnownTypeIds: string;
+    mechanism: IId;
 }
 
 export interface IMergeInfo {
@@ -485,7 +485,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getRegistrationRequests(queryParams?: { page?: number; size?: number; sortField?: ISortField; sortOrder?: ISortOrder; }): RestResponse<IGetRegistrationRequestsResponseTO> {
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; sortField?: string; sortOrder?: string; }): RestResponse<IGetRegistrationRequestsResponseTO> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 
