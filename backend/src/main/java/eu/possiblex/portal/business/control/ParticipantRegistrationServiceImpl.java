@@ -1,8 +1,10 @@
 package eu.possiblex.portal.business.control;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
@@ -83,15 +85,13 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public List<RegistrationRequestEntryTO> getParticipantRegistrationRequests(int pageNumber, int pageSize) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize) {
 
-        log.info("Processing retrieval of participant registration requests for page {} with size {}", pageNumber, pageSize);
+        log.info("Processing retrieval of participant registration requests for page {} with size {}", pageNumber,
+            pageSize);
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-
-        return participantRegistrationRequestDAO.getRegistrationRequests(pageable).stream()
-            .map(participantRegistrationServiceMapper::participantRegistrationRequestBEToRegistrationRequestEntryTO)
-            .toList();
+        return participantRegistrationServiceMapper.beToGetRegistrationRequestsResponseTo(
+            participantRegistrationRequestDAO.getRegistrationRequests(PageRequest.of(pageNumber, pageSize)));
     }
 
     @Override

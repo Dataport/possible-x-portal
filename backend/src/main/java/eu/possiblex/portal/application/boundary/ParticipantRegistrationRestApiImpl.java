@@ -2,6 +2,7 @@ package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantRegistrationRestApiMapper;
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -50,7 +49,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public List<RegistrationRequestEntryTO> getRegistrationRequests(
+    public GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
         @RequestParam(value = "size", defaultValue = "10") int pageSize) {
 

@@ -1,6 +1,7 @@
 package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
@@ -11,6 +12,7 @@ import eu.possiblex.portal.persistence.entity.RequestStatus;
 import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,12 +58,16 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
      * @return list of participant registration requests
      */
     @Override
-    public List<ParticipantRegistrationRequestBE> getRegistrationRequests(Pageable pageable) {
+    public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable pageable) {
 
         log.info("Getting participant registration requests for page: {} and size: {}", pageable.getPageNumber(),
             pageable.getPageSize());
-        return participantRegistrationRequestRepository.findAll(pageable).stream()
-            .map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe).toList();
+
+        Page<ParticipantRegistrationRequestEntity> page = participantRegistrationRequestRepository.findAll(pageable);
+        return ParticipantRegistrationRequestListBE.builder().totalNumberOfRegistrationRequests(page.getTotalElements())
+            .registrationRequests(
+                page.stream().map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe)
+                    .toList()).build();
     }
 
     @Override

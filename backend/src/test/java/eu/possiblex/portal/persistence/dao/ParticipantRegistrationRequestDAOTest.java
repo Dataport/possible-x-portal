@@ -2,6 +2,7 @@ package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.RequestStatus;
 import eu.possiblex.portal.business.entity.credentials.px.GxNestedLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
@@ -72,10 +74,10 @@ class ParticipantRegistrationRequestDAOTest {
         participantRegistrationRequestDAO.acceptRegistrationRequest(participant.getName());
         verify(participantRegistrationRequestRepository, times(1)).save(any());
 
-        List<ParticipantRegistrationRequestBE> repoParticipants = participantRegistrationRequestDAO.getRegistrationRequests(
+        ParticipantRegistrationRequestListBE listBe = participantRegistrationRequestDAO.getRegistrationRequests(
             PageRequest.of(0, 1));
-        assertEquals(1, repoParticipants.size());
-        ParticipantRegistrationRequestBE repoParticipant = repoParticipants.get(0);
+        assertEquals(1, listBe.getRegistrationRequests().size());
+        ParticipantRegistrationRequestBE repoParticipant = listBe.getRegistrationRequests().get(0);
         assertEquals(participant.getName(), repoParticipant.getName());
         assertEquals(participant.getDescription(), repoParticipant.getDescription());
 

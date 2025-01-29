@@ -1,11 +1,10 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/registration")
 public interface ParticipantRegistrationRestApi {
@@ -23,7 +22,7 @@ public interface ParticipantRegistrationRestApi {
      * @return list of registration requests
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<RegistrationRequestEntryTO> getRegistrationRequests(
+    GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
         @RequestParam(value = "size", defaultValue = "10") int pageSize);
 

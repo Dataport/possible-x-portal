@@ -1,9 +1,8 @@
 package eu.possiblex.portal.business.control;
 
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-
-import java.util.List;
 
 public class ParticipantRegistrationServiceFake implements ParticipantRegistrationService {
     @Override
@@ -12,9 +11,9 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
     }
 
     @Override
-    public List<RegistrationRequestEntryTO> getParticipantRegistrationRequests(int pageNumber, int pageSize) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize) {
 
-        return List.of();
+        return new GetRegistrationRequestsResponseTO();
     }
 
     @Override

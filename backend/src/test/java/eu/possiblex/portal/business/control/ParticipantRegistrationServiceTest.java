@@ -1,5 +1,6 @@
 package eu.possiblex.portal.business.control;
 
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
@@ -89,8 +90,8 @@ class ParticipantRegistrationServiceTest {
         reset(didWebServiceApiClient);
         reset(fhCatalogClient);
 
-        List<RegistrationRequestEntryTO> list = participantRegistrationService.getParticipantRegistrationRequests(0, 1);
-        assertEquals(1, list.size());
+        GetRegistrationRequestsResponseTO to = participantRegistrationService.getParticipantRegistrationRequests(0, 1);
+        assertEquals(1, to.getRegistrationRequests().size());
 
         verify(participantRegistrationRequestDao).getRegistrationRequests(any());
     }

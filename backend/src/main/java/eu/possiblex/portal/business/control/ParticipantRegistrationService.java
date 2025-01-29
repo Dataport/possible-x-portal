@@ -1,5 +1,6 @@
 package eu.possiblex.portal.business.control;
 
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 
@@ -15,11 +16,11 @@ public interface ParticipantRegistrationService {
     void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs);
 
     /**
-     * Get all registration requests
+     * Get registration requests for a given page number and page size.
      *
      * @return list of registration requests
      */
-    List<RegistrationRequestEntryTO> getParticipantRegistrationRequests(int pageNumber, int pageSize);
+    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize);
 
     /**
      * Get a registration request by did

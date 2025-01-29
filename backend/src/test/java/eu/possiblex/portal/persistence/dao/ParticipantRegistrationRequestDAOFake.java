@@ -3,6 +3,7 @@ package eu.possiblex.portal.persistence.dao;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
+import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.RequestStatus;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
@@ -42,9 +43,10 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
-    public List<ParticipantRegistrationRequestBE> getRegistrationRequests(Pageable pageable) {
+    public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable pageable) {
 
-        return List.of(getExampleParticipant());
+        return ParticipantRegistrationRequestListBE.builder().registrationRequests(List.of(getExampleParticipant()))
+            .totalNumberOfRegistrationRequests(1).build();
     }
 
     @Override
