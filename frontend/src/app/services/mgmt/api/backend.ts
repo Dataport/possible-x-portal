@@ -48,6 +48,14 @@ export interface IErrorResponseTO {
     details: string;
 }
 
+export interface IGetRegistrationRequestsResponseTO {
+    registrationRequests: IRegistrationRequestEntryTO[];
+    totalNumberOfRegistrationRequests: number;
+}
+
+export interface IGetRegistrationRequestsResponseTOBuilder {
+}
+
 export interface IParticipantDidDataTO {
     did: string;
 }
@@ -477,7 +485,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getRegistrationRequests(queryParams?: { page?: number; size?: number; }): RestResponse<IRegistrationRequestEntryTO[]> {
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; }): RestResponse<IGetRegistrationRequestsResponseTO> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 

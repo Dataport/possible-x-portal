@@ -8,7 +8,7 @@ export const isAuthenticated: ResolveFn<any> =
     const apiService = inject(ApiService);
 
     try {
-      const response = await apiService.getAllRegistrationRequests();
+      await apiService.getRegistrationRequests();
       return true;
     } catch (e) {
       console.log(e);
