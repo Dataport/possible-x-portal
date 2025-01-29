@@ -7,7 +7,6 @@ export interface ICommonPortalRestApi {
 }
 
 export interface IParticipantRegistrationRestApi {
-    allRegistrationRequests: IRegistrationRequestEntryTO[];
 }
 
 export interface IParticipantShapeRestApi {
@@ -192,24 +191,21 @@ export interface IJavaType extends IResolvedType, ISerializable, IType {
     superClass: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
-    contentType: IJavaType;
     bindings: ITypeBindings;
+    contentType: IJavaType;
 }
 
 export interface IValueInstantiator {
+    valueClass: IClass<any>;
     arrayDelegateCreator: IAnnotatedWithParams;
     delegateCreator: IAnnotatedWithParams;
     withArgsCreator: IAnnotatedWithParams;
     valueTypeDesc: string;
     defaultCreator: IAnnotatedWithParams;
-    valueClass: IClass<any>;
 }
 
 export interface IJsonDeserializer<T> extends INullValueProvider {
     emptyAccessPattern: IAccessPattern;
-    delegatee: IJsonDeserializer<any>;
-    knownPropertyNames: any[];
-    objectIdReader: IObjectIdReader;
     /**
      * @deprecated
      */
@@ -218,6 +214,9 @@ export interface IJsonDeserializer<T> extends INullValueProvider {
      * @deprecated
      */
     nullValue: T;
+    delegatee: IJsonDeserializer<any>;
+    knownPropertyNames: any[];
+    objectIdReader: IObjectIdReader;
     cachable: boolean;
 }
 
@@ -305,15 +304,15 @@ export interface IObjectIdResolver {
 }
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
-    creatorIndex: number;
     valueDeserializer: IJsonDeserializer<any>;
-    objectIdInfo: IObjectIdInfo;
+    creatorIndex: number;
     managedReferenceName: string;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
     injectableValueId: any;
     injectionOnly: boolean;
+    objectIdInfo: IObjectIdInfo;
     ignorable: boolean;
 }
 
@@ -346,10 +345,10 @@ export interface IOfField<F> extends ITypeDescriptor {
     primitive: boolean;
 }
 
-export interface IAnnotationMap extends IAnnotations {
+export interface ITypeResolutionContext {
 }
 
-export interface ITypeResolutionContext {
+export interface IAnnotationMap extends IAnnotations {
 }
 
 export interface IMember {
@@ -360,29 +359,29 @@ export interface IMember {
 }
 
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
-    allAnnotations: IAnnotationMap;
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
+    allAnnotations: IAnnotationMap;
     member: IMember;
     declaringClass: IClass<any>;
     fullName: string;
 }
 
-export interface IObjectIdInfo {
-    generatorType: IClass<IObjectIdGenerator<any>>;
-    resolverType: IClass<IObjectIdResolver>;
-    alwaysAsId: boolean;
-    scope: IClass<any>;
-    propertyName: IPropertyName;
-}
-
 export interface ITypeDeserializer {
-    typeInclusion: IAs;
     typeIdResolver: ITypeIdResolver;
+    typeInclusion: IAs;
     defaultImpl: IClass<any>;
     propertyName: string;
+}
+
+export interface IObjectIdInfo {
+    alwaysAsId: boolean;
+    generatorType: IClass<IObjectIdGenerator<any>>;
+    resolverType: IClass<IObjectIdResolver>;
+    propertyName: IPropertyName;
+    scope: IClass<any>;
 }
 
 export interface IPropertyMetadata extends ISerializable {
@@ -425,8 +424,8 @@ export interface IAnnotated {
 }
 
 export interface ITypeIdResolver {
-    descForKnownTypeIds: string;
     mechanism: IId;
+    descForKnownTypeIds: string;
 }
 
 export interface IMergeInfo {
@@ -476,10 +475,10 @@ export class RestApplicationClient {
 
     /**
      * HTTP GET /registration/request
-     * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getAllRegistrationRequests
+     * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getAllRegistrationRequests(): RestResponse<IRegistrationRequestEntryTO[]> {
-        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request` });
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; }): RestResponse<IRegistrationRequestEntryTO[]> {
+        return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 
     /**
