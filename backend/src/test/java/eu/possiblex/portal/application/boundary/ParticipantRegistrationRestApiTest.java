@@ -56,7 +56,7 @@ class ParticipantRegistrationRestApiTest {
         reset(participantRegistrationService);
         this.mockMvc.perform(get("/registration/request")).andDo(print()).andExpect(status().isOk());
 
-        verify(participantRegistrationService).getParticipantRegistrationRequests(anyInt(), anyInt());
+        verify(participantRegistrationService).getParticipantRegistrationRequests(anyInt(), anyInt(), any(), any());
     }
 
     @WithMockUser(username = "admin")

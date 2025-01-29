@@ -3,8 +3,9 @@ package eu.possiblex.portal.business.control;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.application.entity.SortField;
+import eu.possiblex.portal.application.entity.SortOrder;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
-import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateRequest;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -85,13 +87,26 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, String sortField, String sortOrder) {
 
-        log.info("Processing retrieval of participant registration requests for page {} with size {}", pageNumber,
-            pageSize);
+        log.info("Processing retrieval of participant registration requests for page {} with size {} and sorting by {} {}",
+            pageNumber, pageSize, sortField, sortOrder);
+
+        Pageable pageable;
+        if (SortField.exists(sortField) && SortOrder.exists(sortOrder)) {
+            Sort sort;
+            if (SortOrder.ASC.getValue().equals(sortOrder)){
+                sort = Sort.by(Sort.Order.asc(sortField));
+            } else {
+                sort = Sort.by(Sort.Order.desc(sortField));
+            }
+            pageable = PageRequest.of(pageNumber, pageSize, sort);
+        } else {
+            pageable = PageRequest.of(pageNumber, pageSize);
+        }
 
         return participantRegistrationServiceMapper.beToGetRegistrationRequestsResponseTo(
-            participantRegistrationRequestDAO.getRegistrationRequests(PageRequest.of(pageNumber, pageSize)));
+            participantRegistrationRequestDAO.getRegistrationRequests(pageable));
     }
 
     @Override

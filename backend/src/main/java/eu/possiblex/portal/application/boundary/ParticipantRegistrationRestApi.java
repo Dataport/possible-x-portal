@@ -24,7 +24,9 @@ public interface ParticipantRegistrationRestApi {
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
     GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
-        @RequestParam(value = "size", defaultValue = "10") int pageSize);
+        @RequestParam(value = "size", defaultValue = "10") int pageSize,
+        @RequestParam(value = "sortField", required = false) String sortField,
+        @RequestParam(value = "sortOrder", required = false) String sortOrder);
 
     /**
      * GET request for retrieving a specific registration requests by did.

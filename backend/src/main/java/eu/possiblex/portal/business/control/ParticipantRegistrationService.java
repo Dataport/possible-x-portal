@@ -20,7 +20,7 @@ public interface ParticipantRegistrationService {
      *
      * @return list of registration requests
      */
-    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize);
+    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, String sortField, String sortOrder);
 
     /**
      * Get a registration request by did

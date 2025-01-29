@@ -11,7 +11,8 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
     }
 
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize,
+        String sortField, String sortOrder) {
 
         return new GetRegistrationRequestsResponseTO();
     }

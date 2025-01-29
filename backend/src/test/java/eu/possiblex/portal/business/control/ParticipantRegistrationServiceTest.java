@@ -90,7 +90,8 @@ class ParticipantRegistrationServiceTest {
         reset(didWebServiceApiClient);
         reset(fhCatalogClient);
 
-        GetRegistrationRequestsResponseTO to = participantRegistrationService.getParticipantRegistrationRequests(0, 1);
+        GetRegistrationRequestsResponseTO to = participantRegistrationService.getParticipantRegistrationRequests(0, 1,
+            null, null);
         assertEquals(1, to.getRegistrationRequests().size());
 
         verify(participantRegistrationRequestDao).getRegistrationRequests(any());

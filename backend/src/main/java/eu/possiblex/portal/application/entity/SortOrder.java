@@ -1,11 +1,11 @@
 package eu.possiblex.portal.application.entity;
 
-public enum SortField {
-    STATUS("status"), ORGANIZATION_NAME("name");
+public enum SortOrder {
+    ASC("asc"), DESC("desc");
 
     private final String value;
 
-    SortField(String value) {
+    SortOrder(String value) {
         this.value = value;
     }
 
@@ -18,7 +18,7 @@ public enum SortField {
             return false;
         }
 
-        for (SortField field : SortField.values()) {
+        for (SortOrder field : SortOrder.values()) {
             if (field.getValue().equals(value)) {
                 return true;
             }

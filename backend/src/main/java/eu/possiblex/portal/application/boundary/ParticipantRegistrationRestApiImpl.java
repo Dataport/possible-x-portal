@@ -51,12 +51,14 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     @Override
     public GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
-        @RequestParam(value = "size", defaultValue = "10") int pageSize) {
+        @RequestParam(value = "size", defaultValue = "10") int pageSize,
+        @RequestParam(value = "sortField", required = false) String sortField,
+        @RequestParam(value = "sortOrder", required = false) String sortOrder) {
 
         log.info("Received request to get participant registration requests for page: {} and size: {}", pageNumber,
             pageSize);
 
-        return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize);
+        return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize, sortField, sortOrder);
 
     }
 
