@@ -23,8 +23,8 @@ public interface ParticipantRegistrationRestApi {
     GetRegistrationRequestsResponseTO getRegistrationRequests(
         @RequestParam(value = "page", defaultValue = "0") int pageNumber,
         @RequestParam(value = "size", defaultValue = "10") int pageSize,
-        @RequestParam(value = "sortField", required = false) SortField sortField,
-        @RequestParam(value = "sortOrder", required = false) SortOrder sortOrder);
+        @RequestParam(value = "sortField", defaultValue = "ORGANIZATION_NAME") String sortField,
+        @RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder);
 
     /**
      * GET request for retrieving a specific registration requests by did.

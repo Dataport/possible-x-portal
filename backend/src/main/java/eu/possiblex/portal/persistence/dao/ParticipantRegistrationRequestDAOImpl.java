@@ -60,8 +60,8 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
     @Override
     public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable pageable) {
 
-        log.info("Getting participant registration requests for page: {} and size: {}", pageable.getPageNumber(),
-            pageable.getPageSize());
+        log.info("Getting participant registration requests for page: {} and size: {} with sorting: {}",
+            pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
 
         Page<ParticipantRegistrationRequestEntity> page = participantRegistrationRequestRepository.findAll(pageable);
         return ParticipantRegistrationRequestListBE.builder().totalNumberOfRegistrationRequests(page.getTotalElements())

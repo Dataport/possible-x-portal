@@ -1,5 +1,8 @@
 package eu.possiblex.portal.application.entity;
 
+import lombok.Getter;
+
+@Getter
 public enum SortField {
     STATUS("status"), ORGANIZATION_NAME("name");
 
@@ -9,11 +12,7 @@ public enum SortField {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public static boolean exists(String value) {
+    public static boolean valueExists(String value) {
         if (value == null) {
             return false;
         }
@@ -24,5 +23,14 @@ public enum SortField {
             }
         }
         return false;
+    }
+
+    public static SortField fromString(String label) {
+        for (SortField e : values()) {
+            if (e.name().equalsIgnoreCase(label)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant for value: " + label);
     }
 }

@@ -93,9 +93,9 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
             pageNumber, pageSize, sortField, sortOrder);
 
         Pageable pageable;
-        if (SortField.exists(sortField) && SortOrder.exists(sortOrder)) {
+        if (SortField.valueExists(sortField) && SortOrder.valueExists(sortOrder)) {
             Sort sort;
-            if (SortOrder.ASC.getValue().equals(sortOrder)){
+            if (SortOrder.ASC.getValue().equals(sortOrder)) {
                 sort = Sort.by(Sort.Order.asc(sortField));
             } else {
                 sort = Sort.by(Sort.Order.desc(sortField));
