@@ -485,7 +485,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getRegistrationRequests(queryParams?: { page?: number; size?: number; sortField?: string; sortOrder?: string; }): RestResponse<IGetRegistrationRequestsResponseTO> {
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; sortField?: ISortField; sortOrder?: ISortOrder; }): RestResponse<IGetRegistrationRequestsResponseTO> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 
