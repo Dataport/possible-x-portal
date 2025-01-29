@@ -485,7 +485,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getRegistrationRequests(queryParams?: { page?: number; size?: number; }): RestResponse<IGetRegistrationRequestsResponseTO> {
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; sortField?: string; sortOrder?: string; }): RestResponse<IGetRegistrationRequestsResponseTO> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 
@@ -563,6 +563,16 @@ export const enum IRequestStatus {
     ACCEPTED = "ACCEPTED",
     REJECTED = "REJECTED",
     COMPLETED = "COMPLETED",
+}
+
+export const enum ISortField {
+    STATUS = "STATUS",
+    ORGANIZATION_NAME = "ORGANIZATION_NAME",
+}
+
+export const enum ISortOrder {
+    ASC = "ASC",
+    DESC = "DESC",
 }
 
 export const enum IAccessPattern {
