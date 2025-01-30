@@ -26,11 +26,15 @@ public enum SortField {
     }
 
     public static SortField fromString(String label) {
+        if (label == null || label.isEmpty()) {
+            return null;
+        }
+
         for (SortField e : values()) {
             if (e.name().equalsIgnoreCase(label)) {
                 return e;
             }
         }
-        throw new IllegalArgumentException("No enum constant for value: " + label);
+        return null;
     }
 }

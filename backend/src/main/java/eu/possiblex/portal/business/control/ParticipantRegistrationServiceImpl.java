@@ -87,18 +87,19 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @return list of registration requests
      */
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, String sortField, String sortOrder) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, SortField sortField, SortOrder sortOrder) {
 
         log.info("Processing retrieval of participant registration requests for page {} with size {} and sorting by {} {}",
             pageNumber, pageSize, sortField, sortOrder);
 
         Pageable pageable;
-        if (SortField.valueExists(sortField) && SortOrder.valueExists(sortOrder)) {
+        if (sortField != null && sortOrder != null) {
             Sort sort;
-            if (SortOrder.ASC.getValue().equals(sortOrder)) {
-                sort = Sort.by(Sort.Order.asc(sortField));
+            String sortFieldString = sortField.getValue();
+            if (SortOrder.ASC == sortOrder) {
+                sort = Sort.by(Sort.Order.asc(sortFieldString));
             } else {
-                sort = Sort.by(Sort.Order.desc(sortField));
+                sort = Sort.by(Sort.Order.desc(sortFieldString));
             }
             pageable = PageRequest.of(pageNumber, pageSize, sort);
         } else {

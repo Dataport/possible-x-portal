@@ -2,6 +2,8 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.application.entity.SortField;
+import eu.possiblex.portal.application.entity.SortOrder;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 
 public class ParticipantRegistrationServiceFake implements ParticipantRegistrationService {
@@ -12,7 +14,7 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
 
     @Override
     public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize,
-        String sortField, String sortOrder) {
+        SortField sortField, SortOrder sortOrder) {
 
         return new GetRegistrationRequestsResponseTO();
     }

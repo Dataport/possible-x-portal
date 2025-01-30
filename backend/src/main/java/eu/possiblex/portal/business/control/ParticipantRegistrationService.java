@@ -2,6 +2,8 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import eu.possiblex.portal.application.entity.SortField;
+import eu.possiblex.portal.application.entity.SortOrder;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public interface ParticipantRegistrationService {
      *
      * @return list of registration requests
      */
-    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, String sortField, String sortOrder);
+    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, SortField sortField, SortOrder sortOrder);
 
     /**
      * Get a registration request by did

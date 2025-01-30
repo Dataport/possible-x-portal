@@ -53,15 +53,15 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
         @RequestParam(value = "sortField", defaultValue = "ORGANIZATION_NAME") String sortField,
         @RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder) {
 
-        String sortFieldString = sortField != null ? SortField.fromString(sortField).getValue() : null;
-        String sortOrderString = sortOrder != null ? SortOrder.fromString(sortOrder).getValue() : null;
+        SortField sortFieldEnum = SortField.fromString(sortField);
+        SortOrder sortOrderEnum = SortOrder.fromString(sortOrder);
 
         log.info(
             "Received request to get participant registration requests for page: {} and size: {} with sort field: {} and sort order: {}",
             pageNumber, pageSize, sortField, sortOrder);
 
         return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize,
-            sortFieldString, sortOrderString);
+            sortFieldEnum, sortOrderEnum);
 
     }
 
