@@ -12,19 +12,6 @@ public enum SortField {
         this.value = value;
     }
 
-    public static boolean valueExists(String value) {
-        if (value == null) {
-            return false;
-        }
-
-        for (SortField field : SortField.values()) {
-            if (field.getValue().equals(value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static SortField fromString(String label) {
         if (label == null || label.isEmpty()) {
             return null;

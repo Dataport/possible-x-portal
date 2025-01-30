@@ -15,9 +15,9 @@ public interface ParticipantRegistrationRestApi {
     void registerParticipant(@RequestBody CreateRegistrationRequestTO request);
 
     /**
-     * GET request for retrieving all registration requests.
+     * GET request for retrieving registration requests for given page number and page size sorted by sort field and sort order.
      *
-     * @return list of registration requests
+     * @return TO with list of registration requests
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
     GetRegistrationRequestsResponseTO getRegistrationRequests(

@@ -27,9 +27,37 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   constructor(private readonly apiService: ApiService) {
   }
 
-  async getRegistrationRequests(sortState: Sort) {
+  async getRegistrationRequests(params: any) {
+    const requestsResponseTO = await this.apiService.getRegistrationRequests(params);
+
+    console.log(requestsResponseTO);
+
+    this.registrationRequests.data = requestsResponseTO.registrationRequests;
+    this.totalNumberOfRegistrationRequests = requestsResponseTO.totalNumberOfRegistrationRequests;
+    this.registrationRequests.sort = this.sort;
+  }
+
+  ngOnInit(): void {
+    // get registration requests with default sorting
+    this.handleGetRegistrationRequests();
+  }
+
+  ngAfterViewInit() {
+    this.sort.sortChange.subscribe((sortState: Sort) => {
+      if (!sortState.active || sortState.direction === '') {
+        // do nothing if sort is not active or direction is empty
+        return;
+      }
+      // get registration requests with new sorting
+      this.handleGetRegistrationRequests(sortState);
+    });
+  }
+
+  handleGetRegistrationRequests(sortState: Sort = undefined) {
+    // set params for pagination
     let params: any = {page: this.pageIndex, size: this.pageSize};
 
+    // set sorting params if sortState is provided and active
     if (sortState?.active && sortState?.direction !== '') {
       const isAsc = sortState.direction === 'asc';
 
@@ -42,32 +70,11 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
       }
     }
 
-    const requestsResponseTO = await this.apiService.getRegistrationRequests(params);
-
-    console.log(requestsResponseTO);
-
-    this.registrationRequests.data = requestsResponseTO.registrationRequests;
-    this.totalNumberOfRegistrationRequests = requestsResponseTO.totalNumberOfRegistrationRequests;
-    this.registrationRequests.sort = this.sort;
-
-    this.sortData(sortState);
-  }
-
-  ngOnInit(): void {
-    this.handleGetRegistrationRequests();
-  }
-
-  ngAfterViewInit() {
-    this.sort.sortChange.subscribe((sortState: Sort) => {
-      if (!sortState.active || sortState.direction === '') {
-        return;
-      }
-      this.handleGetRegistrationRequests(sortState);
-    });
-  }
-
-  handleGetRegistrationRequests(sortState: Sort = undefined) {
-    this.getRegistrationRequests(sortState).catch((e: HttpErrorResponse) => {
+    // get registration requests with params for pagination and sorting
+    this.getRegistrationRequests(params).then(() => {
+      // sort retrieved registration requests according to sortState
+      this.sortData(sortState);
+    }).catch((e: HttpErrorResponse) => {
       this.requestListStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
       this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
@@ -87,6 +94,7 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
 
   sortData(sortState: Sort) {
     if (!sortState?.active || sortState?.direction === '') {
+      // do nothing if sortState is not available, sort is not active or direction is empty
       return;
     }
 

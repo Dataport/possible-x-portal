@@ -42,9 +42,9 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     }
 
     /**
-     * Get all registration requests.
+     * Get registration requests for given page number and page size sorted by sort field and sort order.
      *
-     * @return list of registration requests
+     * @return TO with list of registration requests
      */
     @Override
     public GetRegistrationRequestsResponseTO getRegistrationRequests(
