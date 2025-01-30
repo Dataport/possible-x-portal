@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ApiService} from "../../../services/mgmt/api/api.service";
-import {IRegistrationRequestEntryTO} from "../../../services/mgmt/api/backend";
+import {IRegistrationRequestEntryTO, ISortField, ISortOrder} from "../../../services/mgmt/api/backend";
 import {StatusMessageComponent} from "../../common-views/status-message/status-message.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ModalComponent} from "@coreui/angular";
@@ -27,16 +27,30 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   constructor(private readonly apiService: ApiService) {
   }
 
-  async getRegistrationRequests() {
-    const requestsResponseTO = await this.apiService.getRegistrationRequests({page: this.pageIndex, size: this.pageSize});
+  async getRegistrationRequests(sortState: Sort) {
+    let params: any = {page: this.pageIndex, size: this.pageSize};
+
+    if (sortState?.active && sortState?.direction !== '') {
+      const isAsc = sortState.direction === 'asc';
+
+      if (sortState.active === 'organizationName') {
+        params.sortField = ISortField.ORGANIZATION_NAME;
+        params.sortOrder = isAsc ? ISortOrder.ASC : ISortOrder.DESC;
+      } else if (sortState.active === 'status') {
+        params.sortField = ISortField.STATUS;
+        params.sortOrder = isAsc ? ISortOrder.ASC : ISortOrder.DESC;
+      }
+    }
+
+    const requestsResponseTO = await this.apiService.getRegistrationRequests(params);
+
+    console.log(requestsResponseTO);
+
     this.registrationRequests.data = requestsResponseTO.registrationRequests;
     this.totalNumberOfRegistrationRequests = requestsResponseTO.totalNumberOfRegistrationRequests;
     this.registrationRequests.sort = this.sort;
 
-    // Apply the current sorting state
-    if (this.sort.active && this.sort.direction) {
-      await this.customSort({active: this.sort.active, direction: this.sort.direction});
-    }
+    this.sortData(sortState);
   }
 
   ngOnInit(): void {
@@ -45,12 +59,15 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe((sortState: Sort) => {
-      this.customSort(sortState);
+      if (!sortState.active || sortState.direction === '') {
+        return;
+      }
+      this.handleGetRegistrationRequests(sortState);
     });
   }
 
-  handleGetRegistrationRequests() {
-    this.getRegistrationRequests().catch((e: HttpErrorResponse) => {
+  handleGetRegistrationRequests(sortState: Sort = undefined) {
+    this.getRegistrationRequests(sortState).catch((e: HttpErrorResponse) => {
       this.requestListStatusMessage.showErrorMessage(e.error.detail);
     }).catch(_ => {
       this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
@@ -65,10 +82,14 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
     }
 
     this.responseModal.visible = true;
-    this.handleGetRegistrationRequests();
+    this.handleGetRegistrationRequests(this.sort);
   }
 
-  async customSort(sortState: Sort) {
+  sortData(sortState: Sort) {
+    if (!sortState?.active || sortState?.direction === '') {
+      return;
+    }
+
     const data = this.registrationRequests.data.slice();
 
     data.sort((a, b) => {
@@ -83,7 +104,7 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
       }
     });
 
-    this.registrationRequests.data = data.slice();
+    this.registrationRequests.data = data;
   }
 
   compare(a: string | number, b: string | number, isAsc: boolean) {
@@ -93,6 +114,6 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
   onPageChange(event: any): void {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-    this.handleGetRegistrationRequests();
+    this.handleGetRegistrationRequests(this.sort);
   }
 }
