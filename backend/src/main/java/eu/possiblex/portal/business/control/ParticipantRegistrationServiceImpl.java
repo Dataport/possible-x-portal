@@ -3,8 +3,6 @@ package eu.possiblex.portal.business.control;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
-import eu.possiblex.portal.application.entity.SortField;
-import eu.possiblex.portal.application.entity.SortOrder;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
@@ -20,9 +18,7 @@ import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -87,27 +83,12 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @return TO with list of registration requests
      */
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, SortField sortField, SortOrder sortOrder) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(Pageable paginationRequest) {
 
-        log.info("Processing retrieval of participant registration requests for page {} with size {} and sorting by {} {}",
-            pageNumber, pageSize, sortField, sortOrder);
-
-        Pageable pageable;
-        if (sortField != null && sortOrder != null) {
-            Sort sort;
-            String sortFieldString = sortField.getValue();
-            if (SortOrder.ASC == sortOrder) {
-                sort = Sort.by(Sort.Order.asc(sortFieldString));
-            } else {
-                sort = Sort.by(Sort.Order.desc(sortFieldString));
-            }
-            pageable = PageRequest.of(pageNumber, pageSize, sort);
-        } else {
-            pageable = PageRequest.of(pageNumber, pageSize);
-        }
+        log.info("Processing retrieval of participant registration requests for page {}", paginationRequest);
 
         return participantRegistrationServiceMapper.beToGetRegistrationRequestsResponseTo(
-            participantRegistrationRequestDAO.getRegistrationRequests(pageable));
+            participantRegistrationRequestDAO.getRegistrationRequests(paginationRequest));
     }
 
     @Override

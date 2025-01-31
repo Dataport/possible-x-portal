@@ -13,10 +13,11 @@ import eu.possiblex.portal.persistence.entity.daps.OmejdnConnectorCertificateEnt
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Slf4j
 public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistrationRequestDAO {
+    private static final List<String> VALID_ENTITY_SORT_FIELDS = List.of("name", "status");
+
     private final ParticipantRegistrationRequestRepository participantRegistrationRequestRepository;
 
     private final ParticipantRegistrationEntityMapper participantRegistrationEntityMapper;
@@ -58,12 +61,17 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
      * @return list of participant registration requests
      */
     @Override
-    public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable pageable) {
+    public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable paginationRequest) {
 
-        log.info("Getting participant registration requests for page: {} and size: {} with sorting: {}",
-            pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        List<Sort.Order> orders = paginationRequest.getSort().stream()
+            .filter(o -> VALID_ENTITY_SORT_FIELDS.contains(o.getProperty())).toList();
 
-        Page<ParticipantRegistrationRequestEntity> page = participantRegistrationRequestRepository.findAll(pageable);
+        Pageable entityPageable = PageRequest.of(paginationRequest.getPageNumber(), paginationRequest.getPageSize(),
+            Sort.by(orders));
+        log.info("Getting participant registration requests for parsed pagination request: {}", entityPageable);
+
+        Page<ParticipantRegistrationRequestEntity> page = participantRegistrationRequestRepository.findAll(
+            entityPageable);
         return ParticipantRegistrationRequestListBE.builder().totalNumberOfRegistrationRequests(page.getTotalElements())
             .registrationRequests(
                 page.stream().map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe)

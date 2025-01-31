@@ -1,14 +1,16 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantRegistrationRestApiMapper;
-import eu.possiblex.portal.application.entity.*;
+import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
+import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -42,26 +44,16 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
     }
 
     /**
-     * Get registration requests for given page number and page size sorted by sort field and sort order.
+     * Get registration requests for the given pagination request.
      *
      * @return TO with list of registration requests
      */
     @Override
-    public GetRegistrationRequestsResponseTO getRegistrationRequests(
-        @RequestParam(value = "page", defaultValue = "0") int pageNumber,
-        @RequestParam(value = "size", defaultValue = "10") int pageSize,
-        @RequestParam(value = "sortField", defaultValue = "ORGANIZATION_NAME") String sortField,
-        @RequestParam(value = "sortOrder", defaultValue = "ASC") String sortOrder) {
+    public GetRegistrationRequestsResponseTO getRegistrationRequests(Pageable paginationRequest) {
 
-        SortField sortFieldEnum = SortField.fromString(sortField);
-        SortOrder sortOrderEnum = SortOrder.fromString(sortOrder);
+        log.info("Received request to get participant registration requests for page: {}", paginationRequest);
 
-        log.info(
-            "Received request to get participant registration requests for page: {} and size: {} with sort field: {} and sort order: {}",
-            pageNumber, pageSize, sortField, sortOrder);
-
-        return participantRegistrationService.getParticipantRegistrationRequests(pageNumber, pageSize,
-            sortFieldEnum, sortOrderEnum);
+        return participantRegistrationService.getParticipantRegistrationRequests(paginationRequest);
 
     }
 

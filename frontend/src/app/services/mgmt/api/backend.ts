@@ -186,12 +186,12 @@ export interface IClass<T> extends ISerializable, IGenericDeclaration, IType, IA
 }
 
 export interface IValueInstantiator {
+    withArgsCreator: IAnnotatedWithParams;
+    valueTypeDesc: string;
+    defaultCreator: IAnnotatedWithParams;
     valueClass: IClass<any>;
     arrayDelegateCreator: IAnnotatedWithParams;
     delegateCreator: IAnnotatedWithParams;
-    valueTypeDesc: string;
-    defaultCreator: IAnnotatedWithParams;
-    withArgsCreator: IAnnotatedWithParams;
 }
 
 export interface IJavaType extends IResolvedType, ISerializable, IType {
@@ -208,11 +208,15 @@ export interface IJavaType extends IResolvedType, ISerializable, IType {
     keyType: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
-    bindings: ITypeBindings;
     contentType: IJavaType;
+    bindings: ITypeBindings;
 }
 
 export interface IJsonDeserializer<T> extends INullValueProvider {
+    emptyAccessPattern: IAccessPattern;
+    delegatee: IJsonDeserializer<any>;
+    knownPropertyNames: any[];
+    objectIdReader: IObjectIdReader;
     /**
      * @deprecated
      */
@@ -221,10 +225,6 @@ export interface IJsonDeserializer<T> extends INullValueProvider {
      * @deprecated
      */
     nullValue: T;
-    emptyAccessPattern: IAccessPattern;
-    delegatee: IJsonDeserializer<any>;
-    knownPropertyNames: any[];
-    objectIdReader: IObjectIdReader;
     cachable: boolean;
 }
 
@@ -238,8 +238,8 @@ export interface IObjectIdReader extends ISerializable {
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
-    unwrappingSerializer: boolean;
     delegatee: IJsonSerializer<any>;
+    unwrappingSerializer: boolean;
 }
 
 export interface ISerializable {
@@ -272,10 +272,10 @@ export interface ITypeBindings extends ISerializable {
 }
 
 export interface IResolvedType {
-    containerType: boolean;
-    arrayType: boolean;
-    concrete: boolean;
     enumType: boolean;
+    arrayType: boolean;
+    containerType: boolean;
+    concrete: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
     referencedType: IResolvedType;
@@ -353,10 +353,10 @@ export interface IOfField<F> extends ITypeDescriptor {
     primitive: boolean;
 }
 
-export interface IAnnotationMap extends IAnnotations {
+export interface ITypeResolutionContext {
 }
 
-export interface ITypeResolutionContext {
+export interface IAnnotationMap extends IAnnotations {
 }
 
 export interface IMember {
@@ -367,11 +367,11 @@ export interface IMember {
 }
 
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
-    allAnnotations: IAnnotationMap;
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
+    allAnnotations: IAnnotationMap;
     member: IMember;
     declaringClass: IClass<any>;
     fullName: string;
@@ -381,14 +381,14 @@ export interface IObjectIdInfo {
     generatorType: IClass<IObjectIdGenerator<any>>;
     resolverType: IClass<IObjectIdResolver>;
     alwaysAsId: boolean;
-    propertyName: IPropertyName;
     scope: IClass<any>;
+    propertyName: IPropertyName;
 }
 
 export interface ITypeDeserializer {
-    defaultImpl: IClass<any>;
     typeIdResolver: ITypeIdResolver;
     typeInclusion: IAs;
+    defaultImpl: IClass<any>;
     propertyName: string;
 }
 
@@ -485,7 +485,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getRegistrationRequests(queryParams?: { page?: number; size?: number; sortField?: string; sortOrder?: string; }): RestResponse<IGetRegistrationRequestsResponseTO> {
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; sort?: string; }): RestResponse<IGetRegistrationRequestsResponseTO> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 
@@ -563,16 +563,6 @@ export const enum IRequestStatus {
     ACCEPTED = "ACCEPTED",
     REJECTED = "REJECTED",
     COMPLETED = "COMPLETED",
-}
-
-export const enum ISortField {
-    STATUS = "STATUS",
-    ORGANIZATION_NAME = "ORGANIZATION_NAME",
-}
-
-export const enum ISortOrder {
-    ASC = "ASC",
-    DESC = "DESC",
 }
 
 export const enum IAccessPattern {

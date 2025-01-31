@@ -7,8 +7,6 @@ import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface ParticipantRegistrationRequestDAO {
     /**
      * Save a participant registration request.
@@ -46,7 +44,7 @@ public interface ParticipantRegistrationRequestDAO {
      *
      * @return list of registration requests
      */
-    ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable pageable);
+    ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable paginationRequest);
 
     /**
      * Get a registration request by DID.

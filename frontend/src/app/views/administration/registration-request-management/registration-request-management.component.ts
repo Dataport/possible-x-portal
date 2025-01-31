@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ApiService} from "../../../services/mgmt/api/api.service";
-import {IRegistrationRequestEntryTO, ISortField, ISortOrder} from "../../../services/mgmt/api/backend";
+import {IRegistrationRequestEntryTO} from "../../../services/mgmt/api/backend";
 import {StatusMessageComponent} from "../../common-views/status-message/status-message.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ModalComponent} from "@coreui/angular";
@@ -59,15 +59,7 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
 
     // set sorting params if sortState is provided and active
     if (sortState?.active && sortState?.direction !== '') {
-      const isAsc = sortState.direction === 'asc';
-
-      if (sortState.active === 'organizationName') {
-        params.sortField = ISortField.ORGANIZATION_NAME;
-        params.sortOrder = isAsc ? ISortOrder.ASC : ISortOrder.DESC;
-      } else if (sortState.active === 'status') {
-        params.sortField = ISortField.STATUS;
-        params.sortOrder = isAsc ? ISortOrder.ASC : ISortOrder.DESC;
-      }
+      params.sort = sortState.active + ',' + sortState.direction;
     }
 
     // get registration requests with params for pagination and sorting
@@ -81,8 +73,8 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
     });
   }
 
-  showResponse(response: RequestResponse){
-    if(!response.isError) {
+  showResponse(response: RequestResponse) {
+    if (!response.isError) {
       this.operationStatusMessage.showSuccessMessage(response.message);
     } else {
       this.operationStatusMessage.showErrorMessage(response.message);
@@ -103,7 +95,7 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
     data.sort((a, b) => {
       const isAsc = sortState.direction === 'asc';
       switch (sortState.active) {
-        case 'organizationName':
+        case 'name':
           return this.compare(a.name, b.name, isAsc);
         case 'status':
           return this.compare(a.status, b.status, isAsc);

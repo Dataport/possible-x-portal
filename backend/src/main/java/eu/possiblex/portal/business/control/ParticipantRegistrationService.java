@@ -2,11 +2,8 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
-import eu.possiblex.portal.application.entity.SortField;
-import eu.possiblex.portal.application.entity.SortOrder;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface ParticipantRegistrationService {
 
@@ -18,11 +15,11 @@ public interface ParticipantRegistrationService {
     void registerParticipant(PxExtendedLegalParticipantCredentialSubject cs);
 
     /**
-     * Get registration requests for a given page number and page size sorted by sort field and sort order.
+     * Get registration requests for a given pagination request.
      *
      * @return TO with list of registration requests
      */
-    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize, SortField sortField, SortOrder sortOrder);
+    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(Pageable paginationRequest);
 
     /**
      * Get a registration request by did
