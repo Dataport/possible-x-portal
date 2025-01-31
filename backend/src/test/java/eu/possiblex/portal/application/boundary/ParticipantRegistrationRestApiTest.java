@@ -5,7 +5,6 @@ import eu.possiblex.portal.application.control.ParticipantRegistrationRestApiMap
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.control.ParticipantRegistrationServiceFake;
-
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
@@ -19,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -29,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ParticipantRegistrationRestApiImpl.class)
 @ContextConfiguration(classes = { ParticipantRegistrationRestApiTest.TestConfig.class,
     ParticipantRegistrationRestApiImpl.class, AppConfigurer.class })
-
 class ParticipantRegistrationRestApiTest {
 
     @Autowired
@@ -56,7 +53,7 @@ class ParticipantRegistrationRestApiTest {
         reset(participantRegistrationService);
         this.mockMvc.perform(get("/registration/request")).andDo(print()).andExpect(status().isOk());
 
-        verify(participantRegistrationService).getParticipantRegistrationRequests(anyInt(), anyInt(), any(), any());
+        verify(participantRegistrationService).getParticipantRegistrationRequests(any());
     }
 
     @WithMockUser(username = "admin")

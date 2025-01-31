@@ -2,9 +2,8 @@ package eu.possiblex.portal.business.control;
 
 import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
-import eu.possiblex.portal.application.entity.SortField;
-import eu.possiblex.portal.application.entity.SortOrder;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import org.springframework.data.domain.Pageable;
 
 public class ParticipantRegistrationServiceFake implements ParticipantRegistrationService {
     @Override
@@ -13,8 +12,7 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
     }
 
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(int pageNumber, int pageSize,
-        SortField sortField, SortOrder sortOrder) {
+    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(Pageable paginationRequest) {
 
         return new GetRegistrationRequestsResponseTO();
     }

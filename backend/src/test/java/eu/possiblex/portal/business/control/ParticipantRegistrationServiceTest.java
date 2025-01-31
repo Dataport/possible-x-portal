@@ -22,9 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -90,8 +89,8 @@ class ParticipantRegistrationServiceTest {
         reset(didWebServiceApiClient);
         reset(fhCatalogClient);
 
-        GetRegistrationRequestsResponseTO to = participantRegistrationService.getParticipantRegistrationRequests(0, 1,
-            null, null);
+        GetRegistrationRequestsResponseTO to = participantRegistrationService.getParticipantRegistrationRequests(
+            PageRequest.of(0, 1));
         assertEquals(1, to.getRegistrationRequests().size());
 
         verify(participantRegistrationRequestDao).getRegistrationRequests(any());
