@@ -3,11 +3,12 @@ package eu.possiblex.portal.persistence.dao;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
-import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.RequestStatus;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -43,10 +44,9 @@ public class ParticipantRegistrationRequestDAOFake implements ParticipantRegistr
     }
 
     @Override
-    public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable pageable) {
+    public Page<ParticipantRegistrationRequestBE> getRegistrationRequests(Pageable pageable) {
 
-        return ParticipantRegistrationRequestListBE.builder().registrationRequests(List.of(getExampleParticipant()))
-            .totalNumberOfRegistrationRequests(1).build();
+        return new PageImpl<>(List.of(getExampleParticipant()));
     }
 
     @Override

@@ -32,8 +32,8 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
 
     console.log(requestsResponseTO);
 
-    this.registrationRequests.data = requestsResponseTO.registrationRequests;
-    this.totalNumberOfRegistrationRequests = requestsResponseTO.totalNumberOfRegistrationRequests;
+    this.registrationRequests.data = requestsResponseTO.content;
+    this.totalNumberOfRegistrationRequests = requestsResponseTO.totalElements;
     this.registrationRequests.sort = this.sort;
   }
 

@@ -2,12 +2,12 @@ package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.control.ParticipantRegistrationRestApiMapper;
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.control.ParticipantRegistrationService;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +49,7 @@ public class ParticipantRegistrationRestApiImpl implements ParticipantRegistrati
      * @return TO with list of registration requests
      */
     @Override
-    public GetRegistrationRequestsResponseTO getRegistrationRequests(Pageable paginationRequest) {
+    public Page<RegistrationRequestEntryTO> getRegistrationRequests(Pageable paginationRequest) {
 
         log.info("Received request to get participant registration requests for page: {}", paginationRequest);
 

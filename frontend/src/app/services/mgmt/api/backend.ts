@@ -48,14 +48,6 @@ export interface IErrorResponseTO {
     details: string;
 }
 
-export interface IGetRegistrationRequestsResponseTO {
-    registrationRequests: IRegistrationRequestEntryTO[];
-    totalNumberOfRegistrationRequests: number;
-}
-
-export interface IGetRegistrationRequestsResponseTOBuilder {
-}
-
 export interface IParticipantDidDataTO {
     did: string;
 }
@@ -185,38 +177,34 @@ export interface IOmejdnConnectorCertificateDto {
 export interface IClass<T> extends ISerializable, IGenericDeclaration, IType, IAnnotatedElement, IOfField<IClass<any>>, IConstable {
 }
 
-export interface IValueInstantiator {
-    withArgsCreator: IAnnotatedWithParams;
-    valueTypeDesc: string;
-    defaultCreator: IAnnotatedWithParams;
-    valueClass: IClass<any>;
-    arrayDelegateCreator: IAnnotatedWithParams;
-    delegateCreator: IAnnotatedWithParams;
-}
-
 export interface IJavaType extends IResolvedType, ISerializable, IType {
     javaLangObject: boolean;
     recordType: boolean;
     typeHandler: any;
     valueHandler: any;
     enumImplType: boolean;
+    keyType: IJavaType;
     referencedType: IJavaType;
     contentValueHandler: any;
     contentTypeHandler: any;
     erasedSignature: string;
     superClass: IJavaType;
-    keyType: IJavaType;
     interfaces: IJavaType[];
     genericSignature: string;
-    contentType: IJavaType;
     bindings: ITypeBindings;
+    contentType: IJavaType;
+}
+
+export interface IValueInstantiator {
+    valueClass: IClass<any>;
+    arrayDelegateCreator: IAnnotatedWithParams;
+    delegateCreator: IAnnotatedWithParams;
+    withArgsCreator: IAnnotatedWithParams;
+    valueTypeDesc: string;
+    defaultCreator: IAnnotatedWithParams;
 }
 
 export interface IJsonDeserializer<T> extends INullValueProvider {
-    emptyAccessPattern: IAccessPattern;
-    delegatee: IJsonDeserializer<any>;
-    knownPropertyNames: any[];
-    objectIdReader: IObjectIdReader;
     /**
      * @deprecated
      */
@@ -225,6 +213,10 @@ export interface IJsonDeserializer<T> extends INullValueProvider {
      * @deprecated
      */
     nullValue: T;
+    emptyAccessPattern: IAccessPattern;
+    delegatee: IJsonDeserializer<any>;
+    knownPropertyNames: any[];
+    objectIdReader: IObjectIdReader;
     cachable: boolean;
 }
 
@@ -238,8 +230,13 @@ export interface IObjectIdReader extends ISerializable {
 }
 
 export interface IJsonSerializer<T> extends IJsonFormatVisitable {
-    delegatee: IJsonSerializer<any>;
     unwrappingSerializer: boolean;
+    delegatee: IJsonSerializer<any>;
+}
+
+export interface IPage<T> extends ISlice<T> {
+    totalPages: number;
+    totalElements: number;
 }
 
 export interface ISerializable {
@@ -261,37 +258,37 @@ export interface IAnnotatedElement {
 export interface IConstable {
 }
 
-export interface IAnnotatedWithParams extends IAnnotatedMember {
-    annotationCount: number;
-    parameterCount: number;
-}
-
 export interface ITypeBindings extends ISerializable {
     empty: boolean;
     typeParameters: IJavaType[];
 }
 
 export interface IResolvedType {
-    enumType: boolean;
-    arrayType: boolean;
     containerType: boolean;
+    arrayType: boolean;
     concrete: boolean;
+    enumType: boolean;
     collectionLikeType: boolean;
     mapLikeType: boolean;
+    keyType: IResolvedType;
     referencedType: IResolvedType;
     /**
      * @deprecated
      */
     parameterSource: IClass<any>;
-    rawClass: IClass<any>;
     throwable: boolean;
-    keyType: IResolvedType;
+    rawClass: IClass<any>;
     interface: boolean;
     primitive: boolean;
     final: boolean;
     abstract: boolean;
     referenceType: boolean;
     contentType: IResolvedType;
+}
+
+export interface IAnnotatedWithParams extends IAnnotatedMember {
+    annotationCount: number;
+    parameterCount: number;
 }
 
 export interface INullValueProvider {
@@ -312,16 +309,16 @@ export interface IObjectIdResolver {
 }
 
 export interface ISettableBeanProperty extends IConcreteBeanPropertyBase, ISerializable {
+    injectableValueId: any;
     valueDeserializer: IJsonDeserializer<any>;
     creatorIndex: number;
     objectIdInfo: IObjectIdInfo;
     managedReferenceName: string;
+    ignorable: boolean;
     valueTypeDeserializer: ITypeDeserializer;
     nullValueProvider: INullValueProvider;
     propertyIndex: number;
-    injectableValueId: any;
     injectionOnly: boolean;
-    ignorable: boolean;
 }
 
 export interface IStdDeserializer<T> extends IJsonDeserializer<T>, ISerializable, IGettable {
@@ -336,6 +333,20 @@ export interface IJsonFormatVisitable {
 }
 
 export interface IStdSerializer<T> extends IJsonSerializer<T>, IJsonFormatVisitable, ISchemaAware, ISerializable {
+}
+
+export interface IPageable {
+    paged: boolean;
+    unpaged: boolean;
+    pageNumber: number;
+    pageSize: number;
+    offset: number;
+    sort: ISort;
+}
+
+export interface ISort extends IStreamable<IOrder>, ISerializable {
+    sorted: boolean;
+    unsorted: boolean;
 }
 
 export interface ITypeVariable<D> extends IType, IAnnotatedElement {
@@ -353,10 +364,10 @@ export interface IOfField<F> extends ITypeDescriptor {
     primitive: boolean;
 }
 
-export interface ITypeResolutionContext {
+export interface IAnnotationMap extends IAnnotations {
 }
 
-export interface IAnnotationMap extends IAnnotations {
+export interface ITypeResolutionContext {
 }
 
 export interface IMember {
@@ -367,11 +378,11 @@ export interface IMember {
 }
 
 export interface IAnnotatedMember extends IAnnotated, ISerializable {
+    allAnnotations: IAnnotationMap;
     /**
      * @deprecated
      */
     typeContext: ITypeResolutionContext;
-    allAnnotations: IAnnotationMap;
     member: IMember;
     declaringClass: IClass<any>;
     fullName: string;
@@ -381,14 +392,14 @@ export interface IObjectIdInfo {
     generatorType: IClass<IObjectIdGenerator<any>>;
     resolverType: IClass<IObjectIdResolver>;
     alwaysAsId: boolean;
-    scope: IClass<any>;
     propertyName: IPropertyName;
+    scope: IClass<any>;
 }
 
 export interface ITypeDeserializer {
     typeIdResolver: ITypeIdResolver;
-    typeInclusion: IAs;
     defaultImpl: IClass<any>;
+    typeInclusion: IAs;
     propertyName: string;
 }
 
@@ -410,6 +421,17 @@ export interface IGettable {
 }
 
 export interface ISchemaAware {
+}
+
+export interface ISlice<T> extends IStreamable<T> {
+    numberOfElements: number;
+    pageable: IPageable;
+    first: boolean;
+    last: boolean;
+    size: number;
+    content: T[];
+    number: number;
+    sort: ISort;
 }
 
 export interface IAnnotatedType extends IAnnotatedElement {
@@ -451,8 +473,37 @@ export interface IBeanProperty extends INamed {
     metadata: IPropertyMetadata;
 }
 
+export interface IStreamable<T> extends IIterable<T>, ISupplier<IStream<T>> {
+    empty: boolean;
+}
+
+export interface IOrder extends ISerializable {
+    direction: IDirection;
+    property: string;
+    ignoreCase: boolean;
+    nullHandling: INullHandling;
+    ascending: boolean;
+    descending: boolean;
+}
+
 export interface INamed {
     name: string;
+}
+
+export interface IIterable<T> {
+}
+
+export interface ISupplier<T> {
+}
+
+export interface IStream<T> extends IBaseStream<T, IStream<T>> {
+}
+
+export interface IBaseStream<T, S> extends IAutoCloseable {
+    parallel: boolean;
+}
+
+export interface IAutoCloseable {
 }
 
 export interface HttpClient {
@@ -485,7 +536,7 @@ export class RestApplicationClient {
      * HTTP GET /registration/request
      * Java method: eu.possiblex.portal.application.boundary.ParticipantRegistrationRestApiImpl.getRegistrationRequests
      */
-    getRegistrationRequests(queryParams?: { page?: number; size?: number; sort?: string; }): RestResponse<IGetRegistrationRequestsResponseTO> {
+    getRegistrationRequests(queryParams?: { page?: number; size?: number; sort?: string; }): RestResponse<IPage<IRegistrationRequestEntryTO>> {
         return this.httpClient.request({ method: "GET", url: uriEncoding`registration/request`, queryParams: queryParams });
     }
 
@@ -594,6 +645,17 @@ export const enum IId {
     NAME = "NAME",
     DEDUCTION = "DEDUCTION",
     CUSTOM = "CUSTOM",
+}
+
+export const enum IDirection {
+    ASC = "ASC",
+    DESC = "DESC",
+}
+
+export const enum INullHandling {
+    NATIVE = "NATIVE",
+    NULLS_FIRST = "NULLS_FIRST",
+    NULLS_LAST = "NULLS_LAST",
 }
 
 function uriEncoding(template: TemplateStringsArray, ...substitutions: any[]): string {

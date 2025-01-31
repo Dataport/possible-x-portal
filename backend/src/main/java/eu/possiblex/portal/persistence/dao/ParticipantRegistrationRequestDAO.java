@@ -1,10 +1,10 @@
 package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
-import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ParticipantRegistrationRequestDAO {
@@ -44,7 +44,7 @@ public interface ParticipantRegistrationRequestDAO {
      *
      * @return list of registration requests
      */
-    ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable paginationRequest);
+    Page<ParticipantRegistrationRequestBE> getRegistrationRequests(Pageable paginationRequest);
 
     /**
      * Get a registration request by DID.

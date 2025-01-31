@@ -1,7 +1,6 @@
 package eu.possiblex.portal.persistence.dao;
 
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
-import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
@@ -61,7 +60,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
      * @return list of participant registration requests
      */
     @Override
-    public ParticipantRegistrationRequestListBE getRegistrationRequests(Pageable paginationRequest) {
+    public Page<ParticipantRegistrationRequestBE> getRegistrationRequests(Pageable paginationRequest) {
 
         List<Sort.Order> orders = paginationRequest.getSort().stream()
             .filter(o -> VALID_ENTITY_SORT_FIELDS.contains(o.getProperty())).toList();
@@ -72,10 +71,7 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
 
         Page<ParticipantRegistrationRequestEntity> page = participantRegistrationRequestRepository.findAll(
             entityPageable);
-        return ParticipantRegistrationRequestListBE.builder().totalNumberOfRegistrationRequests(page.getTotalElements())
-            .registrationRequests(
-                page.stream().map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe)
-                    .toList()).build();
+        return page.map(participantRegistrationEntityMapper::entityToParticipantRegistrationRequestBe);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ParticipantRegistrationService {
@@ -19,7 +19,7 @@ public interface ParticipantRegistrationService {
      *
      * @return TO with list of registration requests
      */
-    GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(Pageable paginationRequest);
+    Page<RegistrationRequestEntryTO> getParticipantRegistrationRequests(Pageable paginationRequest);
 
     /**
      * Get a registration request by did

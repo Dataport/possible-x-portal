@@ -1,6 +1,5 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
@@ -22,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -89,9 +89,9 @@ class ParticipantRegistrationServiceTest {
         reset(didWebServiceApiClient);
         reset(fhCatalogClient);
 
-        GetRegistrationRequestsResponseTO to = participantRegistrationService.getParticipantRegistrationRequests(
+        Page<RegistrationRequestEntryTO> to = participantRegistrationService.getParticipantRegistrationRequests(
             PageRequest.of(0, 1));
-        assertEquals(1, to.getRegistrationRequests().size());
+        assertEquals(1, to.getContent().size());
 
         verify(participantRegistrationRequestDao).getRegistrationRequests(any());
     }

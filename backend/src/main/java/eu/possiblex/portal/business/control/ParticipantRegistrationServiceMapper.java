@@ -1,16 +1,16 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.*;
+import eu.possiblex.portal.application.entity.AddressTO;
+import eu.possiblex.portal.application.entity.ParticipantDidDataTO;
+import eu.possiblex.portal.application.entity.RegistrationNumberTO;
+import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
-import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestListBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
-import eu.possiblex.portal.persistence.entity.ParticipantRegistrationRequestEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring")
 public interface ParticipantRegistrationServiceMapper {
@@ -24,9 +24,6 @@ public interface ParticipantRegistrationServiceMapper {
 
     RegistrationRequestEntryTO participantRegistrationRequestBEToRegistrationRequestEntryTO(
         ParticipantRegistrationRequestBE participantRegistrationRequestBE);
-
-    GetRegistrationRequestsResponseTO beToGetRegistrationRequestsResponseTo(
-        ParticipantRegistrationRequestListBE be);
 
     @Mapping(target = "id", source = "didData.did")
     @Mapping(target = "mailAddress", source = "emailAddress")

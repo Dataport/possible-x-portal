@@ -1,8 +1,8 @@
 package eu.possiblex.portal.application.boundary;
 
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -24,7 +24,7 @@ public interface ParticipantRegistrationRestApi {
      * @return TO with list of registration requests
      */
     @GetMapping(value = "/request", produces = MediaType.APPLICATION_JSON_VALUE)
-    GetRegistrationRequestsResponseTO getRegistrationRequests(
+    Page<RegistrationRequestEntryTO> getRegistrationRequests(
         @PageableDefault(sort = { "name" }) Pageable paginationRequest);
 
     /**

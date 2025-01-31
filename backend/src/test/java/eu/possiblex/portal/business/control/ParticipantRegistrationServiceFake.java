@@ -1,9 +1,12 @@
 package eu.possiblex.portal.business.control;
 
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Collections;
 
 public class ParticipantRegistrationServiceFake implements ParticipantRegistrationService {
     @Override
@@ -12,9 +15,9 @@ public class ParticipantRegistrationServiceFake implements ParticipantRegistrati
     }
 
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(Pageable paginationRequest) {
+    public Page<RegistrationRequestEntryTO> getParticipantRegistrationRequests(Pageable paginationRequest) {
 
-        return new GetRegistrationRequestsResponseTO();
+        return new PageImpl<>(Collections.emptyList());
     }
 
     @Override

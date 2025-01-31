@@ -1,7 +1,6 @@
 package eu.possiblex.portal.business.control;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import eu.possiblex.portal.application.entity.GetRegistrationRequestsResponseTO;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
@@ -18,6 +17,7 @@ import eu.possiblex.portal.persistence.dao.ParticipantRegistrationRequestDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -83,12 +83,13 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
      * @return TO with list of registration requests
      */
     @Override
-    public GetRegistrationRequestsResponseTO getParticipantRegistrationRequests(Pageable paginationRequest) {
+    public Page<RegistrationRequestEntryTO> getParticipantRegistrationRequests(Pageable paginationRequest) {
 
         log.info("Processing retrieval of participant registration requests for page {}", paginationRequest);
-
-        return participantRegistrationServiceMapper.beToGetRegistrationRequestsResponseTo(
-            participantRegistrationRequestDAO.getRegistrationRequests(paginationRequest));
+        Page<ParticipantRegistrationRequestBE> registrationRequests = participantRegistrationRequestDAO.getRegistrationRequests(
+            paginationRequest);
+        return registrationRequests.map(
+            participantRegistrationServiceMapper::participantRegistrationRequestBEToRegistrationRequestEntryTO);
     }
 
     @Override
