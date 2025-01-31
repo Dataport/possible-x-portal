@@ -63,12 +63,10 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
     }
 
     // get registration requests with params for pagination and sorting
-    this.getRegistrationRequests(params).then(() => {
-      // sort retrieved registration requests according to sortState
-      this.sortData(sortState);
-    }).catch((e: HttpErrorResponse) => {
-      this.requestListStatusMessage.showErrorMessage(e.error.detail);
-    }).catch(_ => {
+    this.getRegistrationRequests(params)
+      .catch((e: HttpErrorResponse) => {
+        this.requestListStatusMessage.showErrorMessage(e.error.detail);
+      }).catch(_ => {
       this.requestListStatusMessage.showErrorMessage("Unknown error occurred");
     });
   }
@@ -82,33 +80,6 @@ export class RegistrationRequestManagementComponent implements OnInit, AfterView
 
     this.responseModal.visible = true;
     this.handleGetRegistrationRequests(this.sort);
-  }
-
-  sortData(sortState: Sort) {
-    if (!sortState?.active || sortState?.direction === '') {
-      // do nothing if sortState is not available, sort is not active or direction is empty
-      return;
-    }
-
-    const data = this.registrationRequests.data.slice();
-
-    data.sort((a, b) => {
-      const isAsc = sortState.direction === 'asc';
-      switch (sortState.active) {
-        case 'name':
-          return this.compare(a.name, b.name, isAsc);
-        case 'status':
-          return this.compare(a.status, b.status, isAsc);
-        default:
-          return 0;
-      }
-    });
-
-    this.registrationRequests.data = data;
-  }
-
-  compare(a: string | number, b: string | number, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   onPageChange(event: any): void {
