@@ -33,7 +33,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class NodeKindIRITypeId {
 
-    @NotNull
+    @NotNull(message = "IRI id reference is required")
     @JsonAlias("@id")
     private String id;
 
