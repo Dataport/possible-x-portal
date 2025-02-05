@@ -78,7 +78,7 @@ public class FhCatalogClientImpl implements FhCatalogClient {
         } catch (Exception e) {
             throw buildCatalogCommunicationException(e);
         }
-        log.info("answer for fh catalog ID: {}", participantJsonContent);
+        log.info("answer for fh catalog ID {}: {}", participantId, participantJsonContent);
 
         try {
             JsonDocument input = JsonDocument.of(new StringReader(participantJsonContent));
