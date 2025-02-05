@@ -29,7 +29,6 @@ import eu.possiblex.portal.application.entity.credentials.serialization.StringDe
 import eu.possiblex.portal.application.entity.credentials.serialization.StringSerializer;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -61,8 +60,7 @@ public class GxLegalParticipantCredentialSubject extends PojoCredentialSubject {
         "https://schema.org/");
 
     // Tagus
-    @Valid
-    @NotEmpty(message = "Reference to legal registration number is needed")
+    // no input validations as this will be set by the backend
     @JsonProperty("gx:legalRegistrationNumber")
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     private List<NodeKindIRITypeId> legalRegistrationNumber; // will be gx:registrationNumber in Loire
