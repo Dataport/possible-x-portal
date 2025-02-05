@@ -67,7 +67,9 @@ public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
      * Handle Spring validation exceptions.
      */
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(@NotNull MethodArgumentNotValidException ex, @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(@NotNull MethodArgumentNotValidException ex,
+        @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
+
         logError(ex);
 
         Map<String, String> errors = new HashMap<>();
@@ -79,8 +81,7 @@ public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
         StringBuilder message = new StringBuilder();
         errors.forEach((key, value) -> message.append(key).append(": ").append(value).append("; "));
 
-        return new ResponseEntity<>(
-            new ErrorResponseTO("Request contained errors.", message.toString()),
+        return new ResponseEntity<>(new ErrorResponseTO("Request contained errors.", message.toString().strip()),
             BAD_REQUEST);
     }
 
