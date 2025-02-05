@@ -19,6 +19,7 @@ package eu.possiblex.portal.application.entity.credentials.gx.datatypes;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class NodeKindIRITypeId {
 
-    @NotNull(message = "IRI id reference is required")
+    @NotBlank(message = "IRI id reference is required")
     @JsonAlias("@id")
     private String id;
 

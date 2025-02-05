@@ -43,6 +43,14 @@ class ParticipantShapeRestApiTest {
             .andExpect(jsonPath("$.someKey").value("someValue"));
     }
 
+    @Test
+    void getPxParticipantExtensionShape() throws Exception {
+
+        this.mockMvc.perform(get("/shapes/px/participantextension").contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk())
+            .andExpect(jsonPath("$.someKey").value("someValue"));
+    }
+
     @TestConfiguration
     static class TestConfig {
         @Bean
