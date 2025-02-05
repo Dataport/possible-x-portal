@@ -21,10 +21,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import eu.possiblex.portal.application.entity.credentials.AtLeastOneNotEmpty;
 import eu.possiblex.portal.application.entity.credentials.PojoCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.serialization.StringDeserializer;
 import eu.possiblex.portal.application.entity.credentials.serialization.StringSerializer;
+import eu.possiblex.portal.application.entity.credentials.validation.AtLeastOneNotEmpty;
 import lombok.*;
 
 import java.util.Map;

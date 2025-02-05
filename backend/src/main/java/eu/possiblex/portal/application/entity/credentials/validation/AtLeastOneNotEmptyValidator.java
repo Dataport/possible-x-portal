@@ -1,4 +1,4 @@
-package eu.possiblex.portal.application.entity.credentials;
+package eu.possiblex.portal.application.entity.credentials.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -11,20 +11,25 @@ public class AtLeastOneNotEmptyValidator implements ConstraintValidator<AtLeastO
 
     @Override
     public void initialize(AtLeastOneNotEmpty constraintAnnotation) {
+        // initialization not needed
     }
 
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
+
+        // object must be non-null
         if (obj == null) {
             return false;
         }
 
         try {
+            // iterate over all (non-inherited and non-static) fields of the object
             for (Field field : obj.getClass().getDeclaredFields()) {
                 if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
                     continue;
                 }
 
+                // allow access and check if field is not null and not empty
                 field.setAccessible(true);
                 if (field.get(obj) != null && !field.get(obj).toString().isEmpty()) {
                     return true;
@@ -34,6 +39,7 @@ public class AtLeastOneNotEmptyValidator implements ConstraintValidator<AtLeastO
             log.warn("Failed to access field", e);
         }
 
+        // if we iterated over all fields and none was non-empty, return false
         return false;
     }
 }

@@ -1,4 +1,4 @@
-package eu.possiblex.portal.application.entity.credentials;
+package eu.possiblex.portal.application.entity.credentials.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AtLeastOneNotEmpty {
     String message() default "At least one field must be not empty";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
