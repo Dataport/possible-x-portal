@@ -7,6 +7,7 @@ import eu.possiblex.portal.business.entity.credentials.px.GxNestedLegalRegistrat
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.daps.OmejdnConnectorCertificateBE;
 import eu.possiblex.portal.business.entity.did.ParticipantDidBE;
+import eu.possiblex.portal.business.entity.exception.ParticipantComplianceException;
 import eu.possiblex.portal.business.entity.exception.ParticipantNotFoundException;
 import eu.possiblex.portal.business.entity.exception.RegistrationRequestConflictException;
 import eu.possiblex.portal.business.entity.exception.RegistrationRequestProcessingException;
@@ -166,6 +167,26 @@ class ParticipantRegistrationServiceTest {
 
         assertThrows(RegistrationRequestProcessingException.class,
             () -> sut.acceptRegistrationRequest(FhCatalogClientFake.FAILING_PARTICIPANT_ID));
+
+        verify(participantRegistrationRequestDao).acceptRegistrationRequest(any());
+        verify(didWebServiceApiClient).generateDidWeb(any());
+        verify(fhCatalogClient).addParticipantToCatalog(any());
+
+        verify(omejdnConnectorApiClient, times(0)).addConnector(any());
+        verify(didWebServiceApiClient, times(0)).updateDidWeb(any());
+        verify(participantRegistrationRequestDao, times(0)).completeRegistrationRequest(any(), any(), any(), any());
+
+        verify(didWebServiceApiClient).deleteDidWeb(didBEResultCaptor.getResult().getDid());
+    }
+
+    @Test
+    void acceptRegistrationRequestBadCompliance() {
+
+        ResultCaptor<ParticipantDidBE> didBEResultCaptor = new ResultCaptor<>();
+        doAnswer(didBEResultCaptor).when(didWebServiceApiClient).generateDidWeb(any());
+
+        assertThrows(ParticipantComplianceException.class,
+            () -> sut.acceptRegistrationRequest(FhCatalogClientFake.BAD_COMPLIANCE_PARTICIPANT_ID));
 
         verify(participantRegistrationRequestDao).acceptRegistrationRequest(any());
         verify(didWebServiceApiClient).generateDidWeb(any());

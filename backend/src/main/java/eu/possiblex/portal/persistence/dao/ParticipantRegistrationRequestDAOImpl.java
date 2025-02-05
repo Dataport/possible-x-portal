@@ -211,15 +211,4 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         return entity;
     }
 
-    private ParticipantRegistrationRequestEntity findParticipantRegistrationRequestByDid(String did) {
-
-        ParticipantRegistrationRequestEntity entity = participantRegistrationRequestRepository.findByDidData_Did(did);
-        if (entity == null) {
-            log.error("Participant with did {} not found", did);
-            throw new ParticipantEntityNotFoundException("Participant not found: " + did);
-        }
-
-        return entity;
-    }
-
 }

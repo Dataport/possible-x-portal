@@ -1,7 +1,9 @@
 package eu.possiblex.portal.business.control;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.fh.FhCatalogIdResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 public class TechnicalFhCatalogClientFake implements TechnicalFhCatalogClient {
@@ -12,6 +14,8 @@ public class TechnicalFhCatalogClientFake implements TechnicalFhCatalogClient {
 
     public static final String BAD_COMMUNICATION_ID = "badcommunication";
 
+    public static final String BAD_COMPLIANCE_ID = "badcompliance";
+
     public static final String BAD_PARSING_ID = "badparsing";
 
     @Override
@@ -21,6 +25,25 @@ public class TechnicalFhCatalogClientFake implements TechnicalFhCatalogClient {
         if (participantCs.getId().equals(BAD_COMMUNICATION_ID)) {
             throw WebClientResponseException.create(500, "Some other error", null, null, null);
         }
+        if (participantCs.getId().equals(BAD_COMPLIANCE_ID)) {
+            String jsonBody = "{\"error\":\"compliance error\"}";
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/json");
+            WebClientResponseException responseException = WebClientResponseException.create(422, "compliance error",
+                headers, jsonBody.getBytes(), null);
+
+            responseException.setBodyDecodeFunction(bytes -> {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    return objectMapper.readTree(jsonBody);
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to decode JSON", e);
+                }
+            });
+
+            throw responseException;
+        }
+
         return new FhCatalogIdResponse(participantCs.getId());
     }
 

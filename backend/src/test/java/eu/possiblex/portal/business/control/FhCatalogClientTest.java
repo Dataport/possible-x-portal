@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.exception.CatalogCommunicationException;
 import eu.possiblex.portal.business.entity.exception.CatalogParsingException;
+import eu.possiblex.portal.business.entity.exception.ParticipantComplianceException;
 import eu.possiblex.portal.business.entity.exception.ParticipantNotFoundException;
 import eu.possiblex.portal.business.entity.fh.FhCatalogIdResponse;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,15 @@ class FhCatalogClientTest {
         cs.setId(TechnicalFhCatalogClientFake.BAD_COMMUNICATION_ID);
 
         assertThrows(CatalogCommunicationException.class, () -> sut.addParticipantToCatalog(cs));
+    }
+
+    @Test
+    void addParticipantToCatalogComplianceFailed() {
+
+        PxExtendedLegalParticipantCredentialSubject cs = new PxExtendedLegalParticipantCredentialSubject();
+        cs.setId(TechnicalFhCatalogClientFake.BAD_COMPLIANCE_ID);
+
+        assertThrows(ParticipantComplianceException.class, () -> sut.addParticipantToCatalog(cs));
     }
 
     @Test

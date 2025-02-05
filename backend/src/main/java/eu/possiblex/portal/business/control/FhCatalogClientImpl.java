@@ -2,10 +2,12 @@ package eu.possiblex.portal.business.control;
 
 import com.apicatalog.jsonld.JsonLd;
 import com.apicatalog.jsonld.document.JsonDocument;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
 import eu.possiblex.portal.business.entity.exception.CatalogCommunicationException;
 import eu.possiblex.portal.business.entity.exception.CatalogParsingException;
+import eu.possiblex.portal.business.entity.exception.ParticipantComplianceException;
 import eu.possiblex.portal.business.entity.exception.ParticipantNotFoundException;
 import eu.possiblex.portal.business.entity.fh.FhCatalogIdResponse;
 import eu.possiblex.portal.utilities.LogUtils;
@@ -16,7 +18,6 @@ import jakarta.json.JsonObjectBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.StringReader;
@@ -110,11 +111,15 @@ public class FhCatalogClientImpl implements FhCatalogClient {
         if (e instanceof WebClientResponseException responseException) {
             if (responseException.getStatusCode().value() == 404) {
                 return new ParticipantNotFoundException("no FH Catalog participant found with given id");
-
+            }
+            if (responseException.getStatusCode().value() == 422) {
+                JsonNode error = responseException.getResponseBodyAs(JsonNode.class);
+                if (error != null && error.get("error") != null) {
+                    return new ParticipantComplianceException(error.get("error").textValue(), e);
+                }
+                return new ParticipantComplianceException("Unknown catalog processing exception", e);
             }
             return new CatalogCommunicationException("Catalog returned bad response", responseException);
-        } else if (e instanceof WebClientRequestException requestException) {
-            return new CatalogCommunicationException("Catalog request failed", requestException);
         } else {
             return new CatalogCommunicationException("Unexpected error during catalog request", e);
         }

@@ -1,6 +1,5 @@
 package eu.possiblex.portal.business.control;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import eu.possiblex.portal.application.entity.RegistrationRequestEntryTO;
 import eu.possiblex.portal.business.entity.ParticipantRegistrationRequestBE;
 import eu.possiblex.portal.business.entity.credentials.px.PxExtendedLegalParticipantCredentialSubject;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.List;
 
@@ -289,12 +287,9 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
             log.info("Stored CS for participant {} in catalog: {}", idResponse, cs);
 
             return idResponse;
-        } catch (WebClientResponseException.UnprocessableEntity e) {
-            JsonNode error = e.getResponseBodyAs(JsonNode.class);
-            if (error != null && error.get("error") != null) {
-                throw new ParticipantComplianceException(error.get("error").textValue(), e);
-            }
-            throw new ParticipantComplianceException("Unknown catalog processing exception", e);
+        } catch (ParticipantComplianceException e) {
+            log.error("Participant {} does not fulfill compliance", cs);
+            throw e;
         } catch (Exception e) {
             log.error("Failed to store participant in catalog", e);
             throw new RegistrationRequestProcessingException("Failed to store participant in catalog", e);
