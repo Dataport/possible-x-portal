@@ -109,6 +109,12 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
                 "Cannot accept completed participant registration request: " + id);
         }
 
+        if (entity.getStatus() == RequestStatus.REJECTED) {
+            log.error("Cannot accept rejected participant registration request: {}", id);
+            throw new ParticipantEntityStateTransitionException(
+                "Cannot accept rejected participant registration request: " + id);
+        }
+
         entity.setStatus(RequestStatus.ACCEPTED);
     }
 
@@ -169,6 +175,12 @@ public class ParticipantRegistrationRequestDAOImpl implements ParticipantRegistr
         log.info("Completing participant registration request: {}", id);
 
         ParticipantRegistrationRequestEntity entity = findParticipantRegistrationRequestById(id);
+
+        if (entity.getStatus() != RequestStatus.ACCEPTED) {
+            log.error("Cannot complete non-accepted participant registration request: {}", id);
+            throw new ParticipantEntityStateTransitionException(
+                "Cannot complete non-accepted participant registration request: " + id);
+        }
 
         // set did data
         DidDataEntity didData = new DidDataEntity();
