@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = AtLeastOneNotEmptyValidator.class)
+@Constraint(validatedBy = AtLeastOneRegistrationNumberNotEmptyValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AtLeastOneNotEmpty {
+public @interface AtLeastOneRegistrationNumberNotEmpty {
     String message() default "At least one field must be not empty";
 
     Class<?>[] groups() default {};
