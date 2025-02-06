@@ -10,11 +10,6 @@ import java.lang.reflect.Field;
 public class AtLeastOneNotEmptyValidator implements ConstraintValidator<AtLeastOneNotEmpty, Object> {
 
     @Override
-    public void initialize(AtLeastOneNotEmpty constraintAnnotation) {
-        // initialization not needed
-    }
-
-    @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
 
         // object must be non-null

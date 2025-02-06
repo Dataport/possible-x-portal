@@ -47,24 +47,21 @@ public class GxVcard {
     @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
     @NotBlank(message = "Country subdivision code is needed")
-    @Pattern(regexp = "^[a-zA-Z]{2}-(?:[a-zA-Z]{1,3}|\\d{1,3})$", message = "An ISO 3166-2 format value is expected.")
+    @Pattern(regexp = "^[A-Z]{2}-[A-Z0-9]{1,3}$", message = "An ISO 3166-2 format value is expected.")
     private String countrySubdivisionCode;
 
     @JsonProperty("vcard:street-address")
     @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
-    @NotBlank(message = "Street address is needed")
     private String streetAddress;
 
     @JsonProperty("vcard:locality")
     @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
-    @NotBlank(message = "Locality is needed")
     private String locality;
 
     @JsonProperty("vcard:postal-code")
     @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
-    @NotBlank(message = "Postal code is needed")
     private String postalCode;
 }

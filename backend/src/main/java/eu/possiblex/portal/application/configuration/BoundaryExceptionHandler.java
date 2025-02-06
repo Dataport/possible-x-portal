@@ -5,10 +5,10 @@ import eu.possiblex.portal.business.entity.exception.ParticipantComplianceExcept
 import eu.possiblex.portal.business.entity.exception.RegistrationRequestConflictException;
 import eu.possiblex.portal.business.entity.exception.RegistrationRequestProcessingException;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -67,8 +67,8 @@ public class BoundaryExceptionHandler extends ResponseEntityExceptionHandler {
      * Handle Spring validation exceptions.
      */
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(@NotNull MethodArgumentNotValidException ex,
-        @NotNull HttpHeaders headers, @NotNull HttpStatusCode status, @NotNull WebRequest request) {
+    public ResponseEntity<Object> handleMethodArgumentNotValid(@NonNull MethodArgumentNotValidException ex,
+        @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
 
         logError(ex);
 
