@@ -19,10 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ParticipantShapeRestApiImpl.class)
-@ContextConfiguration(classes = { ParticipantShapeRestApiTest.TestConfig.class, ParticipantShapeRestApiImpl.class, AppConfigurer.class })
+@ContextConfiguration(classes = { ParticipantShapeRestApiTest.TestConfig.class, ParticipantShapeRestApiImpl.class,
+    AppConfigurer.class })
 class ParticipantShapeRestApiTest {
-    @Autowired
-    SdCreationWizardApiService sdCreationWizardApiService;
 
     @Autowired
     private MockMvc mockMvc;

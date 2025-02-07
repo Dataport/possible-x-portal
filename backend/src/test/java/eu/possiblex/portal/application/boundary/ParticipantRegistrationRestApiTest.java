@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ParticipantRegistrationRestApiImpl.class)
 @ContextConfiguration(classes = { ParticipantRegistrationRestApiTest.TestConfig.class,
     ParticipantRegistrationRestApiImpl.class, BoundaryExceptionHandler.class, AppConfigurer.class })
-@AutoConfigureMockMvc
 class ParticipantRegistrationRestApiTest {
 
     @Autowired
@@ -142,7 +140,6 @@ class ParticipantRegistrationRestApiTest {
         this.mockMvc.perform(post("/registration/request").content(RestApiHelper.asJsonString(to))
             .contentType(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isUnprocessableEntity());
     }
-
 
     @WithMockUser(username = "admin")
     @Test
