@@ -54,7 +54,8 @@ class FhCatalogClientTest {
     @Test
     void getParticipantFromCatalogSuccess() {
 
-        PxExtendedLegalParticipantCredentialSubject cs = sut.getParticipantFromCatalog("some-id");
+        PxExtendedLegalParticipantCredentialSubject cs = sut.getParticipantFromCatalog(
+            TechnicalFhCatalogClientFake.VALID_ID);
         assertNotNull(cs);
         assertEquals(TechnicalFhCatalogClientFake.VALID_ID, cs.getId());
     }

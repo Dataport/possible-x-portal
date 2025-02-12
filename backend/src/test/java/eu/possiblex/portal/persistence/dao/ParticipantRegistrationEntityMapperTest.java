@@ -72,7 +72,7 @@ class ParticipantRegistrationEntityMapperTest {
     }
 
     @Test
-    void mapParticipantEntityToCredentialSubject() {
+    void mapParticipantEntityToParticipantRegistrationRequestBe() {
 
         // given
         ParticipantRegistrationRequestEntity entity = getExampleParticipantEntity();

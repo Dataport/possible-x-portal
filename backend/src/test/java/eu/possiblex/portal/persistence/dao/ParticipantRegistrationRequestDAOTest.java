@@ -23,7 +23,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -46,6 +46,8 @@ class ParticipantRegistrationRequestDAOTest {
 
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
+
+        reset(participantRegistrationRequestRepository);
     }
 
     @Test
@@ -54,7 +56,7 @@ class ParticipantRegistrationRequestDAOTest {
         PxExtendedLegalParticipantCredentialSubject participant = getParticipant();
 
         participantRegistrationRequestDAO.saveParticipantRegistrationRequest(participant);
-        verify(participantRegistrationRequestRepository, atLeastOnce()).save(any());
+        verify(participantRegistrationRequestRepository).save(any());
     }
 
     @Test

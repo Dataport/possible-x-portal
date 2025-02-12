@@ -5,7 +5,6 @@ import eu.possiblex.portal.application.configuration.BoundaryExceptionHandler;
 import eu.possiblex.portal.application.control.ParticipantRegistrationRestApiMapper;
 import eu.possiblex.portal.application.entity.CreateRegistrationRequestTO;
 import eu.possiblex.portal.application.entity.credentials.gx.datatypes.GxVcard;
-import eu.possiblex.portal.application.entity.credentials.gx.datatypes.NodeKindIRITypeId;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalParticipantCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.gx.participants.GxLegalRegistrationNumberCredentialSubject;
 import eu.possiblex.portal.application.entity.credentials.px.participants.PxParticipantExtensionCredentialSubject;
@@ -24,8 +23,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -197,7 +194,6 @@ class ParticipantRegistrationRestApiTest {
         GxLegalParticipantCredentialSubject participantCs = new GxLegalParticipantCredentialSubject();
         participantCs.setName("name");
         participantCs.setLegalAddress(address);
-        participantCs.setLegalRegistrationNumber(List.of(new NodeKindIRITypeId("someId")));
         participantCs.setHeadquarterAddress(address);
         GxLegalRegistrationNumberCredentialSubject registrationNumberCs = new GxLegalRegistrationNumberCredentialSubject();
         registrationNumberCs.setLeiCode("894500MQZ65CN32S9A66");

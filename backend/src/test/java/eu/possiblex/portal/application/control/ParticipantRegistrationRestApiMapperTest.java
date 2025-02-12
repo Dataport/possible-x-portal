@@ -12,16 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = { ParticipantRegistrationRestApiMapperTest.TestConfig.class,
-    ParticipantRegistrationRestApiMapper.class })
+@ContextConfiguration(classes = { ParticipantRegistrationRestApiMapperTest.TestConfig.class })
 class ParticipantRegistrationRestApiMapperTest {
-
-
 
     @Autowired
     private ParticipantRegistrationRestApiMapper participantRegistrationRestApiMapper;
@@ -45,17 +43,22 @@ class ParticipantRegistrationRestApiMapperTest {
         assertEquals(participant.getName(), participantCs.getName());
         assertEquals(participant.getDescription(), participantCs.getDescription());
 
-        assertEquals(participant.getHeadquarterAddress().getCountryCode(), participantCs.getHeadquarterAddress().getCountryCode());
+        assertEquals(participant.getHeadquarterAddress().getCountryCode(),
+            participantCs.getHeadquarterAddress().getCountryCode());
         assertEquals(participant.getHeadquarterAddress().getCountrySubdivisionCode(),
             participantCs.getHeadquarterAddress().getCountrySubdivisionCode());
-        assertEquals(participant.getHeadquarterAddress().getStreetAddress(), participantCs.getHeadquarterAddress().getStreetAddress());
-        assertEquals(participant.getHeadquarterAddress().getLocality(), participantCs.getHeadquarterAddress().getLocality());
-        assertEquals(participant.getHeadquarterAddress().getPostalCode(), participantCs.getHeadquarterAddress().getPostalCode());
+        assertEquals(participant.getHeadquarterAddress().getStreetAddress(),
+            participantCs.getHeadquarterAddress().getStreetAddress());
+        assertEquals(participant.getHeadquarterAddress().getLocality(),
+            participantCs.getHeadquarterAddress().getLocality());
+        assertEquals(participant.getHeadquarterAddress().getPostalCode(),
+            participantCs.getHeadquarterAddress().getPostalCode());
 
         assertEquals(participant.getLegalAddress().getCountryCode(), participantCs.getLegalAddress().getCountryCode());
         assertEquals(participant.getLegalAddress().getCountrySubdivisionCode(),
             participantCs.getLegalAddress().getCountrySubdivisionCode());
-        assertEquals(participant.getLegalAddress().getStreetAddress(), participantCs.getLegalAddress().getStreetAddress());
+        assertEquals(participant.getLegalAddress().getStreetAddress(),
+            participantCs.getLegalAddress().getStreetAddress());
         assertEquals(participant.getLegalAddress().getLocality(), participantCs.getLegalAddress().getLocality());
         assertEquals(participant.getLegalAddress().getPostalCode(), participantCs.getLegalAddress().getPostalCode());
 
@@ -105,6 +108,7 @@ class ParticipantRegistrationRestApiMapperTest {
     static class TestConfig {
 
         @Bean
+        @Primary
         public ParticipantRegistrationRestApiMapper participantCredentialMapper() {
 
             return Mappers.getMapper(ParticipantRegistrationRestApiMapper.class);

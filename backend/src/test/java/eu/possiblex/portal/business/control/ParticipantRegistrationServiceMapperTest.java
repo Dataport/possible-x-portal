@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@ContextConfiguration(classes = { ParticipantRegistrationServiceMapperTest.TestConfig.class,
-    ParticipantRegistrationServiceMapper.class })
+@ContextConfiguration(classes = { ParticipantRegistrationServiceMapperTest.TestConfig.class })
 class ParticipantRegistrationServiceMapperTest {
 
     @Autowired
@@ -42,21 +41,30 @@ class ParticipantRegistrationServiceMapperTest {
         assertEquals(possibleParticipant.getName(), to.getName());
         assertEquals(possibleParticipant.getDescription(), to.getDescription());
 
-        assertEquals(possibleParticipant.getHeadquarterAddress().getCountryCode(), to.getHeadquarterAddress().getCountryCode());
-        assertEquals(possibleParticipant.getHeadquarterAddress().getCountrySubdivisionCode(), to.getHeadquarterAddress().getCountrySubdivisionCode());
-        assertEquals(possibleParticipant.getHeadquarterAddress().getStreetAddress(), to.getHeadquarterAddress().getStreetAddress());
-        assertEquals(possibleParticipant.getHeadquarterAddress().getLocality(), to.getHeadquarterAddress().getLocality());
-        assertEquals(possibleParticipant.getHeadquarterAddress().getPostalCode(), to.getHeadquarterAddress().getPostalCode());
+        assertEquals(possibleParticipant.getHeadquarterAddress().getCountryCode(),
+            to.getHeadquarterAddress().getCountryCode());
+        assertEquals(possibleParticipant.getHeadquarterAddress().getCountrySubdivisionCode(),
+            to.getHeadquarterAddress().getCountrySubdivisionCode());
+        assertEquals(possibleParticipant.getHeadquarterAddress().getStreetAddress(),
+            to.getHeadquarterAddress().getStreetAddress());
+        assertEquals(possibleParticipant.getHeadquarterAddress().getLocality(),
+            to.getHeadquarterAddress().getLocality());
+        assertEquals(possibleParticipant.getHeadquarterAddress().getPostalCode(),
+            to.getHeadquarterAddress().getPostalCode());
 
         assertEquals(possibleParticipant.getLegalAddress().getCountryCode(), to.getLegalAddress().getCountryCode());
-        assertEquals(possibleParticipant.getLegalAddress().getCountrySubdivisionCode(), to.getLegalAddress().getCountrySubdivisionCode());
+        assertEquals(possibleParticipant.getLegalAddress().getCountrySubdivisionCode(),
+            to.getLegalAddress().getCountrySubdivisionCode());
         assertEquals(possibleParticipant.getLegalAddress().getStreetAddress(), to.getLegalAddress().getStreetAddress());
         assertEquals(possibleParticipant.getLegalAddress().getLocality(), to.getLegalAddress().getLocality());
         assertEquals(possibleParticipant.getLegalAddress().getPostalCode(), to.getLegalAddress().getPostalCode());
 
-        assertEquals(possibleParticipant.getLegalRegistrationNumber().getEori(), to.getLegalRegistrationNumber().getEori());
-        assertEquals(possibleParticipant.getLegalRegistrationNumber().getVatID(), to.getLegalRegistrationNumber().getVatID());
-        assertEquals(possibleParticipant.getLegalRegistrationNumber().getLeiCode(), to.getLegalRegistrationNumber().getLeiCode());
+        assertEquals(possibleParticipant.getLegalRegistrationNumber().getEori(),
+            to.getLegalRegistrationNumber().getEori());
+        assertEquals(possibleParticipant.getLegalRegistrationNumber().getVatID(),
+            to.getLegalRegistrationNumber().getVatID());
+        assertEquals(possibleParticipant.getLegalRegistrationNumber().getLeiCode(),
+            to.getLegalRegistrationNumber().getLeiCode());
     }
 
     @Test
