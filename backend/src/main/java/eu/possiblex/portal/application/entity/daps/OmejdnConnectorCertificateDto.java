@@ -42,7 +42,7 @@ public class OmejdnConnectorCertificateDto {
     @JsonProperty("password")
     private String password;
 
-    @Schema(description = "Scope of the ...", example = "idsc:IDS_CONNECTOR_ATTRIBUTES_ALL") //TODO
+    @Schema(description = "Scope for fetching claims", example = "idsc:IDS_CONNECTOR_ATTRIBUTES_ALL")
     @JsonProperty("scope")
     private String scope;
 }
