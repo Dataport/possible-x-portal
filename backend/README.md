@@ -30,22 +30,24 @@ from the central DAPS server for the new dataspace participant.
 For a full list of configuration options (including Spring/JPA options) please see the
 [application.yml](src/main/resources/application.yml).
 
-| Key                              | Description                                                                                | Default                                           |
-|----------------------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------|
-| server.port                      | Sets the https port under which the service will run                                       | 8080                                              |
-| sd-creation-wizard-api.base-url  | Sets the SD Creation Wizard API Service url                                                | http://localhost:8085                             |
-| spring.datasource.url            | Sets the path/url to the database                                                          | "jdbc:postgresql://localhost:5432/possibleportal" |
-| spring.datasource.username       | Sets the database username                                                                 | "postgres"                                        |
-| spring.datasource.password       | Sets the database password                                                                 | "postgres"                                        |
-| daps-server.url.internal         | Sets the internal DAPS server url                                                          | http://localhost:4567                             |
-| daps-server.url.external         | Sets the external DAPS server url                                                          | http://localhost:4567                             |
-| did-web-service.base-url         | Sets the DID Web Service url                                                               | https://localhost:4443                            |
-| did-web-service.ignore-ssl       | Sets the flag whether SSL should be ignored or not                                         | true                                              |
-| fh.catalog.ui-url                | Sets the FH Catalog UI url (refers to the UI where, e.g. Service Offerings can be browsed) | https://possible.fokus.fraunhofer.de/             |
-| fh.catalog.url                   | Sets the FH Catalog url for API interactions with the FH Catalog                           | url                                               |
-| fh.catalog.secret-key            | Sets the secret key for API interactions with the FH Catalog                               | secret                                            |
-| version.no                       | Sets the version number of the portal which is shown in the POSSIBLE-X Portal UI           | "1.0.0"                                           |
-| version.date                     | Sets the version date of the portal which is shown in the POSSIBLE-X Portal UI             | "2024-12-31"                                      |
+| Key                             | Description                                                                                | Default                                           |
+|---------------------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------|
+| server.port                     | Sets the https port under which the service will run                                       | 8080                                              |
+| sd-creation-wizard-api.base-url | Sets the SD Creation Wizard API Service url                                                | http://localhost:8085                             |
+| spring.datasource.url           | Sets the path/url to the database                                                          | "jdbc:postgresql://localhost:5432/possibleportal" |
+| spring.datasource.username      | Sets the database username                                                                 | "postgres"                                        |
+| spring.datasource.password      | Sets the database password                                                                 | "postgres"                                        |
+| spring.security.admin.username  | Sets the admin username for the portal                                                     | admin                                             |
+| spring.security.admin.password  | Sets the admin password for the portal                                                     | admin                                             |
+| daps-server.url.internal        | Sets the internal DAPS server url                                                          | http://localhost:4567                             |
+| daps-server.url.external        | Sets the external DAPS server url                                                          | http://localhost:4567                             |
+| did-web-service.base-url        | Sets the DID Web Service url                                                               | https://localhost:4443                            |
+| did-web-service.ignore-ssl      | Sets the flag whether SSL should be ignored or not                                         | true                                              |
+| fh.catalog.ui-url               | Sets the FH Catalog UI url (refers to the UI where, e.g. Service Offerings can be browsed) | https://possible.fokus.fraunhofer.de/             |
+| fh.catalog.url                  | Sets the FH Catalog url for API interactions with the FH Catalog                           | url                                               |
+| fh.catalog.secret-key           | Sets the secret key for API interactions with the FH Catalog                               | secret                                            |
+| version.no                      | Sets the version number of the portal which is shown in the POSSIBLE-X Portal UI           | "1.0.0"                                           |
+| version.date                    | Sets the version date of the portal which is shown in the POSSIBLE-X Portal UI             | "2024-12-31"                                      |
 
 
 ## Build
