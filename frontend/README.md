@@ -3,6 +3,13 @@
 The frontend component of the POSSIBLE-X Portal is an Angular application that provides the GUI for the user to interact with the backend.
 It provides a mask for signing up for a participant credential and dataspace identity, as well as allows administrators to view, approve and reject registration requests.
 
+The frontend itself does not contain major logic or data processing, it depends on the backend component for that.
+
+The frontend uses an adapted version of the [SD Creation Wizard](https://gitlab.eclipse.org/eclipse/xfsc/self-description-tooling/sd-creation-wizard-frontend) to create parts of the
+mask where participants can fill out all the fields needed to sign up for a participant credential. 
+The SD Creation Wizard is integrated as a component and extended based on the implementation of the
+[MERLOT Marketplace Frontend](https://github.com/merlot-education/marketplace-frontend).
+
 ## Structure
 
 ```
