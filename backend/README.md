@@ -2,9 +2,9 @@
 
 The backend component of the POSSIBLE-X Portal is a Spring Boot application that provides the REST API for the frontend.
 It interacts with the database to store and retrieve user registration requests for participant credentials.
-It is also responsible for administrating requests as well as sending them to the central Fraunhofer (FH) Catalog upon
-approval. Once a user's registration request is approved, the backend will also request a DAPS certificate / dataspace
-identity from the central DAPS server for the new dataspace participant.
+It is also responsible for administrating requests as well as sending them to the central POSSIBLE-X Catalogue /
+Fraunhofer (FH) Catalog upon approval. Once a user's registration request is approved, the backend will also request a
+DAPS certificate / dataspace identity from the central DAPS server for the new dataspace participant.
 
 ## Structure
 
