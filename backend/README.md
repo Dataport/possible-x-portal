@@ -49,7 +49,6 @@ For a full list of configuration options (including Spring/JPA options) please s
 | version.no                      | Sets the version number of the portal which is shown in the POSSIBLE-X Portal UI           | "1.0.0"                                           |
 | version.date                    | Sets the version date of the portal which is shown in the POSSIBLE-X Portal UI             | "2024-12-31"                                      |
 
-
 ## Build
 
 If you only want to build the project, you can go to the root of the repository and run
