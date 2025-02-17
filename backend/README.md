@@ -17,12 +17,12 @@ identity from the central DAPS server for the new dataspace participant.
 │   │   └── entity          # application data models
 │   ├── business            # business logic layer
 │   │   ├── control         # business logic services
-│   │   └── entity          # business data models
-│   ├── persistence         # database access layer
+│   │   └── entity          # business logic data models
+│   ├── persistence         # persistence layer
 │   │   ├── control         # internal services for processing data such as mappers
 │   │   ├── dao             # DAOs for database operations
 │   │   └── entity          # persistence data models
-│   └── utilities           # shared static functionality
+│   ├── utilities           # shared static functionality
 ```
 
 ## Configuration
