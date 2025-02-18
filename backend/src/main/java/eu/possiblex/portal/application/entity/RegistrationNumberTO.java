@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegistrationNumberTO {
-    @Schema(description = "EORI", examples = { "DE1234567", "DE123456789012345" })
+    @Schema(description = "EORI", example = "DE123456789012345")
     private String eori;
 
     @Schema(description = "VAT ID", example = "DE269448547")

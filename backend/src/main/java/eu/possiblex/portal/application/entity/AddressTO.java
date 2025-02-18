@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressTO {
-    @Schema(description = "Country code as an ISO 3166-1 alpha2, alpha-3 or numeric format value", examples = { "AT",
-        "DE" })
+    @Schema(description = "Country code as an ISO 3166-1 alpha2, alpha-3 or numeric format value", example = "DE")
     private String countryCode;
 
-    @Schema(description = "Country subdivision code as an ISO 3166-2 format value", examples = { "AT-4", "DE-NI" })
+    @Schema(description = "Country subdivision code as an ISO 3166-2 format value", example = "DE-NI")
     private String countrySubdivisionCode;
 
     @Schema(description = "Street address", example = "Some Street 123")

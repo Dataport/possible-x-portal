@@ -54,7 +54,7 @@ public class GxLegalRegistrationNumberCredentialSubject extends PojoCredentialSu
         "https://registry.lab.gaia-x.eu/development/api/trusted-shape-registry/v1/shapes/jsonld/trustframework#", "xsd",
         "http://www.w3.org/2001/XMLSchema#");
 
-    @Schema(description = "EORI", examples = { "DE1234567", "DE123456789012345" })
+    @Schema(description = "EORI", example = "DE123456789012345")
     @JsonProperty("gx:EORI")
     @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
@@ -72,12 +72,15 @@ public class GxLegalRegistrationNumberCredentialSubject extends PojoCredentialSu
     @JsonDeserialize(using = StringDeserializer.class)
     private String leiCode;
 
+
+    @Schema(description = "JSON-LD type", example = "gx:legalRegistrationNumber")
     @JsonProperty("type")
     public String getType() {
 
         return TYPE;
     }
 
+    @Schema(description = "JSON-LD context", example = "{\"gx\": \"https://registry.lab.gaia-x.eu/development/api/trusted-shape-registry/v1/shapes/jsonld/trustframework#\"}")
     @JsonProperty("@context")
     public Map<String, String> getContext() {
 

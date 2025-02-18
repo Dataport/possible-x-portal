@@ -44,12 +44,14 @@ public class PxParticipantExtensionCredentialSubject extends PojoCredentialSubje
     @Pattern(regexp = "^((?!\\.)[\\w\\-.]*[^.])(@[\\w-]+)(\\.\\w+(\\.\\w+)?\\w)$", message = "Mail address must be a valid email address")
     private String mailAddress;
 
+    @Schema(description = "JSON-LD type", example = "px:PossibleXLegalParticipantExtension")
     @JsonProperty("type")
     public String getType() {
 
         return TYPE;
     }
 
+    @Schema(description = "JSON-LD context", example = "{\"px\": \"http://w3id.org/gaia-x/possible-x#\"}")
     @JsonProperty("@context")
     public Map<String, String> getContext() {
 

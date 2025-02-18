@@ -34,11 +34,11 @@ public class OmejdnConnectorCertificateDto {
     @JsonProperty("client_id")
     private String clientId;
 
-    @Schema(description = "Certificate keystore as base64 encoded string")
+    @Schema(description = "Certificate keystore as base64 encoded string", example = "a2V5c3RvcmU=")
     @JsonProperty("keystore")
     private String keystore;
 
-    @Schema(description = "Password for the certificate keystore")
+    @Schema(description = "Password for the certificate keystore", example = "password")
     @JsonProperty("password")
     private String password;
 

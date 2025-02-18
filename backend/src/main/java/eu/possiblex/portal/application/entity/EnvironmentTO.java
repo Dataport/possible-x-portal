@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnvironmentTO {
-    @Schema(description = "URL of the catalog UI ", example = "https://possible.fokus.fraunhofer.de/")
+    @Schema(description = "URL of the catalog UI ", example = "https://catalog.example.com/")
     private String catalogUiUrl;
 }
