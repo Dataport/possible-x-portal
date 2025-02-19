@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
+import {LoginComponent} from './login.component';
 import {HomeComponent} from "../home/home.component";
 import {RouterTestingModule} from "@angular/router/testing";
-import { FormsModule } from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -28,7 +28,7 @@ describe('LoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [RouterTestingModule, FormsModule]
+      imports: [RouterTestingModule, ReactiveFormsModule]
     })
       .compileComponents();
     fixture = TestBed.createComponent(LoginComponent);
